@@ -1,0 +1,22 @@
+.skill-tags {
+    margin-top: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.tag {
+    background: rgba(86, 156, 214, 0.1);  /* Subtle background using your accent color */
+    color: var(--accent-secondary);         /* Text color matching your theme */
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    border: 1px solid var(--accent-secondary);
+    transition: all 0.3s ease;
+}
+
+.tag:hover {
+    background: rgba(86, 156, 214, 0.2);
+    transform: translateY(-1px);
+}

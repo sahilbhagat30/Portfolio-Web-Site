@@ -1,0 +1,140 @@
+/* Key Achievements Section */
+.key-achievements {
+    margin-top: 30px;
+}
+
+.key-achievements .section-title {
+    color: var(--accent-primary);
+    font-size: 32px;
+    margin-bottom: 30px;
+}
+
+/* Single box containing all achievements */
+.achievements-box {
+    background: var(--bg-secondary);
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.achievements-box:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.achievements-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.achievements-list li {
+    color: var(--text-primary);
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.achievements-list li:last-child {
+    border-bottom: none;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .achievements-box {
+        padding: 20px;
+    }
+    
+    .key-achievements .section-title {
+        font-size: 28px;
+        margin-bottom: 20px;
+    }
+}
+
+.extracurricular {
+    padding: 2rem 0;
+}
+
+.activities-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.activity-item {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 0.6em;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.activity-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.activity-title {
+    color: var(--text-header);
+    margin: 0;
+}
+
+.position-badge {
+    background: rgba(86, 156, 214, 0.1);
+    color: var(--text-link);
+    padding: 0.3em 0.8em;
+    border-radius: 1em;
+    font-size: 0.9em;
+}
+
+.project-name {
+    color: var(--text-primary);
+    margin: 0.5rem 0;
+    font-size: 1.1em;
+}
+
+.activity-description {
+    list-style-type: none;
+    padding-left: 0;
+    margin: 1rem 0;
+}
+
+.activity-description li {
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+    padding-left: 1.5em;
+    position: relative;
+}
+
+.activity-description li::before {
+    content: "•";
+    position: absolute;
+    left: 0.5em;
+    color: var(--text-link);
+}
+
+.skill-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1rem;
+}
+
+.tag {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-secondary);
+    padding: 0.3em 0.8em;
+    border-radius: 0.4em;
+    font-size: 0.9em;
+}
+
+.extracurricular .section-title {
+    margin-bottom: 2rem;
+}
+
+.section-container#achievements {
+    padding: 0;
+} 
