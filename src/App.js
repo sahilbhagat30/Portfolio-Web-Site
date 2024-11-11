@@ -8,6 +8,7 @@ import Achievements from './components/Achievements';
 import './style.css';
 import './styles/contactLinks.css';
 import profilePicture from './Images/profile_picture/ProfilePicture.png';
+import resume from './docs/Sahil_Bhagat_Resume.pdf';  // Add this import
 
 const App = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -67,7 +68,7 @@ const App = () => {
                                 </ul>
                             </div>
                         <a 
-                            href="/Doc/Sahil Bhagat- Resume.pdf" 
+                            href={resume}
                             className="resume-button button-85"
                             target="_blank" 
                             rel="noopener noreferrer"
