@@ -7,6 +7,8 @@ import Modal from './components/Modal';
 import Achievements from './components/Achievements';
 import './style.css';
 import './styles/contactLinks.css';
+import profilePicture from './Images/profile_picture/ProfilePicture.png';
+
 
 const App = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -25,7 +27,10 @@ const App = () => {
                 <div className="left-panel">
                     <div className="profile-section">
                         <div className="profile-image-container">
-                            <img src="/ProfilePicture.png" alt="Sahil Bhagat" />
+                            <img 
+                                src={`${process.env.PUBLIC_URL}/Images/profile_picture/ProfilePicture.png`} 
+                                alt="Sahil Bhagat" 
+                            />
                         </div>
                         <h1 className="name">Sahil Bhagat</h1>
                         <p className="tagline">
