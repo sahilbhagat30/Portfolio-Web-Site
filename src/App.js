@@ -26,7 +26,7 @@ const App = () => {
                 <div className="left-panel">
                     <div className="profile-section">
                         <div className="profile-image-container">
-                            <img src="src/Images/profile_picture/ProfilePicture.png" alt="Sahil Bhagat" />
+                            <img src={profilePicture} alt="Sahil Bhagat" />
                         </div>
                         <h1 className="name">Sahil Bhagat</h1>
                         <p className="tagline">
