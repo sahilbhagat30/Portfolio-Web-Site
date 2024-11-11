@@ -1,8 +1,8 @@
 {
+  "homepage": "https://sahilbhagat30.github.io/Portfolio-Web-Site",
   "name": "sahil-portfolio",
   "version": "1.0.0",
   "private": true,
-  "homepage": "https://sahilbhagat30.github.io/Portfolio-Web-Site",
   "dependencies": {
     "nth-check": "^2.1.1",
     "postcss": "^8.4.48",
