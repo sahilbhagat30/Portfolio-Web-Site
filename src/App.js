@@ -8,7 +8,7 @@ import Achievements from './components/Achievements';
 import './style.css';
 import './styles/contactLinks.css';
 import profilePicture from './Images/profile_picture/ProfilePicture.png';
-import resume from './docs/Sahil_Bhagat_Resume.pdf';  // Add this import
+import resume from './docs/Sahil Bhagat- Resume.pdf';  // Add this import
 
 const App = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
