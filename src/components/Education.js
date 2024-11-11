@@ -8,14 +8,14 @@ const Education = () => {
             <div className="education-grid">
                 <div className="education-item">
                     <h3>Syracuse University</h3>
-                    <h4>Master of Science in Computer Science</h4>
+                    <h4>Master of Science in Applied Data Science</h4>
                     <p className="education-date">Syracuse, NY | Expected May 2024</p>
                     <p>GPA: 3.9/4.0</p>
                 </div>
 
                 <div className="education-item">
                     <h3>University of Mumbai</h3>
-                    <h4>Bachelor of Engineering in Electronics and Telecommunication</h4>
+                    <h4>Bachelor of Engineering in Electronics</h4>
                     <p className="education-date">Mumbai, India | 2015 - 2019</p>
                 </div>
             </div>
