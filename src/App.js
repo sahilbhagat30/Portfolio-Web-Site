@@ -28,7 +28,7 @@ const App = () => {
                     <div className="profile-section">
                         <div className="profile-image-container">
                             <img 
-                                src={`${process.env.PUBLIC_URL}/Images/profile_picture/ProfilePicture.png`} 
+                                src={profilePicture} 
                                 alt="Sahil Bhagat" 
                             />
                         </div>
