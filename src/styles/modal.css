@@ -21,6 +21,9 @@
     max-height: 90vh;
     position: relative;
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
 }
 
 .slide-content {
@@ -80,38 +83,41 @@
 
 .slide-navigation {
     display: flex;
-    justify-content: center;
     align-items: center;
-    gap: 30px;
-    margin-top: 20px;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    margin-top: 0.5rem;
+    position: relative;
 }
 
 .nav-button {
-    background: var(--accent-blue);
-    color: white;
+    background: rgba(0, 0, 0, 0.5);
     border: none;
-    padding: 12px 20px;
     border-radius: 50%;
+    color: white;
     cursor: pointer;
-    transition: all 0.3s ease;
-    font-size: 20px;
-    width: 44px;
-    height: 44px;
+    font-size: 1.2rem;
+    height: 40px;
+    width: 40px;
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: background-color 0.3s ease;
 }
 
 .nav-button:hover {
-    transform: scale(1.1);
-    opacity: 0.9;
+    background: rgba(0, 0, 0, 0.8);
+}
+
+.nav-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
 }
 
 .slide-counter {
-    color: var(--text-primary);
-    font-size: 16px;
-    min-width: 60px;
-    text-align: center;
+    color: white;
+    font-size: 1rem;
 }
 
 .slide-content img {
