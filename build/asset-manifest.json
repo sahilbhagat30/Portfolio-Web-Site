@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/Portfolio-Web-Site/static/css/main.c7390268.css",
-    "main.js": "/Portfolio-Web-Site/static/js/main.131e0dce.js",
+    "main.js": "/Portfolio-Web-Site/static/js/main.2a3fcc80.js",
     "static/media/D1_GHG_Emission.png": "/Portfolio-Web-Site/static/media/D1_GHG_Emission.7b9336da20c6124e1091.png",
     "static/media/D4_Economics.png": "/Portfolio-Web-Site/static/media/D4_Economics.75f6ecdb4be1e6bc5ea3.png",
     "static/media/D2_Energy.png": "/Portfolio-Web-Site/static/media/D2_Energy.b8aa576f982d3fd12991.png",
@@ -9,10 +9,10 @@
     "static/media/D0_Opening_Dashboard.jpeg": "/Portfolio-Web-Site/static/media/D0_Opening_Dashboard.e458a154de8ed91757f0.jpeg",
     "index.html": "/Portfolio-Web-Site/index.html",
     "main.c7390268.css.map": "/Portfolio-Web-Site/static/css/main.c7390268.css.map",
-    "main.131e0dce.js.map": "/Portfolio-Web-Site/static/js/main.131e0dce.js.map"
+    "main.2a3fcc80.js.map": "/Portfolio-Web-Site/static/js/main.2a3fcc80.js.map"
   },
   "entrypoints": [
     "static/css/main.c7390268.css",
-    "static/js/main.131e0dce.js"
+    "static/js/main.2a3fcc80.js"
   ]
 }

@@ -7,6 +7,7 @@ import Modal from './components/Modal';
 import Achievements from './components/Achievements';
 import './style.css';
 import './styles/contactLinks.css';
+import profilePicture from './Images/profile_picture/ProfilePicture.png';
 
 const App = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
