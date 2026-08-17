@@ -1,10 +1,27 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowUpRight, Code2, Briefcase, MessageCircle, Mail } from "lucide-react";
+import { ArrowUpRight, Github, Linkedin, Mail } from "lucide-react";
 
 const SOCIALS = [
-  { icon: Briefcase,  label: "LinkedIn", href: "https://www.linkedin.com/in/sahil-sanjay-bhagat/" },
+  {
+    icon: Linkedin,
+    label: "LinkedIn",
+    handle: "/in/sahil-sanjay-bhagat",
+    href: "https://www.linkedin.com/in/sahil-sanjay-bhagat/",
+  },
+  {
+    icon: Github,
+    label: "GitHub",
+    handle: "sahilbhagat30",
+    href: "https://github.com/sahilbhagat30",
+  },
+  {
+    icon: Mail,
+    label: "Email",
+    handle: "sahilbhagat1497@gmail.com",
+    href: "mailto:sahilbhagat1497@gmail.com",
+  },
 ];
 
 export default function Contact() {
@@ -27,7 +44,7 @@ export default function Contact() {
       </div>
 
       <div className="max-w-7xl mx-auto relative z-10 text-center">
-        {/* Label */}
+        {/* Section label */}
         <motion.p
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -35,25 +52,23 @@ export default function Contact() {
           transition={{ duration: 0.5 }}
           className="section-label mb-6"
         >
-          Get in touch
+          Connect
         </motion.p>
 
-        {/* Big CTA Heading */}
+        {/* Heading */}
         <motion.h2
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-          className="font-black leading-none mb-8"
+          className="font-black leading-none mb-6"
           style={{
             fontSize: "clamp(3rem, 7vw, 7rem)",
             letterSpacing: "-0.04em",
           }}
         >
           Let&apos;s{" "}
-          <span className="gradient-text">build</span>
-          <br />
-          something.
+          <span className="gradient-text">talk</span>.
         </motion.h2>
 
         <motion.p
@@ -61,59 +76,36 @@ export default function Contact() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="text-white/50 max-w-lg mx-auto mb-12 text-lg leading-relaxed"
+          className="text-white/40 max-w-md mx-auto mb-16 text-base leading-relaxed"
         >
-          Open to full-time roles, freelance projects, and exciting collaborations. Let&apos;s make something great together.
+          Whether it&apos;s a data problem, a collaboration, or just a good conversation — my inbox is always open.
         </motion.p>
 
-        {/* Email CTA */}
-        <motion.a
-          href="mailto:sahilbhagat1497@gmail.com"
-          initial={{ opacity: 0, scale: 0.92 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          whileHover={{ scale: 1.04 }}
-          whileTap={{ scale: 0.97 }}
-          className="group inline-flex items-center gap-3 px-8 py-4 rounded-full bg-violet-600 hover:bg-violet-500 text-white font-semibold text-lg shadow-[0_0_40px_rgba(124,58,237,0.4)] hover:shadow-[0_0_60px_rgba(124,58,237,0.6)] transition-all duration-300 mb-6"
-          id="contact-email-btn"
-        >
-          <Mail size={20} />
-          Say Hello
-          <ArrowUpRight
-            size={18}
-            className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"
-          />
-        </motion.a>
-
-        <motion.p
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="text-white/40 mb-16"
-        >
-          or call me at <a href="tel:2019938953" className="hover:text-white transition-colors">(201) 993-8953</a>
-        </motion.p>
-
-        {/* Socials */}
+        {/* Social Cards */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          className="flex justify-center gap-5 mb-24"
+          transition={{ duration: 0.6, delay: 0.3 }}
+          className="flex flex-col sm:flex-row justify-center gap-4 mb-24"
         >
-          {SOCIALS.map(({ icon: Icon, label, href }) => (
+          {SOCIALS.map(({ icon: Icon, label, handle, href }) => (
             <a
               key={label}
               href={href}
-              target="_blank"
-              rel="noopener noreferrer"
+              target={href.startsWith("mailto") ? undefined : "_blank"}
+              rel={href.startsWith("mailto") ? undefined : "noopener noreferrer"}
               aria-label={label}
-              className="w-12 h-12 rounded-full glass-card flex items-center justify-center text-white/50 hover:text-white transition-colors duration-200"
+              className="group flex items-center gap-4 px-6 py-4 rounded-2xl glass-card hover:border-white/20 transition-all duration-300"
             >
-              <Icon size={18} />
+              <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: "rgba(255,255,255,0.06)" }}>
+                <Icon size={18} className="text-white/60 group-hover:text-white transition-colors" />
+              </div>
+              <div className="text-left">
+                <p className="text-white/40 text-xs uppercase tracking-widest mb-0.5">{label}</p>
+                <p className="text-white/80 text-sm font-medium group-hover:text-white transition-colors">{handle}</p>
+              </div>
+              <ArrowUpRight size={14} className="ml-auto text-white/20 group-hover:text-white/60 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
             </a>
           ))}
         </motion.div>

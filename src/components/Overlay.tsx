@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
+import { Linkedin, Github, Mail } from "lucide-react";
 
 export default function Overlay() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -42,14 +43,43 @@ export default function Overlay() {
           />
 
           <div className="pl-8 md:pl-10">
-            {/* Available badge */}
+            {/* Social links */}
             <motion.div
               initial={{ opacity: 0, x: -16 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.4, duration: 0.6 }}
-              className="mb-8"
+              className="mb-8 flex items-center gap-4"
             >
-              <span className="status-badge">Available for work</span>
+              <a
+                href="https://www.linkedin.com/in/sahil-sanjay-bhagat/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+                className="flex items-center gap-1.5 text-white/40 hover:text-white transition-colors duration-200 text-xs tracking-widest uppercase"
+              >
+                <Linkedin size={14} />
+                LinkedIn
+              </a>
+              <span className="text-white/15">·</span>
+              <a
+                href="https://github.com/sahilbhagat30"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="GitHub"
+                className="flex items-center gap-1.5 text-white/40 hover:text-white transition-colors duration-200 text-xs tracking-widest uppercase"
+              >
+                <Github size={14} />
+                GitHub
+              </a>
+              <span className="text-white/15">·</span>
+              <a
+                href="mailto:sahilbhagat1497@gmail.com"
+                aria-label="Email"
+                className="flex items-center gap-1.5 text-white/40 hover:text-white transition-colors duration-200 text-xs tracking-widest uppercase"
+              >
+                <Mail size={14} />
+                Email
+              </a>
             </motion.div>
 
             {/* Eyebrow label */}

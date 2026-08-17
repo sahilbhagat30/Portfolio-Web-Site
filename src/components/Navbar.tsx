@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Briefcase } from "lucide-react";
+import { Linkedin, Github } from "lucide-react";
 
 const NAV_LINKS = [
   { label: "About", href: "#about" },
@@ -86,17 +86,19 @@ export default function Navbar() {
                 href="https://www.linkedin.com/in/sahil-sanjay-bhagat/"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-white/60 hover:text-white transition-colors"
+                className="text-white/50 hover:text-white transition-colors"
                 aria-label="LinkedIn"
               >
-                <Briefcase size={20} />
+                <Linkedin size={18} />
               </a>
               <a
-                href="#contact"
-                onClick={(e) => handleNav(e, "#contact")}
-                className="px-4 py-2 text-sm font-medium rounded-full border border-violet-500/40 text-violet-300 hover:bg-violet-500/10 hover:border-violet-400 transition-all duration-300"
+                href="https://github.com/sahilbhagat30"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-white/50 hover:text-white transition-colors"
+                aria-label="GitHub"
               >
-                Hire Me
+                <Github size={18} />
               </a>
             </div>
           </div>
@@ -138,16 +140,31 @@ export default function Navbar() {
                 {link.label}
               </motion.a>
             ))}
-            <motion.a
-              href="#contact"
-              onClick={(e) => handleNav(e, "#contact")}
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.35 }}
-              className="mt-4 px-8 py-3 rounded-full bg-violet-600 text-white font-semibold text-lg hover:bg-violet-500 transition-colors"
+              className="mt-4 flex items-center gap-6"
             >
-              Hire Me
-            </motion.a>
+              <a
+                href="https://www.linkedin.com/in/sahil-sanjay-bhagat/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-white/60 hover:text-white transition-colors text-lg"
+              >
+                <Linkedin size={22} />
+                LinkedIn
+              </a>
+              <a
+                href="https://github.com/sahilbhagat30"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-white/60 hover:text-white transition-colors text-lg"
+              >
+                <Github size={22} />
+                GitHub
+              </a>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
