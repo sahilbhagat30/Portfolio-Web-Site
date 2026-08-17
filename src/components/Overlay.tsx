@@ -2,7 +2,6 @@
 
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { SocialTextRow } from "./SocialLinks";
 
 export default function Overlay() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -43,16 +42,7 @@ export default function Overlay() {
           />
 
           <div className="pl-8 md:pl-10">
-            <motion.div
-              initial={{ opacity: 0, x: -16 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.4, duration: 0.6 }}
-              className="mb-8"
-            >
-              <SocialTextRow />
-            </motion.div>
 
-            {/* Eyebrow label */}
             <motion.p
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
