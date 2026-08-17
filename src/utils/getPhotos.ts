@@ -34,7 +34,7 @@ export function getPhotos(): PhotoData[] {
       const altText = file.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ");
       
       photos.push({
-        src: `/photos/personal/${category}/${file}`,
+        src: `photos/personal/${category}/${file}`,
         alt: altText,
         category: category,
         span: spans[spanIdx % spans.length]

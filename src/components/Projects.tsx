@@ -3,15 +3,13 @@
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 
-const basePath = process.env.NODE_ENV === "production" ? "/Portfolio-Web-Site" : "";
-
 const PROJECT_DATA = [
   {
     number: "01",
     title: "Anywhere Real Estate",
     description:
       "Built scalable operations analytics and performance reporting solutions to monitor vendor productivity, staffing utilization, and operational health, identifying ~$400K in cost-saving opportunities.",
-    image: "/logos/anywhere.png",
+    image: "logos/anywhere.png",
     logoFilter: "brightness(0) invert(1)",
     tags: ["Snowflake", "dbt", "Power BI"],
     tagColor: "violet",
@@ -22,7 +20,7 @@ const PROJECT_DATA = [
     title: "iConsult Collaborative",
     description:
       "Developed semantic models and KPI dashboards for workforce planning and provider performance. Standardized multi-source workforce data into reporting-ready datasets.",
-    image: "/logos/micron.png",
+    image: "logos/micron.png",
     logoFilter: "brightness(0) invert(1)",
     tags: ["Power BI", "SQL", "Workforce Analytics"],
     tagColor: "cyan",
@@ -33,7 +31,7 @@ const PROJECT_DATA = [
     title: "United Nations",
     description:
       "Architected GCP-based healthcare analytics pipeline integrating clinical, finance, and operational data across 183 global facilities. Built Looker dashboards for compliance monitoring.",
-    image: "/logos/UN_emblem.svg",
+    image: "logos/UN_emblem.svg",
     logoFilter: "brightness(0) invert(1)",
     tags: ["BigQuery", "Looker", "GCP"],
     tagColor: "amber",
@@ -44,7 +42,7 @@ const PROJECT_DATA = [
     title: "Capgemini",
     description:
       "Engineered ETL/ELT pipelines across NetSuite, Salesforce, and Workday into Snowflake. Delivered Tableau dashboards replacing manual workflows and saving ~40 hours/month.",
-    image: "/logos/capgemini.png",
+    image: "logos/capgemini.png",
     logoFilter: "brightness(0) invert(1)",
     tags: ["Tableau", "AWS S3", "ETL"],
     tagColor: "violet",
@@ -55,7 +53,7 @@ const PROJECT_DATA = [
     title: "Tata Consultancy Services",
     description:
       "Data Analyst role driving business insights, standardizing enterprise data pipelines, and developing executive dashboards to support strategic decision-making.",
-    image: "/logos/Tata_Consultancy_Services_old_logo.svg",
+    image: "logos/Tata_Consultancy_Services_old_logo.svg",
     logoFilter: "brightness(0) invert(1)",
     tags: ["Data Analysis", "SQL", "Dashboards"],
     tagColor: "cyan",
@@ -98,7 +96,7 @@ function ProjectCard({ project, index }: { project: typeof PROJECT_DATA[0]; inde
         <div className="absolute inset-0 bg-gradient-to-t from-[#080808] via-transparent to-transparent z-10 opacity-70 group-hover:opacity-40 transition-opacity duration-500" />
         
         <img
-          src={`${basePath}${project.image}`}
+          src={project.image}
           alt={project.title}
           className="relative z-20 w-full h-full object-contain scale-100 group-hover:scale-105 transition-transform duration-700 ease-out opacity-70 group-hover:opacity-100"
           style={{ filter: project.logoFilter }}
@@ -194,7 +192,7 @@ export default function Projects() {
               <div className="absolute inset-0 bg-gradient-to-t from-[#080808] to-transparent z-10 opacity-60 group-hover:opacity-30 transition-opacity duration-500 md:hidden" />
               
               <img
-                src={`${basePath}${featured.image}`}
+                src={featured.image}
                 alt={featured.title}
                 className="relative z-20 w-full h-full object-contain scale-100 group-hover:scale-105 transition-transform duration-700 ease-out opacity-70 group-hover:opacity-100"
                 style={{ filter: featured.logoFilter }}
