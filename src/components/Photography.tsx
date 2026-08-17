@@ -6,6 +6,8 @@ import { X, ZoomIn, Camera } from "lucide-react";
 
 import { PhotoData } from "@/utils/getPhotos";
 
+const basePath = process.env.NODE_ENV === "production" ? "/Portfolio-Web-Site" : "";
+
 const spanClass: Record<string, string> = {
   tall: "row-span-2",
   wide: "col-span-2",
@@ -145,7 +147,7 @@ export default function Photography({
               >
                 {/* Photo */}
                 <img
-                  src={photo.src}
+                  src={`${basePath}${photo.src}`}
                   alt={photo.alt}
                   className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                   onError={(e) => {
@@ -218,7 +220,7 @@ export default function Photography({
               onClick={(e) => e.stopPropagation()}
             >
               <img
-                src={lightboxSrc}
+                src={`${basePath}${lightboxSrc}`}
                 alt={lightboxAlt}
                 className="max-w-full max-h-[80vh] object-contain rounded-2xl shadow-2xl"
               />

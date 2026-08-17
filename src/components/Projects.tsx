@@ -3,6 +3,8 @@
 import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 
+const basePath = process.env.NODE_ENV === "production" ? "/Portfolio-Web-Site" : "";
+
 const PROJECT_DATA = [
   {
     number: "01",
@@ -96,7 +98,7 @@ function ProjectCard({ project, index }: { project: typeof PROJECT_DATA[0]; inde
         <div className="absolute inset-0 bg-gradient-to-t from-[#080808] via-transparent to-transparent z-10 opacity-70 group-hover:opacity-40 transition-opacity duration-500" />
         
         <img
-          src={project.image}
+          src={`${basePath}${project.image}`}
           alt={project.title}
           className="relative z-20 w-full h-full object-contain scale-100 group-hover:scale-105 transition-transform duration-700 ease-out opacity-70 group-hover:opacity-100"
           style={{ filter: project.logoFilter }}
@@ -192,7 +194,7 @@ export default function Projects() {
               <div className="absolute inset-0 bg-gradient-to-t from-[#080808] to-transparent z-10 opacity-60 group-hover:opacity-30 transition-opacity duration-500 md:hidden" />
               
               <img
-                src={featured.image}
+                src={`${basePath}${featured.image}`}
                 alt={featured.title}
                 className="relative z-20 w-full h-full object-contain scale-100 group-hover:scale-105 transition-transform duration-700 ease-out opacity-70 group-hover:opacity-100"
                 style={{ filter: featured.logoFilter }}
