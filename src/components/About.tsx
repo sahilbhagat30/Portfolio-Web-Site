@@ -65,9 +65,8 @@ export default function About() {
               className="text-4xl md:text-5xl font-bold leading-tight tracking-tight mb-8"
               style={{ letterSpacing: "-0.02em" }}
             >
-              I close the gap between{" "}
-              <span className="gradient-text">data</span>{" "}
-              and <span className="gradient-text">action</span>.
+              I turn complex data into clear decisions.{" "}
+              <span className="gradient-text">Faster.</span>
             </motion.h2>
 
             <motion.p
@@ -79,7 +78,7 @@ export default function About() {
               className="text-white/70 leading-relaxed mb-5 font-medium"
               style={{ fontSize: "1.1rem" }}
             >
-              I&apos;ve sat in enough stakeholder meetings to know the real problem is never the data, it&apos;s that nobody can see it clearly. That&apos;s the gap I close.
+              5+ years across consulting, enterprise, and global organizations have taught me one thing: the best analysis means nothing if the right people cannot act on it.
             </motion.p>
 
             <motion.p
@@ -91,7 +90,7 @@ export default function About() {
               className="text-white/60 leading-relaxed mb-5"
               style={{ fontSize: "1.05rem" }}
             >
-              Over the past 5+ years across consulting, enterprise, and global organizations, I&apos;ve learned that the best analysis means nothing if it doesn&apos;t land with the people who need to act on it. So I&apos;ve gotten good at both sides, building the pipelines that make data reliable, and shaping the dashboards and frameworks that make it digestible.
+              I specialize in both sides of the problem. I build the pipelines that make data reliable, and I shape the dashboards and reporting frameworks that make it digestible for decision-makers at every level.
             </motion.p>
 
             <motion.p
@@ -103,7 +102,7 @@ export default function About() {
               className="text-white/50 leading-relaxed mb-5"
               style={{ fontSize: "1.05rem" }}
             >
-              At Anywhere Real Estate, I built a vendor performance model that surfaced $400K in cost avoidance, not by doing anything fancy, just by connecting the right data points that were already there but no one had tied together. At the United Nations, I helped standardize data across 150+ global healthcare facilities so leadership could finally see where resources were slipping. At Capgemini, I got my foundation, integrating messy data across 8 enterprise systems and learning that clean, reliable data isn&apos;t a nice-to-have, it&apos;s everything.
+              At Anywhere Real Estate, I surfaced $400K in cost avoidance by connecting data points that had always existed but never been tied together. At the United Nations, I standardized reporting across 150+ global healthcare facilities so leadership could pinpoint where resources were slipping. At Capgemini, I integrated data across 8 enterprise systems and built the foundation that everything else depended on.
             </motion.p>
             
             <motion.p
@@ -115,7 +114,7 @@ export default function About() {
               className="text-white/50 leading-relaxed mb-10"
               style={{ fontSize: "1.05rem" }}
             >
-              I work across the full stack, SQL, Python, Snowflake, DBT, Power BI/Tableau, Informatica, but tools are just tools. What I actually care about is making sure the right people have the right information at the right time.
+              My stack spans SQL, Python, Snowflake, dbt, Power BI, Tableau, and Informatica. The tools change. The goal does not: give the right people the right information at the right time.
             </motion.p>
 
             {/* Stats */}

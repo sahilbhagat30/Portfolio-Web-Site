@@ -2,7 +2,7 @@
 
 import { Mail } from "lucide-react";
 
-// Real brand SVGs — lucide-react doesn't include social brand icons
+// Real brand SVGs - lucide-react does not include social brand icons
 function LinkedinIcon({ size = 16 }: { size?: number }) {
   return (
     <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -43,7 +43,7 @@ export const SOCIAL_LINKS = [
   },
 ];
 
-/** Compact icon-only row — used in Navbar and Hero */
+/** Compact icon-only row - used in Navbar */
 export function SocialIconRow({
   size = 18,
   className = "",
@@ -69,7 +69,7 @@ export function SocialIconRow({
   );
 }
 
-/** Text + icon row — used in Hero landing panel */
+/** Text + icon row - used in Hero landing panel */
 export function SocialTextRow({ className = "" }: { className?: string }) {
   return (
     <div className={`flex items-center gap-4 ${className}`}>
@@ -92,7 +92,7 @@ export function SocialTextRow({ className = "" }: { className?: string }) {
   );
 }
 
-/** Card grid — used in Contact section */
+/** Card grid - used in Contact section */
 export function SocialCardGrid({ className = "" }: { className?: string }) {
   return (
     <div className={`flex flex-col sm:flex-row justify-center gap-4 ${className}`}>

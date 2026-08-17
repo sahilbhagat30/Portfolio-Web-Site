@@ -27,7 +27,7 @@ export default function Overlay() {
     <div ref={containerRef} className="h-full w-full pointer-events-none z-10">
       <div className="sticky top-0 h-screen w-full flex flex-col justify-center overflow-hidden">
 
-        {/* ── Section 1: Name + Badge ── */}
+        {/* Section 1: Name */}}
         <motion.div
           style={{ opacity: opacity1, y: y1 }}
           className="absolute inset-0 flex flex-col justify-center px-10 md:px-14 pointer-events-auto"
@@ -114,7 +114,7 @@ export default function Overlay() {
           </div>
         </motion.div>
 
-        {/* ── Section 2: Role ── */}
+        {/* Section 2: Role */}}
         <motion.div
           style={{ opacity: opacity2, y: y2 }}
           className="absolute inset-0 flex flex-col justify-center px-10 md:px-14 pointer-events-auto"
@@ -131,7 +131,7 @@ export default function Overlay() {
               and decision-making.
             </h2>
             <p className="mt-6 text-white/45 max-w-xs leading-relaxed" style={{ fontSize: "clamp(0.85rem, 1.1vw, 1rem)" }}>
-              Building the pipelines that make data reliable - and shaping the dashboards that make it digestible.
+              Building the pipelines that make data reliable and shaping the dashboards that make it digestible.
             </p>
 
             <div className="mt-8 flex flex-wrap gap-2">
@@ -148,7 +148,7 @@ export default function Overlay() {
           </div>
         </motion.div>
 
-        {/* ── Section 3: Ethos ── */}
+        {/* Section 3: Ethos */}}
         <motion.div
           style={{ opacity: opacity3, y: y3 }}
           className="absolute inset-0 flex flex-col justify-center px-10 md:px-14 pointer-events-auto"

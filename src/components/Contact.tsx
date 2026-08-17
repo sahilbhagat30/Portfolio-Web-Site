@@ -57,7 +57,7 @@ export default function Contact() {
           transition={{ duration: 0.6, delay: 0.2 }}
           className="text-white/40 max-w-md mx-auto mb-16 text-base leading-relaxed"
         >
-          Whether it&apos;s a data problem, a collaboration, or just a good conversation — my inbox is always open.
+          Whether it&apos;s a data challenge, a collaboration, or just a conversation. My inbox is always open.
         </motion.p>
 
         {/* Social Cards */}
