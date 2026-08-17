@@ -1,17 +1,17 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowUpRight, Github, Linkedin, Mail } from "lucide-react";
+import { ArrowUpRight, ExternalLink, GitBranch, Mail } from "lucide-react";
 
 const SOCIALS = [
   {
-    icon: Linkedin,
+    icon: ExternalLink,
     label: "LinkedIn",
     handle: "/in/sahil-sanjay-bhagat",
     href: "https://www.linkedin.com/in/sahil-sanjay-bhagat/",
   },
   {
-    icon: Github,
+    icon: GitBranch,
     label: "GitHub",
     handle: "sahilbhagat30",
     href: "https://github.com/sahilbhagat30",

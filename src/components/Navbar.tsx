@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Linkedin, Github } from "lucide-react";
+import { ExternalLink, GitBranch } from "lucide-react";
 
 const NAV_LINKS = [
   { label: "About", href: "#about" },
@@ -89,7 +89,7 @@ export default function Navbar() {
                 className="text-white/50 hover:text-white transition-colors"
                 aria-label="LinkedIn"
               >
-                <Linkedin size={18} />
+                <ExternalLink size={18} />
               </a>
               <a
                 href="https://github.com/sahilbhagat30"
@@ -98,7 +98,7 @@ export default function Navbar() {
                 className="text-white/50 hover:text-white transition-colors"
                 aria-label="GitHub"
               >
-                <Github size={18} />
+                <GitBranch size={18} />
               </a>
             </div>
           </div>
@@ -152,7 +152,7 @@ export default function Navbar() {
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-white/60 hover:text-white transition-colors text-lg"
               >
-                <Linkedin size={22} />
+                <ExternalLink size={22} />
                 LinkedIn
               </a>
               <a
@@ -161,7 +161,7 @@ export default function Navbar() {
                 rel="noopener noreferrer"
                 className="flex items-center gap-2 text-white/60 hover:text-white transition-colors text-lg"
               >
-                <Github size={22} />
+                <GitBranch size={22} />
                 GitHub
               </a>
             </motion.div>

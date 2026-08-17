@@ -2,7 +2,7 @@
 
 import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { Linkedin, Github, Mail } from "lucide-react";
+import { ExternalLink, GitBranch, Mail } from "lucide-react";
 
 export default function Overlay() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -57,7 +57,7 @@ export default function Overlay() {
                 aria-label="LinkedIn"
                 className="flex items-center gap-1.5 text-white/40 hover:text-white transition-colors duration-200 text-xs tracking-widest uppercase"
               >
-                <Linkedin size={14} />
+                <ExternalLink size={14} />
                 LinkedIn
               </a>
               <span className="text-white/15">·</span>
@@ -68,7 +68,7 @@ export default function Overlay() {
                 aria-label="GitHub"
                 className="flex items-center gap-1.5 text-white/40 hover:text-white transition-colors duration-200 text-xs tracking-widest uppercase"
               >
-                <Github size={14} />
+                <GitBranch size={14} />
                 GitHub
               </a>
               <span className="text-white/15">·</span>
