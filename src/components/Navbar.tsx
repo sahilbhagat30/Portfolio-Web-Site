@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ExternalLink, GitBranch } from "lucide-react";
+import { SocialIconRow } from "./SocialLinks";
 
 const NAV_LINKS = [
   { label: "About", href: "#about" },
@@ -81,26 +81,7 @@ export default function Navbar() {
               </a>
             ))}
 
-            <div className="flex items-center gap-4">
-              <a
-                href="https://www.linkedin.com/in/sahil-sanjay-bhagat/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white/50 hover:text-white transition-colors"
-                aria-label="LinkedIn"
-              >
-                <ExternalLink size={18} />
-              </a>
-              <a
-                href="https://github.com/sahilbhagat30"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="text-white/50 hover:text-white transition-colors"
-                aria-label="GitHub"
-              >
-                <GitBranch size={18} />
-              </a>
-            </div>
+            <SocialIconRow size={18} />
           </div>
 
           {/* Mobile Hamburger */}
@@ -144,26 +125,9 @@ export default function Navbar() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.35 }}
-              className="mt-4 flex items-center gap-6"
+              className="mt-4"
             >
-              <a
-                href="https://www.linkedin.com/in/sahil-sanjay-bhagat/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-white/60 hover:text-white transition-colors text-lg"
-              >
-                <ExternalLink size={22} />
-                LinkedIn
-              </a>
-              <a
-                href="https://github.com/sahilbhagat30"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-white/60 hover:text-white transition-colors text-lg"
-              >
-                <GitBranch size={22} />
-                GitHub
-              </a>
+              <SocialIconRow size={24} />
             </motion.div>
           </motion.div>
         )}

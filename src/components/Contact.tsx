@@ -1,28 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowUpRight, ExternalLink, GitBranch, Mail } from "lucide-react";
-
-const SOCIALS = [
-  {
-    icon: ExternalLink,
-    label: "LinkedIn",
-    handle: "/in/sahil-sanjay-bhagat",
-    href: "https://www.linkedin.com/in/sahil-sanjay-bhagat/",
-  },
-  {
-    icon: GitBranch,
-    label: "GitHub",
-    handle: "sahilbhagat30",
-    href: "https://github.com/sahilbhagat30",
-  },
-  {
-    icon: Mail,
-    label: "Email",
-    handle: "sahilbhagat1497@gmail.com",
-    href: "mailto:sahilbhagat1497@gmail.com",
-  },
-];
+import { SocialCardGrid } from "./SocialLinks";
 
 export default function Contact() {
   return (
@@ -82,33 +61,7 @@ export default function Contact() {
         </motion.p>
 
         {/* Social Cards */}
-        <motion.div
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="flex flex-col sm:flex-row justify-center gap-4 mb-24"
-        >
-          {SOCIALS.map(({ icon: Icon, label, handle, href }) => (
-            <a
-              key={label}
-              href={href}
-              target={href.startsWith("mailto") ? undefined : "_blank"}
-              rel={href.startsWith("mailto") ? undefined : "noopener noreferrer"}
-              aria-label={label}
-              className="group flex items-center gap-4 px-6 py-4 rounded-2xl glass-card hover:border-white/20 transition-all duration-300"
-            >
-              <div className="w-10 h-10 rounded-full flex items-center justify-center" style={{ background: "rgba(255,255,255,0.06)" }}>
-                <Icon size={18} className="text-white/60 group-hover:text-white transition-colors" />
-              </div>
-              <div className="text-left">
-                <p className="text-white/40 text-xs uppercase tracking-widest mb-0.5">{label}</p>
-                <p className="text-white/80 text-sm font-medium group-hover:text-white transition-colors">{handle}</p>
-              </div>
-              <ArrowUpRight size={14} className="ml-auto text-white/20 group-hover:text-white/60 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
-            </a>
-          ))}
-        </motion.div>
+        <SocialCardGrid className="mb-24" />
 
         {/* Footer line */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-8 border-t border-white/5">
