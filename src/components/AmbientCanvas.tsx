@@ -51,7 +51,7 @@ export default function AmbientCanvas() {
     window.addEventListener("mousemove", onMouse, { passive: true });
 
     // Init particles
-    const PARTICLE_COUNT = 60;
+    const PARTICLE_COUNT = 150;
     const particles: Particle[] = [];
     const sparks: Spark[] = [];
 
@@ -64,14 +64,14 @@ export default function AmbientCanvas() {
       return {
         x: Math.random() * w,
         y: Math.random() * h,
-        vx: (Math.random() - 0.5) * 0.3,
-        vy: (Math.random() - 0.5) * 0.3,
+        vx: (Math.random() - 0.5) * 0.4,
+        vy: (Math.random() - 0.5) * 0.4,
         radius: Math.random() * 2.5 + 0.5,
-        opacity: Math.random() * 0.15 + 0.02,
-        opacityDir: (Math.random() > 0.5 ? 1 : -1) * 0.002,
+        opacity: Math.random() * 0.3 + 0.05,
+        opacityDir: (Math.random() > 0.5 ? 1 : -1) * 0.003,
         color,
         life: 0,
-        maxLife: Math.random() * 4000 + 3000,
+        maxLife: Math.random() * 5000 + 4000,
       };
     }
 
@@ -79,7 +79,7 @@ export default function AmbientCanvas() {
       if (!canvas) return;
       const color = COLORS[Math.floor(Math.random() * COLORS.length)];
       const angle = Math.random() * Math.PI * 2;
-      const speed = Math.random() * 1.5 + 0.5;
+      const speed = Math.random() * 2 + 1;
       const w = canvas.width;
       const h = canvas.height;
       sparks.push({
@@ -88,7 +88,7 @@ export default function AmbientCanvas() {
         vx: Math.cos(angle) * speed,
         vy: Math.sin(angle) * speed,
         life: 0,
-        maxLife: Math.random() * 80 + 40,
+        maxLife: Math.random() * 120 + 60,
         color,
       });
     }
@@ -100,7 +100,6 @@ export default function AmbientCanvas() {
       const dt = Math.min(time - lastTime, 50);
       lastTime = time;
 
-      // Only draw on visible portion (performance)
       const scrollTop = window.scrollY;
       const viewH     = window.innerHeight;
 
@@ -108,42 +107,55 @@ export default function AmbientCanvas() {
 
       const mouse = mouseRef.current;
 
-      // Particles
+      // Particles (Dust Motes / Fireflies)
       for (let i = particles.length - 1; i >= 0; i--) {
         const p = particles[i];
         p.life += dt;
 
-        // Mouse repulsion — very gentle
+        // Gentle Mouse interaction
         const dx = p.x - mouse.x;
         const dy = p.y - mouse.y;
         const dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < 200) {
-          const force = (200 - dist) / 200 * 0.015;
-          p.vx += (dx / dist) * force;
-          p.vy += (dy / dist) * force;
+        if (dist < 250) {
+          const force = (250 - dist) / 250 * 0.02;
+          p.vx -= (dx / dist) * force; // slightly attract
+          p.vy -= (dy / dist) * force;
         }
 
+        // Natural drifting
+        p.vx += (Math.random() - 0.5) * 0.02;
+        p.vy += (Math.random() - 0.5) * 0.02;
+
         // Damping
-        p.vx *= 0.99;
-        p.vy *= 0.99;
+        p.vx *= 0.98;
+        p.vy *= 0.98;
 
         p.x += p.vx;
         p.y += p.vy;
+        
+        // Twinkling
         p.opacity += p.opacityDir;
-        if (p.opacity > 0.18 || p.opacity < 0.01) p.opacityDir *= -1;
+        if (p.opacity > 0.4 || p.opacity < 0.02) p.opacityDir *= -1;
 
         // Wrap
-        if (p.x < 0) p.x = canvas.width;
-        if (p.x > canvas.width) p.x = 0;
+        if (p.x < -50) p.x = canvas.width + 50;
+        if (p.x > canvas.width + 50) p.x = -50;
         if (p.y < scrollTop - 100) p.y = scrollTop + viewH + 100;
         if (p.y > scrollTop + viewH + 100) p.y = scrollTop - 100;
 
-        // Only draw if in view
         if (p.y > scrollTop - 50 && p.y < scrollTop + viewH + 50) {
           ctx.beginPath();
           ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+          
+          // Glow effect
+          ctx.shadowBlur = p.radius * 4;
+          ctx.shadowColor = `${p.color}1)`;
+          
           ctx.fillStyle = `${p.color}${p.opacity})`;
           ctx.fill();
+          
+          // Reset shadow for performance
+          ctx.shadowBlur = 0;
         }
 
         if (p.life > p.maxLife) {
@@ -152,8 +164,8 @@ export default function AmbientCanvas() {
         }
       }
 
-      // Sparks
-      if (time - lastSpark > 2000) {
+      // Sparks (Occasional magic)
+      if (time - lastSpark > 1000) {
         spawnSpark();
         lastSpark = time;
       }
@@ -163,25 +175,31 @@ export default function AmbientCanvas() {
         s.life++;
         s.x += s.vx;
         s.y += s.vy;
-        s.vx *= 0.97;
-        s.vy *= 0.97;
+        s.vx *= 0.98;
+        s.vy *= 0.98;
 
         const progress = s.life / s.maxLife;
-        const alpha    = (1 - progress) * 0.25;
+        const alpha    = (1 - Math.pow(progress, 2)) * 0.4;
 
         if (s.y > scrollTop - 10 && s.y < scrollTop + viewH + 10) {
           ctx.beginPath();
-          ctx.arc(s.x, s.y, 1.5, 0, Math.PI * 2);
+          ctx.arc(s.x, s.y, 2, 0, Math.PI * 2);
+          
+          ctx.shadowBlur = 10;
+          ctx.shadowColor = `${s.color}1)`;
+          
           ctx.fillStyle = `${s.color}${alpha})`;
           ctx.fill();
 
           // Trail
           ctx.beginPath();
           ctx.moveTo(s.x, s.y);
-          ctx.lineTo(s.x - s.vx * 8, s.y - s.vy * 8);
-          ctx.strokeStyle = `${s.color}${alpha * 0.5})`;
-          ctx.lineWidth = 1;
+          ctx.lineTo(s.x - s.vx * 12, s.y - s.vy * 12);
+          ctx.strokeStyle = `${s.color}${alpha * 0.6})`;
+          ctx.lineWidth = 1.5;
           ctx.stroke();
+          
+          ctx.shadowBlur = 0;
         }
 
         if (s.life >= s.maxLife) sparks.splice(i, 1);
