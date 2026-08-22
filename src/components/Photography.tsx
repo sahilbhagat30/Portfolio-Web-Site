@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ZoomIn } from "lucide-react";
+import Image from "next/image";
 
 import { PhotoData } from "@/utils/getPhotos";
 
@@ -95,13 +96,13 @@ export default function Photography({
                   setLightboxAlt(photo.alt);
                 }}
               >
-                <img
+                <Image
                   src={photo.src}
                   alt={photo.alt}
-                  className="w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-105"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).style.display = "none";
-                  }}
+                  fill
+                  sizes="(max-width: 768px) 225px, 270px"
+                  className="object-cover transition-all duration-700 ease-out group-hover:scale-105"
+                  quality={85}
                 />
                 <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 pointer-events-none">
                   <ZoomIn size={32} className="text-white drop-shadow-lg" />
@@ -141,11 +142,16 @@ export default function Photography({
               className="relative max-w-5xl w-full max-h-[85vh] flex flex-col items-center"
               onClick={(e) => e.stopPropagation()}
             >
-              <img
-                src={lightboxSrc}
-                alt={lightboxAlt}
-                className="max-w-full max-h-[80vh] object-contain rounded-2xl shadow-2xl"
-              />
+              <div className="relative w-full h-[80vh]">
+                <Image
+                  src={lightboxSrc}
+                  alt={lightboxAlt}
+                  fill
+                  className="object-contain rounded-2xl shadow-2xl"
+                  sizes="100vw"
+                  quality={100}
+                />
+              </div>
               <p className="mt-4 text-white/40 text-sm text-center">{lightboxAlt}</p>
             </motion.div>
           </motion.div>
