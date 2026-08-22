@@ -11,6 +11,9 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://sahilbhagat30.github.io/Portfolio-Web-Site"),
   title: "Sahil Bhagat | Data Engineer, Analytics",
   description: "Data Engineer, Analytics",
+  icons: {
+    icon: "/Portfolio-Web-Site/icon.png",
+  },
 };
 
 export default function RootLayout({
