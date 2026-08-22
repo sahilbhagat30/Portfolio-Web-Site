@@ -139,7 +139,7 @@ export default function Navbar() {
               animate={{ filter: ["drop-shadow(0 0 8px rgba(168,85,247,0.6))", "drop-shadow(0 0 2px rgba(168,85,247,0.2))", "drop-shadow(0 0 8px rgba(168,85,247,0.6))"] }}
               transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
             >
-              <span className="gradient-text">SB</span>
+              {/* Logo text 'SB' removed by request */}
             </motion.span>
           </a>
 

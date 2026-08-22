@@ -145,8 +145,10 @@ function ScrollToTop() {
       <motion.span
         animate={launched ? { y: [-0, -40], opacity: [1, 0] } : { y: 0, opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeIn" }}
+        className="font-bold tracking-tight text-lg"
+        style={{ letterSpacing: "-0.02em" }}
       >
-        🚀
+        <span className="gradient-text">SB</span>
       </motion.span>
     </motion.button>
   );
