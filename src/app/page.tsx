@@ -16,7 +16,7 @@ export default function Home() {
   const photos = getPhotos();
 
   return (
-    <main className="relative bg-[var(--background)]">
+    <main className="relative">
       {/* Fixed Navigation */}
       <Navbar />
 
