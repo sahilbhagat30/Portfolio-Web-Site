@@ -99,10 +99,10 @@ export default function VinylPlayer() {
       transition={{ type: "spring", stiffness: 400, damping: 28 }}
       className="fixed bottom-6 left-6 z-50 flex items-center gap-2 px-3 py-2 rounded-full cursor-pointer select-none"
       style={{
-        background: "rgba(10,10,12,0.85)",
-        border: "1px solid rgba(168,85,247,0.2)",
-        backdropFilter: "blur(12px)",
-        boxShadow: "0 8px 24px rgba(0,0,0,0.4)",
+        background: "rgba(28,20,48,0.88)",
+        border: "1px solid rgba(168,85,247,0.45)",
+        backdropFilter: "blur(16px)",
+        boxShadow: "0 0 0 1px rgba(168,85,247,0.08) inset, 0 8px 32px rgba(99,57,200,0.25), 0 2px 8px rgba(0,0,0,0.5)",
       }}
       onClick={() => setIsMinimized(false)}
       title="Expand player"
@@ -160,10 +160,10 @@ export default function VinylPlayer() {
       transition={{ type: "spring", stiffness: 380, damping: 28 }}
       className="fixed bottom-6 left-6 z-50 flex items-center justify-center p-4 rounded-[2rem] select-none"
       style={{
-        background: "rgba(10,10,12,0.85)",
-        border: "1px solid rgba(168,85,247,0.15)",
-        backdropFilter: "blur(12px)",
-        boxShadow: "0 12px 32px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.02) inset",
+        background: "rgba(28,20,48,0.88)",
+        border: "1px solid rgba(168,85,247,0.45)",
+        backdropFilter: "blur(16px)",
+        boxShadow: "0 0 0 1px rgba(168,85,247,0.08) inset, 0 8px 32px rgba(99,57,200,0.25), 0 2px 8px rgba(0,0,0,0.5)",
       }}
     >
       {/* Click anywhere on the card (except needle) to minimize */}
