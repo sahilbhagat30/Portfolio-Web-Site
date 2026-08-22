@@ -12,9 +12,9 @@ interface Track {
 // ─── Add your tracks here ──────────────────────────────────────────────────
 // Drop MP3s into /public/music/ and update this list.
 const TRACKS: Track[] = [
-  { title: "Track 1", artist: "Artist", file: "/Portfolio-Web-Site/music/track1.mp3" },
-  { title: "Track 2", artist: "Artist", file: "/Portfolio-Web-Site/music/track2.mp3" },
-  { title: "Track 3", artist: "Artist", file: "/Portfolio-Web-Site/music/track3.mp3" },
+  { title: "Track 1", artist: "Artist", file: "/Portfolio-Web-Site/music/track1.wav" },
+  { title: "Track 2", artist: "Artist", file: "/Portfolio-Web-Site/music/track2.wav" },
+  { title: "Track 3", artist: "Artist", file: "/Portfolio-Web-Site/music/track3.wav" },
 ];
 // ──────────────────────────────────────────────────────────────────────────
 
