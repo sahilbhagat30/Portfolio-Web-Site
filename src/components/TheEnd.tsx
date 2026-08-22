@@ -269,11 +269,9 @@ export default function TheEnd() {
                 maxWidth: "none",
                 objectFit: "cover",
                 objectPosition: "left center",
-                filter: "brightness(0.9) contrast(1.5)",
+                filter: "grayscale(1) brightness(1.1) contrast(1.6)",
               }}
             />
-            {/* Color tint */}
-            <div className="absolute inset-0 bg-violet-400 mix-blend-color pointer-events-none" />
           </motion.div>
 
           {/* RIGHT HALF — slides in from right */}
@@ -292,11 +290,9 @@ export default function TheEnd() {
                 maxWidth: "none",
                 objectFit: "cover",
                 objectPosition: "right center",
-                filter: "brightness(0.9) contrast(1.5)",
+                filter: "grayscale(1) brightness(1.1) contrast(1.6)",
               }}
             />
-            {/* Color tint */}
-            <div className="absolute inset-0 bg-cyan-400 mix-blend-color pointer-events-none" />
           </motion.div>
 
           {/* Floating particles between hands */}

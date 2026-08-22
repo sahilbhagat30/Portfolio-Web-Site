@@ -244,33 +244,7 @@ export default function About() {
             {/* Currently block */}
             <CurrentlyBlock />
 
-            {/* Interests strip */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.4 }}
-              className="mt-8"
-            >
-              <p className="text-[0.65rem] font-semibold uppercase tracking-widest text-white/30 mb-3">Outside work</p>
-              <div className="flex gap-3 flex-wrap">
-                {INTERESTS.map((item, i) => (
-                  <motion.div
-                    key={item.label}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: i * 0.07, duration: 0.3 }}
-                    whileHover={{ scale: 1.1, y: -3 }}
-                    className="flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-medium text-white/60 cursor-default select-none"
-                    style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)" }}
-                  >
-                    <span>{item.emoji}</span>
-                    <span>{item.label}</span>
-                  </motion.div>
-                ))}
-              </div>
-            </motion.div>
+
           </div>
 
           {/* Right: Skills — with tilt */}
