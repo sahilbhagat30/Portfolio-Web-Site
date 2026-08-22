@@ -11,6 +11,7 @@ const PersonalProjects = dynamic(() => import("@/components/PersonalProjects"));
 const Photography = dynamic(() => import("@/components/Photography"));
 const TheEnd = dynamic(() => import("@/components/TheEnd"));
 const VinylPlayer = dynamic(() => import("@/components/VinylPlayer"));
+const Marquee = dynamic(() => import("@/components/Marquee"));
 
 export default function Home() {
   const photos = getPhotos();
@@ -32,6 +33,8 @@ export default function Home() {
           <ScrollyCanvas />
         </div>
       </div>
+
+      <Marquee />
 
       {/* About & Skills */}
       <About />
