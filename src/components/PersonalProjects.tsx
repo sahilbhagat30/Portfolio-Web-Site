@@ -2,7 +2,7 @@
 
 import { motion, useSpring, useMotionValue } from "framer-motion";
 import { useRef } from "react";
-import { ArrowUpRight, Brain, Database, LineChart } from "lucide-react";
+import { ArrowUpRight, Brain, Database, LineChart, Bot } from "lucide-react";
 
 const GithubIcon = ({ size = 24, className = "" }: { size?: number; className?: string }) => (
   <svg
