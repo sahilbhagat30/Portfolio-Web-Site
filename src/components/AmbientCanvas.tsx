@@ -25,7 +25,7 @@ interface Spark {
   color: string;
 }
 
-const COLORS = ["rgba(168,85,247,", "rgba(34,211,238,", "rgba(99,102,241,", "rgba(192,132,252,"];
+const COLORS = ["rgba(234,230,225,", "rgba(163,163,163,", "rgba(255,255,255,", "rgba(214,211,209,"];
 
 export default function AmbientCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);

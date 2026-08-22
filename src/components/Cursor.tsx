@@ -69,18 +69,18 @@ export default function Cursor() {
     };
   }, [cursorX, cursorY]);
 
-  const dotVariants = {
-    default: { width: 8,  height: 8,  backgroundColor: "#a855f7", opacity: 1 },
-    hover:   { width: 12, height: 12, backgroundColor: "#c084fc", opacity: 1 },
-    text:    { width: 4,  height: 24, backgroundColor: "#a855f7", borderRadius: "2px", opacity: 0.8 },
-    click:   { width: 6,  height: 6,  backgroundColor: "#22d3ee", opacity: 1 },
+  const dotVariants: Record<string, any> = {
+    default: { width: 8,  height: 8,  backgroundColor: "#e5e7eb", opacity: 1 },
+    hover:   { width: 12, height: 12, backgroundColor: "#ffffff", opacity: 1 },
+    text:    { width: 4,  height: 24, backgroundColor: "#e5e7eb", borderRadius: "2px", opacity: 0.8 },
+    click:   { width: 6,  height: 6,  backgroundColor: "#a3a3a3", opacity: 1 },
   };
 
   const ringVariants = {
-    default: { width: 36, height: 36, borderColor: "rgba(168,85,247,0.5)", opacity: isVisible ? 1 : 0, scale: 1 },
-    hover:   { width: 56, height: 56, borderColor: "rgba(192,132,252,0.7)", opacity: isVisible ? 1 : 0, scale: 1 },
-    text:    { width: 40, height: 40, borderColor: "rgba(168,85,247,0.3)", opacity: isVisible ? 0.6 : 0, scale: 1 },
-    click:   { width: 28, height: 28, borderColor: "rgba(34,211,238,0.8)", opacity: isVisible ? 1 : 0, scale: 0.9 },
+    default: { width: 36, height: 36, borderColor: "rgba(229,231,235,0.4)", opacity: isVisible ? 1 : 0, scale: 1 },
+    hover:   { width: 56, height: 56, borderColor: "rgba(255,255,255,0.5)", opacity: isVisible ? 1 : 0, scale: 1 },
+    text:    { width: 40, height: 40, borderColor: "rgba(234,230,225,0.4)", opacity: isVisible ? 0.6 : 0, scale: 1 },
+    click:   { width: 28, height: 28, borderColor: "rgba(163,163,163,0.8)", opacity: isVisible ? 1 : 0, scale: 0.9 },
   };
 
   if (typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches) {

@@ -54,7 +54,8 @@ export default function Preloader() {
             <motion.div 
               className="text-6xl md:text-8xl font-black text-transparent bg-clip-text font-mono mb-6 tracking-tighter"
               style={{
-                backgroundImage: "linear-gradient(135deg, #a855f7 0%, #22d3ee 100%)",
+                backgroundImage: "linear-gradient(135deg, #EAE6E1 0%, #A3A3A3 100%)",
+                backgroundSize: "200% auto",
               }}
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -68,7 +69,8 @@ export default function Preloader() {
               <motion.div 
                 className="absolute top-0 left-0 h-full"
                 style={{
-                  background: "linear-gradient(90deg, #a855f7 0%, #22d3ee 100%)",
+                  background: "linear-gradient(90deg, #EAE6E1 0%, #A3A3A3 100%)",
+                  filter: "blur(8px)",
                   width: `${progress}%`
                 }}
               />

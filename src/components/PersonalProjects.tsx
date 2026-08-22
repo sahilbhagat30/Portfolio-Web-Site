@@ -32,9 +32,9 @@ const PERSONAL_PROJECTS = [
     githubUrl: "https://github.com/sahilbhagat30/Gestational-Diabetes-Early-Prediction",
     tags: ["Python", "Scikit-learn", "TensorFlow", "Pandas", "Healthcare AI"],
     tagColor: "violet",
-    icon: "brain",
-    accentColor: "#a855f7",
-    accentColorMuted: "rgba(168,85,247,0.12)",
+    icon: "robot",
+    accentColor: "#EAE6E1",
+    accentColorMuted: "rgba(234,230,225,0.12)",
     featured: true,
   },
   {
@@ -47,8 +47,8 @@ const PERSONAL_PROJECTS = [
     tags: ["React 19", "Node.js", "Express", "PostgreSQL", "Docker", "BFF Architecture"],
     tagColor: "cyan",
     icon: "database",
-    accentColor: "#22d3ee",
-    accentColorMuted: "rgba(34,211,238,0.12)",
+    accentColor: "#A3A3A3",
+    accentColorMuted: "rgba(163,163,163,0.12)",
     featured: true,
   },
 ];
@@ -61,9 +61,9 @@ const TAG_COLORS: Record<string, { border: string; bg: string; text: string }> =
 };
 
 const PROJECT_ICONS: Record<string, React.ReactNode> = {
-  brain:    <Brain    size={28} className="text-violet-400" />,
-  database: <Database size={28} className="text-cyan-400"   />,
-  chart:    <LineChart size={28} className="text-amber-400"  />,
+  robot:    <Bot size={28} className="text-stone-300"    />,
+  database: <Database size={28} className="text-stone-400"   />,
+  chart:    <LineChart size={28} className="text-stone-300" />,
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

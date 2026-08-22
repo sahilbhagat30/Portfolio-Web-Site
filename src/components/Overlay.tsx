@@ -162,7 +162,7 @@ export default function Overlay() {
             animate={{ scaleY: 1, opacity: 1 }}
             transition={{ delay: 0.3, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             className="hidden md:block absolute left-10 md:left-14 top-[28%] h-[44%] w-[2px] origin-top"
-            style={{ background: "linear-gradient(to bottom, transparent, #a855f7 30%, #22d3ee 70%, transparent)" }}
+            style={{ background: "linear-gradient(to bottom, transparent, rgba(234,230,225,0.4) 30%, rgba(163,163,163,0.4) 70%, transparent)" }}
           />
 
           <div className="pl-0 md:pl-10 h-full md:h-auto flex flex-col justify-between md:block">
