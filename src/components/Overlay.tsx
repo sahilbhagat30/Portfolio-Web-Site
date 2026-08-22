@@ -165,7 +165,7 @@ export default function Overlay() {
             style={{ background: "linear-gradient(to bottom, transparent, #a855f7 30%, #22d3ee 70%, transparent)" }}
           />
 
-          <div className="pl-0 md:pl-10 h-full flex flex-col justify-between md:justify-center md:block">
+          <div className="pl-0 md:pl-10 h-full md:h-auto flex flex-col justify-between md:block">
             
             {/* Top Portion (Name & Role) */}
             <div>
