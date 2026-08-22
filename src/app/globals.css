@@ -2,7 +2,7 @@
 
 /* ─── Design Tokens ─────────────────────────────────────────────── */
 :root {
-  --background: #091A14; /* Deep forest green */
+  --background: #121212; /* Dark slate/black matching sequence image */
   --foreground: #eae6e1; /* Warm off-white */
 
   /* Accent palette */
