@@ -57,16 +57,16 @@ function MagneticLink({
     >
       {label}
       {/* Underline */}
-      <span
-        className={`absolute -bottom-0.5 left-0 h-[1px] bg-gradient-to-r from-[#D4AF37] to-[#F2E3C6] transition-all duration-300 ${
+      <div
+        className={`absolute -bottom-0.5 left-0 h-[1px] bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-glow)] transition-all duration-300 ${
           active ? "w-full" : "w-0 group-hover:w-full"
         }`}
       />
       {/* Glow dot */}
       {active && (
-        <motion.span
+        <motion.div
           layoutId="nav-dot"
-          className="absolute -bottom-2.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#D4AF37]"
+          className="absolute -bottom-2.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[var(--accent-primary)]"
         />
       )}
     </a>
@@ -120,9 +120,9 @@ export default function Navbar() {
         initial={{ y: -80, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ease-out ${
           scrolled
-            ? "bg-[#091A14]/85 backdrop-blur-xl border-b border-[#D4AF37]/10 shadow-[0_4px_32px_rgba(0,0,0,0.5)]"
+            ? "bg-[#121212]/85 backdrop-blur-xl border-b border-[var(--accent-primary)]/10 shadow-[0_4px_32px_rgba(0,0,0,0.5)]"
             : "bg-transparent"
         }`}
       >

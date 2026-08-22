@@ -54,10 +54,10 @@ const PERSONAL_PROJECTS = [
 ];
 
 const TAG_COLORS: Record<string, { border: string; bg: string; text: string }> = {
-  violet:  { border: "rgba(212,175,55,0.35)", bg: "rgba(212,175,55,0.1)",  text: "#F2E3C6" },
-  cyan:    { border: "rgba(124,152,133,0.35)",  bg: "rgba(124,152,133,0.1)", text: "#b2d8d8" },
-  amber:   { border: "rgba(176,141,87,0.35)",  bg: "rgba(176,141,87,0.1)", text: "#d4af37" },
-  emerald: { border: "rgba(52,211,153,0.35)",  bg: "rgba(52,211,153,0.1)", text: "#6ee7b7" },
+  violet:  { border: "rgba(234,230,225,0.35)", bg: "rgba(234,230,225,0.1)",  text: "#EAE6E1" },
+  cyan:    { border: "rgba(163,163,163,0.35)",  bg: "rgba(163,163,163,0.1)", text: "#A3A3A3" },
+  amber:   { border: "rgba(214,211,209,0.35)",  bg: "rgba(214,211,209,0.1)", text: "#D6D3D1" },
+  emerald: { border: "rgba(156,163,175,0.35)",  bg: "rgba(156,163,175,0.1)", text: "#9CA3AF" },
 };
 
 const PROJECT_ICONS: Record<string, React.ReactNode> = {
@@ -143,7 +143,7 @@ function TiltProjectCard({ project, index }: { project: typeof PERSONAL_PROJECTS
             <GithubIcon size={16} className="text-white/25 group-hover:text-white/60 transition-colors duration-300" />
             <ArrowUpRight
               size={16}
-              className="text-white/25 group-hover:text-[#D4AF37] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300"
+              className="text-white/25 group-hover:text-[var(--accent-primary)] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300"
             />
           </div>
         </div>
@@ -198,12 +198,12 @@ export default function PersonalProjects() {
       <div
         aria-hidden
         className="pointer-events-none absolute top-1/2 left-0 -translate-y-1/2 w-[600px] h-[600px] rounded-full blur-[120px]"
-        style={{ background: "radial-gradient(circle, #153326, transparent 70%)", opacity: 0.3 }}
+        style={{ background: "radial-gradient(circle, #1a1a1a, transparent 70%)", opacity: 0.3 }}
       />
       <div
         aria-hidden
         className="pointer-events-none absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full blur-[120px]"
-        style={{ background: "radial-gradient(circle, #153326, transparent 70%)", opacity: 0.2 }}
+        style={{ background: "radial-gradient(circle, #2a2a2a, transparent 70%)", opacity: 0.2 }}
       />
 
       <div className="max-w-7xl mx-auto relative z-10">

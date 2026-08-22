@@ -41,12 +41,12 @@ export default function Photography({
       <div
         aria-hidden
         className="pointer-events-none absolute top-1/2 left-0 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-[0.2] blur-[120px]"
-        style={{ background: "radial-gradient(circle, #153326, transparent 70%)" }}
+        style={{ background: "radial-gradient(circle, #1a1a1a, transparent 70%)" }}
       />
       <div
         aria-hidden
         className="pointer-events-none absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full opacity-[0.1] blur-[100px]"
-        style={{ background: "radial-gradient(circle, #D4AF37, transparent 70%)" }}
+        style={{ background: "radial-gradient(circle, #333333, transparent 70%)" }}
       />
 
       <div className="max-w-7xl mx-auto relative z-10 px-6 md:px-16">
@@ -90,7 +90,7 @@ export default function Photography({
               <div
                 key={i}
                 className="w-[225px] h-[400px] md:w-[270px] md:h-[480px] relative overflow-hidden rounded-sm shrink-0 group cursor-pointer"
-                style={{ background: "rgba(255,255,255,0.04)", border: "4px solid rgba(212,175,55,0.2)", outline: "1px solid rgba(212,175,55,0.5)", outlineOffset: "-4px" }}
+                style={{ background: "rgba(255,255,255,0.04)", border: "4px solid rgba(234,230,225,0.15)", outline: "1px solid rgba(234,230,225,0.4)", outlineOffset: "-4px" }}
                 onClick={() => {
                   setLightboxSrc(photo.src);
                   setLightboxAlt(photo.alt);

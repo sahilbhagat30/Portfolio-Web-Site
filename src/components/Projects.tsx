@@ -65,9 +65,9 @@ const PROJECT_DATA = [
 ];
 
 const TAG_COLORS: Record<string, { border: string; bg: string; text: string }> = {
-  violet: { border: "rgba(212,175,55,0.35)", bg: "rgba(212,175,55,0.1)",  text: "#F2E3C6" },
-  cyan:   { border: "rgba(124,152,133,0.35)",  bg: "rgba(124,152,133,0.1)", text: "#b2d8d8" },
-  amber:  { border: "rgba(176,141,87,0.35)",  bg: "rgba(176,141,87,0.1)", text: "#d4af37" },
+  violet: { border: "rgba(234,230,225,0.35)", bg: "rgba(234,230,225,0.1)",  text: "#EAE6E1" },
+  cyan:   { border: "rgba(163,163,163,0.35)",  bg: "rgba(163,163,163,0.1)", text: "#A3A3A3" },
+  amber:  { border: "rgba(214,211,209,0.35)",  bg: "rgba(214,211,209,0.1)", text: "#D6D3D1" },
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -146,7 +146,7 @@ function TiltProjectCard({ project, index }: { project: typeof PROJECT_DATA[0]; 
             {project.title}
           </h3>
           <motion.span
-            className="shrink-0 mt-1 text-white/30 group-hover:text-[#D4AF37]"
+            className="shrink-0 mt-1 text-white/30 group-hover:text-[var(--accent-primary)]"
             whileHover={{ x: 2, y: -2 }}
           >
             <ArrowUpRight size={20} />
@@ -204,7 +204,7 @@ export default function Projects() {
       <div
         aria-hidden
         className="pointer-events-none absolute top-1/2 right-0 -translate-y-1/2 w-[500px] h-[500px] rounded-full blur-[120px]"
-        style={{ background: "radial-gradient(circle, #153326, transparent 70%)", opacity: 0.3 }}
+        style={{ background: "radial-gradient(circle, #1a1a1a, transparent 70%)", opacity: 0.3 }}
       />
 
       <div className="max-w-7xl mx-auto relative z-10">

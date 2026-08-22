@@ -10,9 +10,9 @@ const SKILLS = {
 };
 
 const SKILL_COLORS: Record<string, { border: string; bg: string; text: string }> = {
-  "Data & Cloud":        { border: "rgba(212,175,55,0.4)", bg: "rgba(212,175,55,0.08)", text: "#F2E3C6" },
-  "BI & Analytics":      { border: "rgba(124,152,133,0.4)", bg: "rgba(124,152,133,0.08)", text: "#b2d8d8" },
-  "Programming & Tools": { border: "rgba(176,141,87,0.4)", bg: "rgba(176,141,87,0.08)", text: "#d4af37" },
+  "Data & Cloud":        { border: "rgba(234,230,225,0.4)", bg: "rgba(234,230,225,0.08)", text: "#EAE6E1" },
+  "BI & Analytics":      { border: "rgba(163,163,163,0.4)", bg: "rgba(163,163,163,0.08)", text: "#A3A3A3" },
+  "Programming & Tools": { border: "rgba(214,211,209,0.4)", bg: "rgba(214,211,209,0.08)", text: "#D6D3D1" },
 };
 
 const INTERESTS = [
@@ -150,7 +150,7 @@ export default function About() {
         aria-hidden
         className="pointer-events-none absolute -top-40 right-0 w-[600px] h-[600px] rounded-full blur-[120px]"
         style={{
-          background: "radial-gradient(circle, #153326, transparent 70%)",
+          background: "radial-gradient(circle, #1a1a1a, transparent 70%)",
           opacity: 0.3,
         }}
       />
