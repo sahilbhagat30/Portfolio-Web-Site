@@ -14,10 +14,8 @@ export default function Photography({
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
   const [lightboxAlt, setLightboxAlt] = useState("");
 
-  // Split photos into two rows for the double marquee effect
-  const mid = Math.ceil(initialPhotos.length / 2);
-  const row1 = initialPhotos.slice(0, mid);
-  const row2 = initialPhotos.slice(mid);
+  // Use all photos in a single row
+  const row = initialPhotos;
 
   return (
     <section id="photography" className="relative py-32 overflow-hidden bg-[#080808]">
@@ -28,17 +26,11 @@ export default function Photography({
           0% { transform: translateX(0); }
           100% { transform: translateX(calc(-50% - 0.5rem)); }
         }
-        @keyframes scroll-right {
-          0% { transform: translateX(calc(-50% - 0.5rem)); }
-          100% { transform: translateX(0); }
-        }
         .marquee-left {
-          animation: scroll-left 40s linear infinite;
+          /* Slowed down from 40s to 120s for 28 photos */
+          animation: scroll-left 120s linear infinite;
         }
-        .marquee-right {
-          animation: scroll-right 40s linear infinite;
-        }
-        .marquee-left:hover, .marquee-right:hover {
+        .marquee-left:hover {
           animation-play-state: paused;
         }
         `
@@ -90,10 +82,10 @@ export default function Photography({
 
       {/* Marquee Slideshows */}
       <div className="relative w-full flex flex-col gap-4 mt-8 pb-12 z-20 overflow-hidden">
-        {/* Row 1: Scrolls Left */}
-        {row1.length > 0 && (
+        {/* Single Row: Scrolls Left */}
+        {row.length > 0 && (
           <div className="flex w-max gap-4 marquee-left">
-            {[...row1, ...row1].map((photo, i) => (
+            {[...row, ...row].map((photo, i) => (
               <div
                 key={i}
                 className="w-[280px] h-[190px] md:w-[380px] md:h-[260px] relative overflow-hidden rounded-2xl shrink-0 group cursor-pointer"
@@ -106,37 +98,7 @@ export default function Photography({
                 <img
                   src={photo.src}
                   alt={photo.alt}
-                  className="w-full h-full object-cover transition-all duration-700 ease-out grayscale group-hover:grayscale-0 group-hover:scale-105"
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).style.display = "none";
-                  }}
-                />
-                <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-500" />
-                <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 pointer-events-none">
-                  <ZoomIn size={32} className="text-white drop-shadow-lg" />
-                </div>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* Row 2: Scrolls Right */}
-        {row2.length > 0 && (
-          <div className="flex w-max gap-4 marquee-right">
-            {[...row2, ...row2].map((photo, i) => (
-              <div
-                key={i}
-                className="w-[280px] h-[190px] md:w-[380px] md:h-[260px] relative overflow-hidden rounded-2xl shrink-0 group cursor-pointer"
-                style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)" }}
-                onClick={() => {
-                  setLightboxSrc(photo.src);
-                  setLightboxAlt(photo.alt);
-                }}
-              >
-                <img
-                  src={photo.src}
-                  alt={photo.alt}
-                  className="w-full h-full object-cover transition-all duration-700 ease-out grayscale group-hover:grayscale-0 group-hover:scale-105"
+                  className="w-full h-full object-cover transition-all duration-700 ease-out group-hover:scale-105"
                   onError={(e) => {
                     (e.target as HTMLImageElement).style.display = "none";
                   }}
