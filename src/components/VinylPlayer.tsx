@@ -166,18 +166,13 @@ export default function VinylPlayer() {
         boxShadow: "0 12px 32px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.02) inset",
       }}
     >
-      {/* Minimise button — top right of the card */}
-      <button
-        onClick={() => setIsMinimized(true)}
-        title="Minimise player"
-        className="absolute top-2 right-3 text-white/25 hover:text-white/60 transition-colors"
-      >
-        <svg width="14" height="14" viewBox="0 0 12 12" fill="none">
-          <path d="M2 4l4 4 4-4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </button>
+      {/* Click anywhere on the card (except needle) to minimize */}
 
-      <div className="relative flex items-center justify-center pr-10">
+      <div
+        className="relative flex items-center justify-center pr-10 cursor-pointer"
+        onClick={() => setIsMinimized(true)}
+        title="Click to minimise"
+      >
         {/* Ambient glow */}
         <div
           className="absolute inset-0"
@@ -212,7 +207,7 @@ export default function VinylPlayer() {
         {/* Needle */}
         <motion.div
           className="absolute top-0 -right-2 cursor-pointer z-10"
-          onClick={togglePlay}
+          onClick={(e) => { e.stopPropagation(); togglePlay(); }}
           title={isPlaying ? "Lift needle to pause" : "Place needle to play"}
           style={{ transformOrigin: "top center" }}
           animate={{ rotate: isPlaying ? 26 : 0 }}
