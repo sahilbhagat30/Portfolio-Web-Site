@@ -58,7 +58,7 @@ function MagneticLink({
       {label}
       {/* Underline */}
       <span
-        className={`absolute -bottom-0.5 left-0 h-[1px] bg-gradient-to-r from-violet-500 to-cyan-400 transition-all duration-300 ${
+        className={`absolute -bottom-0.5 left-0 h-[1px] bg-gradient-to-r from-[#D4AF37] to-[#F2E3C6] transition-all duration-300 ${
           active ? "w-full" : "w-0 group-hover:w-full"
         }`}
       />
@@ -66,7 +66,7 @@ function MagneticLink({
       {active && (
         <motion.span
           layoutId="nav-dot"
-          className="absolute -bottom-2.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-violet-400"
+          className="absolute -bottom-2.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[#D4AF37]"
         />
       )}
     </a>
@@ -122,7 +122,7 @@ export default function Navbar() {
         transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
           scrolled
-            ? "bg-[rgba(8,8,8,0.85)] backdrop-blur-xl border-b border-white/5 shadow-[0_4px_32px_rgba(0,0,0,0.5)]"
+            ? "bg-[#091A14]/85 backdrop-blur-xl border-b border-[#D4AF37]/10 shadow-[0_4px_32px_rgba(0,0,0,0.5)]"
             : "bg-transparent"
         }`}
       >
@@ -134,9 +134,9 @@ export default function Navbar() {
             className="group flex items-center gap-2 select-none"
           >
             <motion.span
-              className="font-bold tracking-tight text-lg"
+              className="font-bold tracking-tight text-lg font-serif"
               style={{ letterSpacing: "-0.02em" }}
-              animate={{ filter: ["drop-shadow(0 0 8px rgba(168,85,247,0.6))", "drop-shadow(0 0 2px rgba(168,85,247,0.2))", "drop-shadow(0 0 8px rgba(168,85,247,0.6))"] }}
+              animate={{ filter: ["drop-shadow(0 0 8px rgba(212,175,55,0.4))", "drop-shadow(0 0 2px rgba(212,175,55,0.1))", "drop-shadow(0 0 8px rgba(212,175,55,0.4))"] }}
               transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
             >
               {/* Logo text 'SB' removed by request */}
@@ -179,7 +179,7 @@ export default function Navbar() {
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}
             transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-0 z-40 bg-[rgba(8,8,8,0.97)] backdrop-blur-2xl flex flex-col items-center justify-center gap-8 md:hidden"
+            className="fixed inset-0 z-40 bg-[#091A14]/95 backdrop-blur-2xl flex flex-col items-center justify-center gap-8 md:hidden"
           >
             {NAV_LINKS.map((link, i) => (
               <motion.a

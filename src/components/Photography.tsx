@@ -19,7 +19,7 @@ export default function Photography({
   const row = initialPhotos;
 
   return (
-    <section id="photography" className="relative py-32 overflow-hidden bg-[#080808]">
+    <section id="photography" className="relative py-32 overflow-hidden bg-[var(--background)]">
       {/* Injecting marquee animations */}
       <style dangerouslySetInnerHTML={{
         __html: `
@@ -37,16 +37,16 @@ export default function Photography({
         `
       }} />
 
-      {/* Background glow */}
+      {/* Background organic shape */}
       <div
         aria-hidden
-        className="pointer-events-none absolute top-1/2 left-0 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-[0.06]"
-        style={{ background: "radial-gradient(circle, #22d3ee, transparent 70%)" }}
+        className="pointer-events-none absolute top-1/2 left-0 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-[0.2] blur-[120px]"
+        style={{ background: "radial-gradient(circle, #153326, transparent 70%)" }}
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full opacity-[0.06]"
-        style={{ background: "radial-gradient(circle, #a855f7, transparent 70%)" }}
+        className="pointer-events-none absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full opacity-[0.1] blur-[100px]"
+        style={{ background: "radial-gradient(circle, #D4AF37, transparent 70%)" }}
       />
 
       <div className="max-w-7xl mx-auto relative z-10 px-6 md:px-16">
@@ -69,7 +69,7 @@ export default function Photography({
         >
           <div>
             <h2
-              className="text-4xl md:text-5xl font-bold tracking-tight"
+              className="text-4xl md:text-5xl font-bold tracking-tight font-serif"
               style={{ letterSpacing: "-0.02em" }}
             >
               Life out of office
@@ -89,8 +89,8 @@ export default function Photography({
             {[...row, ...row].map((photo, i) => (
               <div
                 key={i}
-                className="w-[225px] h-[400px] md:w-[270px] md:h-[480px] relative overflow-hidden rounded-2xl shrink-0 group cursor-pointer"
-                style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)" }}
+                className="w-[225px] h-[400px] md:w-[270px] md:h-[480px] relative overflow-hidden rounded-sm shrink-0 group cursor-pointer"
+                style={{ background: "rgba(255,255,255,0.04)", border: "4px solid rgba(212,175,55,0.2)", outline: "1px solid rgba(212,175,55,0.5)", outlineOffset: "-4px" }}
                 onClick={() => {
                   setLightboxSrc(photo.src);
                   setLightboxAlt(photo.alt);

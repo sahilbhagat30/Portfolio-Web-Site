@@ -43,11 +43,11 @@ function Particles({ active }: { active: boolean }) {
             width: p.size,
             height: p.size,
             background: p.purple
-              ? "rgba(167,139,250,0.7)"
-              : "rgba(34,211,238,0.7)",
+              ? "rgba(212,175,55,0.7)"
+              : "rgba(124,152,133,0.7)",
             boxShadow: p.purple
-              ? "0 0 6px rgba(167,139,250,0.5)"
-              : "0 0 6px rgba(34,211,238,0.5)",
+              ? "0 0 6px rgba(212,175,55,0.5)"
+              : "0 0 6px rgba(124,152,133,0.5)",
           }}
           animate={active ? {
             y: [0, -15, 5, -10, 0],
@@ -94,7 +94,7 @@ function SparkBurst() {
             width: 3,
             height: 3,
             background: "white",
-            boxShadow: "0 0 8px rgba(200,180,255,0.9), 0 0 16px rgba(120,200,240,0.5)",
+            boxShadow: "0 0 8px rgba(212,175,55,0.9), 0 0 16px rgba(124,152,133,0.5)",
             left: "50%",
             top: "50%",
           }}
@@ -119,7 +119,7 @@ function SparkBurst() {
           x: "-50%",
           y: "-50%",
           background: "white",
-          boxShadow: "0 0 30px rgba(200,180,255,0.8), 0 0 60px rgba(120,200,240,0.4)",
+          boxShadow: "0 0 30px rgba(212,175,55,0.8), 0 0 60px rgba(124,152,133,0.4)",
         }}
         initial={{ scale: 1, opacity: 1 }}
         animate={{ scale: 4, opacity: 0 }}
@@ -132,9 +132,9 @@ function SparkBurst() {
 /* ── Scroll hint labels ── */
 const SCROLL_STATES = [
   { threshold: 0,    text: "scroll to connect ↓", color: "rgba(255,255,255,0.15)" },
-  { threshold: 0.4,  text: "almost there...",      color: "rgba(167,139,250,0.4)" },
-  { threshold: 0.8,  text: "so close...",          color: "rgba(200,180,255,0.5)" },
-  { threshold: 0.95, text: "✦ connected",          color: "rgba(34,211,238,0.7)" },
+  { threshold: 0.4,  text: "almost there...",      color: "rgba(212,175,55,0.4)" },
+  { threshold: 0.8,  text: "so close...",          color: "rgba(212,175,55,0.5)" },
+  { threshold: 0.95, text: "✦ connected",          color: "rgba(124,152,133,0.7)" },
 ];
 
 export default function TheEnd() {
@@ -200,11 +200,11 @@ export default function TheEnd() {
     <section
       ref={sectionRef}
       id="contact"
-      className="relative w-full bg-[#080808] pt-16 pb-20"
+      className="relative w-full bg-[var(--background)] pt-16 pb-20"
     >
       {/* Top divider */}
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 mb-14">
-        <div className="h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(167,139,250,0.35) 30%, rgba(34,211,238,0.25) 70%, transparent)" }} />
+        <div className="h-px" style={{ background: "linear-gradient(90deg, transparent, rgba(212,175,55,0.35) 30%, rgba(124,152,133,0.25) 70%, transparent)" }} />
       </div>
 
       {/* Three-column layout */}
@@ -219,12 +219,12 @@ export default function TheEnd() {
           transition={{ duration: 0.6 }}
         >
           <h2
-            className="font-extrabold leading-[0.9] text-white"
+            className="font-extrabold leading-[0.9] text-white font-serif"
             style={{ fontSize: "clamp(3rem, 4.5vw, 5rem)", letterSpacing: "-0.03em" }}
           >
             THE<br />END
           </h2>
-          <p className="mt-4 font-light text-sm leading-relaxed" style={{ color: "rgba(167,139,250,0.6)" }}>
+          <p className="mt-4 font-light text-sm leading-relaxed" style={{ color: "rgba(212,175,55,0.6)" }}>
             Or the beginning of us<br />working together?
           </p>
         </motion.div>
@@ -243,10 +243,10 @@ export default function TheEnd() {
             borderRadius: "20px",
             overflow: "hidden",
             isolation: "isolate",
-            border: `1px solid ${hasConnected ? "rgba(167,139,250,0.2)" : "rgba(255,255,255,0.06)"}`,
+            border: `1px solid ${hasConnected ? "rgba(212,175,55,0.2)" : "rgba(255,255,255,0.06)"}`,
             background: "#050505",
             boxShadow: hasConnected
-              ? "0 32px 80px rgba(0,0,0,0.65), 0 0 40px rgba(167,139,250,0.08)"
+              ? "0 32px 80px rgba(0,0,0,0.65), 0 0 40px rgba(212,175,55,0.08)"
               : "0 32px 80px rgba(0,0,0,0.65), inset 0 1px 0 rgba(255,255,255,0.03)",
             transition: "border-color 0.6s, box-shadow 0.6s",
           }}
@@ -307,7 +307,7 @@ export default function TheEnd() {
               scale: glowScale,
               width: "160px", height: "160px",
               borderRadius: "50%",
-              background: "radial-gradient(circle, rgba(200,180,255,0.45) 0%, rgba(120,200,240,0.15) 50%, transparent 75%)",
+              background: "radial-gradient(circle, rgba(212,175,55,0.45) 0%, rgba(124,152,133,0.15) 50%, transparent 75%)",
               mixBlendMode: "screen",
             }}
           />
@@ -340,12 +340,12 @@ export default function TheEnd() {
           transition={{ duration: 0.6, delay: 0.1 }}
         >
           <h2
-            className="font-extrabold leading-[0.9] text-white"
+            className="font-extrabold leading-[0.9] text-white font-serif"
             style={{ fontSize: "clamp(3rem, 4.5vw, 5rem)", letterSpacing: "-0.03em" }}
           >
             SAY<br />HEY
           </h2>
-          <p className="mt-4 mb-6 font-light text-sm leading-relaxed" style={{ color: "rgba(34,211,238,0.55)" }}>
+          <p className="mt-4 mb-6 font-light text-sm leading-relaxed" style={{ color: "rgba(212,175,55,0.55)" }}>
             Available for projects, chats<br />or data engineering debates.
           </p>
 
@@ -365,8 +365,8 @@ export default function TheEnd() {
                 style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
                 onMouseEnter={(e) => {
                   const el = e.currentTarget as HTMLElement;
-                  el.style.background = "rgba(167,139,250,0.07)";
-                  el.style.borderColor = "rgba(167,139,250,0.3)";
+                  el.style.background = "rgba(212,175,55,0.07)";
+                  el.style.borderColor = "rgba(212,175,55,0.3)";
                 }}
                 onMouseLeave={(e) => {
                   const el = e.currentTarget as HTMLElement;
@@ -374,7 +374,7 @@ export default function TheEnd() {
                   el.style.borderColor = "rgba(255,255,255,0.06)";
                 }}
               >
-                <span className="text-white/25 group-hover:text-violet-400 transition-colors shrink-0">
+                <span className="text-white/25 group-hover:text-[#D4AF37] transition-colors shrink-0">
                   <Icon size={14} />
                 </span>
                 <div className="min-w-0">

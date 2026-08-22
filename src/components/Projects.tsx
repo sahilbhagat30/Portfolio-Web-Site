@@ -65,9 +65,9 @@ const PROJECT_DATA = [
 ];
 
 const TAG_COLORS: Record<string, { border: string; bg: string; text: string }> = {
-  violet: { border: "rgba(168,85,247,0.35)", bg: "rgba(168,85,247,0.1)",  text: "#c084fc" },
-  cyan:   { border: "rgba(34,211,238,0.35)",  bg: "rgba(34,211,238,0.1)", text: "#67e8f9" },
-  amber:  { border: "rgba(245,158,11,0.35)",  bg: "rgba(245,158,11,0.1)", text: "#fcd34d" },
+  violet: { border: "rgba(212,175,55,0.35)", bg: "rgba(212,175,55,0.1)",  text: "#F2E3C6" },
+  cyan:   { border: "rgba(124,152,133,0.35)",  bg: "rgba(124,152,133,0.1)", text: "#b2d8d8" },
+  amber:  { border: "rgba(176,141,87,0.35)",  bg: "rgba(176,141,87,0.1)", text: "#d4af37" },
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -127,7 +127,7 @@ function TiltProjectCard({ project, index }: { project: typeof PROJECT_DATA[0]; 
 
       {/* Image */}
       <div className="relative aspect-[16/9] overflow-hidden bg-white/5 flex items-center justify-center p-8">
-        <div className="absolute inset-0 bg-gradient-to-t from-[#080808] via-transparent to-transparent z-10 opacity-70 group-hover:opacity-40 transition-opacity duration-500" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[var(--background)] via-transparent to-transparent z-10 opacity-70 group-hover:opacity-40 transition-opacity duration-500" />
         <img
           src={project.image}
           alt={project.title}
@@ -140,13 +140,13 @@ function TiltProjectCard({ project, index }: { project: typeof PROJECT_DATA[0]; 
       <div className="p-6">
         <div className="flex items-start justify-between gap-4 mb-3">
           <h3
-            className="text-xl font-bold text-white group-hover:text-white/90 leading-snug"
+            className="text-xl font-bold text-white group-hover:text-white/90 leading-snug font-serif"
             style={{ letterSpacing: "-0.015em" }}
           >
             {project.title}
           </h3>
           <motion.span
-            className="shrink-0 mt-1 text-white/30 group-hover:text-violet-400"
+            className="shrink-0 mt-1 text-white/30 group-hover:text-[#D4AF37]"
             whileHover={{ x: 2, y: -2 }}
           >
             <ArrowUpRight size={20} />
@@ -203,8 +203,8 @@ export default function Projects() {
     <section id="work" className="relative py-20 md:py-32 px-6 md:px-16 overflow-hidden">
       <div
         aria-hidden
-        className="pointer-events-none absolute top-1/2 right-0 -translate-y-1/2 w-[500px] h-[500px] rounded-full"
-        style={{ background: "radial-gradient(circle, #7c3aed, transparent 70%)", opacity: 0.07, animation: "breathe 9s ease-in-out infinite" }}
+        className="pointer-events-none absolute top-1/2 right-0 -translate-y-1/2 w-[500px] h-[500px] rounded-full blur-[120px]"
+        style={{ background: "radial-gradient(circle, #153326, transparent 70%)", opacity: 0.3 }}
       />
 
       <div className="max-w-7xl mx-auto relative z-10">
@@ -223,11 +223,11 @@ export default function Projects() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-4xl md:text-5xl font-bold mb-10 md:mb-16 tracking-tight"
+          className="text-4xl md:text-5xl font-bold mb-10 md:mb-16 tracking-tight font-serif"
           style={{ letterSpacing: "-0.02em" }}
         >
           Where I&apos;ve{" "}
-          <span className="gradient-text">worked</span>
+          <span className="gradient-text italic font-serif">worked</span>
         </motion.h2>
 
         {/* Featured — tilt */}
@@ -253,8 +253,8 @@ export default function Projects() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 bg-white/5">
             <div className="relative aspect-[4/3] md:aspect-auto overflow-hidden flex items-center justify-center p-12">
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[#080808] z-10 opacity-0 md:opacity-60 group-hover:opacity-30 transition-opacity duration-500" />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#080808] to-transparent z-10 opacity-60 group-hover:opacity-30 transition-opacity duration-500 md:hidden" />
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[var(--background)] z-10 opacity-0 md:opacity-60 group-hover:opacity-30 transition-opacity duration-500" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[var(--background)] to-transparent z-10 opacity-60 group-hover:opacity-30 transition-opacity duration-500 md:hidden" />
               <img
                 src={featured.image}
                 alt={featured.title}
@@ -266,7 +266,7 @@ export default function Projects() {
             <div className="p-8 md:p-12 flex flex-col justify-center">
               <span className="section-label mb-4">Most Recent</span>
               <h3
-                className="text-3xl md:text-4xl font-bold text-white mb-5 leading-tight"
+                className="text-3xl md:text-4xl font-bold text-white mb-5 leading-tight font-serif"
                 style={{ letterSpacing: "-0.02em" }}
               >
                 {featured.title}

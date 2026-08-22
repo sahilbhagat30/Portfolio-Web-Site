@@ -149,8 +149,8 @@ export default function VinylPlayer() {
       transition={{ type: "spring", stiffness: 400, damping: 28 }}
       className="fixed bottom-6 left-6 z-50 flex items-center gap-3 px-3 py-2 rounded-full cursor-pointer select-none"
       style={{
-        background: "#181818",
-        border: "1px solid #2a2a2a",
+        background: "#1E1511", // Deep wood tone
+        border: "1px solid rgba(212,175,55,0.3)", // Gold border
         boxShadow: "0 8px 24px rgba(0,0,0,0.6)",
       }}
       onClick={() => setIsMinimized(false)}
@@ -192,9 +192,9 @@ export default function VinylPlayer() {
         width: "220px",
         height: "220px",
         borderRadius: "28px",
-        background: "#151515",
-        border: "1px solid #262626",
-        boxShadow: "0 24px 48px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.05)",
+        background: "#1E1511", // Deep wood tone
+        border: "1px solid rgba(212,175,55,0.3)", // Gold border
+        boxShadow: "0 24px 48px rgba(0,0,0,0.7), inset 0 1px 0 rgba(212,175,55,0.1)",
       }}
       onClick={() => setIsMinimized(true)}
       title="Click anywhere to minimise"
@@ -246,14 +246,14 @@ export default function VinylPlayer() {
       >
         <svg width="60" height="40" viewBox="0 0 60 40" className="drop-shadow-lg cursor-pointer">
           {/* Pivot */}
-          <circle cx="38" cy="16" r="11" fill="#1e1e1e" stroke="#333" strokeWidth="1.5"/>
+          <circle cx="38" cy="16" r="11" fill="#D4AF37" stroke="#b08d57" strokeWidth="1.5"/>
           <circle cx="38" cy="16" r="6" fill="#141414"/>
-          <circle cx="38" cy="16" r="2" fill="#444"/>
+          <circle cx="38" cy="16" r="2" fill="#D4AF37"/>
           {/* Arm */}
-          <rect x="0" y="13" width="38" height="5" rx="2.5" fill="#2a2a2a" stroke="#111" strokeWidth="0.8"/>
+          <rect x="0" y="13" width="38" height="5" rx="2.5" fill="#e6cd83" stroke="#D4AF37" strokeWidth="0.8"/>
           {/* Headshell tip */}
-          <rect x="-4" y="11" width="10" height="9" rx="2" fill="#1e1e1e" stroke="#3a3a3a" strokeWidth="1"/>
-          <rect x="-1" y="13" width="3" height="6" rx="1" fill="#0a0a0a"/>
+          <rect x="-4" y="11" width="10" height="9" rx="2" fill="#2c1e16" stroke="#D4AF37" strokeWidth="1"/>
+          <rect x="-1" y="13" width="3" height="6" rx="1" fill="#D4AF37"/>
         </svg>
       </motion.div>
     </motion.div>

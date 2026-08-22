@@ -10,9 +10,9 @@ const SKILLS = {
 };
 
 const SKILL_COLORS: Record<string, { border: string; bg: string; text: string }> = {
-  "Data & Cloud":        { border: "rgba(168,85,247,0.4)", bg: "rgba(168,85,247,0.08)", text: "#c084fc" },
-  "BI & Analytics":      { border: "rgba(34,211,238,0.4)", bg: "rgba(34,211,238,0.08)", text: "#67e8f9" },
-  "Programming & Tools": { border: "rgba(245,158,11,0.4)", bg: "rgba(245,158,11,0.08)", text: "#fcd34d" },
+  "Data & Cloud":        { border: "rgba(212,175,55,0.4)", bg: "rgba(212,175,55,0.08)", text: "#F2E3C6" },
+  "BI & Analytics":      { border: "rgba(124,152,133,0.4)", bg: "rgba(124,152,133,0.08)", text: "#b2d8d8" },
+  "Programming & Tools": { border: "rgba(176,141,87,0.4)", bg: "rgba(176,141,87,0.08)", text: "#d4af37" },
 };
 
 const INTERESTS = [
@@ -66,7 +66,7 @@ function CountStat({ num, label }: { num: string; label: string }) {
 
   return (
     <div ref={ref}>
-      <p className="gradient-text font-black text-4xl leading-none mb-1" style={{ fontVariantNumeric: "tabular-nums" }}>
+      <p className="gradient-text font-serif font-black text-4xl leading-none mb-1" style={{ fontVariantNumeric: "tabular-nums" }}>
         {displayed}
       </p>
       <p className="text-white/40 text-xs tracking-widest uppercase">{label}</p>
@@ -145,23 +145,13 @@ function TiltCard({ children, className = "" }: { children: React.ReactNode; cla
 export default function About() {
   return (
     <section id="about" className="relative py-20 md:py-32 px-6 md:px-16 overflow-hidden">
-      {/* Background glow blobs — now breathing */}
+      {/* Background organic shape */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -top-40 left-1/4 w-[600px] h-[600px] rounded-full"
+        className="pointer-events-none absolute -top-40 right-0 w-[600px] h-[600px] rounded-full blur-[120px]"
         style={{
-          background: "radial-gradient(circle, #7c3aed, transparent 70%)",
-          opacity: 0.1,
-          animation: "breathe 8s ease-in-out infinite",
-        }}
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full"
-        style={{
-          background: "radial-gradient(circle, #22d3ee, transparent 70%)",
-          opacity: 0.07,
-          animation: "breathe 10s ease-in-out infinite reverse",
+          background: "radial-gradient(circle, #153326, transparent 70%)",
+          opacity: 0.3,
         }}
       />
 
@@ -187,11 +177,11 @@ export default function About() {
               viewport={{ once: true, amount: 0.4 }}
               custom={1}
               variants={fadeUp}
-              className="text-3xl md:text-5xl font-bold leading-tight tracking-tight mb-6 md:mb-8"
+              className="text-3xl md:text-5xl font-bold leading-tight tracking-tight mb-6 md:mb-8 font-serif"
               style={{ letterSpacing: "-0.02em" }}
             >
               I turn complex data into clear decisions.{" "}
-              <span className="gradient-text">Faster.</span>
+              <span className="gradient-text italic font-serif">Faster.</span>
             </motion.h2>
 
             <motion.p
