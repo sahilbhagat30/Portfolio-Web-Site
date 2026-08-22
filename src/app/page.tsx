@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import About from "@/components/About";
 import Photography from "@/components/Photography";
 import Contact from "@/components/Contact";
+import VinylPlayer from "@/components/VinylPlayer";
 import { getPhotos, getCategories } from "@/utils/getPhotos";
 
 export default function Home() {
@@ -44,6 +45,9 @@ export default function Home() {
 
       {/* Contact & Footer */}
       <Contact />
+
+      {/* Vinyl Music Player */}
+      <VinylPlayer />
     </main>
   );
 }
