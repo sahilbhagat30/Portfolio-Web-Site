@@ -89,23 +89,9 @@ function VinylDisc({ artSrc, id, size = 64 }: { artSrc?: string; id: string; siz
 export default function VinylPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTrack, setCurrentTrack] = useState(0);
-  const [isVisible, setIsVisible] = useState(false);
-  const [isMinimized, setIsMinimized] = useState(false);
+  const [isVisible] = useState(true);       // always visible
+  const [isMinimized, setIsMinimized] = useState(true); // starts minimized
 
-  // Show after About section
-  useEffect(() => {
-    const handleScroll = () => {
-      const aboutEl = document.getElementById("about");
-      if (aboutEl) {
-        setIsVisible(window.scrollY >= aboutEl.offsetTop - window.innerHeight * 0.8);
-      } else {
-        setIsVisible(window.scrollY > window.innerHeight * 0.8);
-      }
-    };
-    handleScroll();
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const vinylRotation = useMotionValue(0);
