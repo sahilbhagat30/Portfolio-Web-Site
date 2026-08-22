@@ -4,7 +4,7 @@ import { useRef, useEffect, useState } from "react";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 
 /* ── Typewriter cycling roles ── */
-const ROLES = ["Data Analyst", "BI Engineer", "Storyteller", "Problem Solver", "Pipeline Builder"];
+const ROLES = ["Analytics Engineer", "Data Engineer", "Pipeline Builder", "Data Architect", "Problem Solver"];
 
 function useTypewriter(words: string[], speed = 80, pause = 1800) {
   const [displayed, setDisplayed] = useState("");
@@ -154,7 +154,7 @@ export default function Overlay() {
         {/* ── Section 1: Name ── */}
         <motion.div
           style={{ opacity: opacity1, y: y1 }}
-          className="absolute inset-0 flex flex-col px-5 md:px-14 pointer-events-auto justify-start md:justify-center pt-24 pb-12 md:py-0"
+          className="absolute inset-0 flex flex-col px-5 md:px-14 pointer-events-auto justify-start md:justify-center pt-14 pb-12 md:py-0"
         >
           {/* Decorative left accent line — hidden on mobile */}
           <motion.div
@@ -176,7 +176,7 @@ export default function Overlay() {
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.55, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
                   className="font-black uppercase leading-none tracking-tight text-white m-0"
-                  style={{ fontSize: "clamp(2.8rem, 10vw, 6rem)", letterSpacing: "-0.03em" }}
+                  style={{ fontSize: "clamp(2.3rem, 10vw, 6rem)", letterSpacing: "-0.03em" }}
                 >
                   Sahil
                 </motion.h1>
@@ -187,7 +187,7 @@ export default function Overlay() {
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.68, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
                   className="font-black uppercase leading-none tracking-tight gradient-text m-0"
-                  style={{ fontSize: "clamp(2.8rem, 10vw, 6rem)", letterSpacing: "-0.03em" }}
+                  style={{ fontSize: "clamp(2.3rem, 10vw, 6rem)", letterSpacing: "-0.03em" }}
                 >
                   Bhagat
                 </motion.h1>
@@ -242,17 +242,16 @@ export default function Overlay() {
               className="text-white font-bold m-0 leading-[1.1]"
               style={{ fontSize: "clamp(1.6rem, 5.5vw, 3.8rem)", letterSpacing: "-0.025em" }}
             >
-              I close the gap between{" "}
-              <span className="gradient-text">data</span>
+              I architect <span className="gradient-text">data</span>
               <br />
-              and decision-making.
+              for scale & impact.
             </h2>
             <p className="mt-6 text-white/45 max-w-xs leading-relaxed" style={{ fontSize: "clamp(0.85rem, 1.1vw, 1rem)" }}>
-              Building the pipelines that make data reliable and shaping the dashboards that make it digestible.
+              Building robust data pipelines, scalable models, and performance-optimized solutions that drive technical excellence.
             </p>
 
             <div className="mt-8 flex flex-wrap gap-2">
-              {["Snowflake", "dbt", "Power BI", "Looker", "BigQuery", "Tableau"].map((tool, i) => (
+              {["Snowflake", "dbt", "Python", "Airflow", "BigQuery", "SQL"].map((tool, i) => (
                 <motion.span
                   key={tool}
                   initial={{ opacity: 0, scale: 0.8 }}

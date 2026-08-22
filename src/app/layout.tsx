@@ -8,8 +8,8 @@ import AmbientCanvas from "@/components/AmbientCanvas";
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
 export const metadata: Metadata = {
-  title: "Sahil Bhagat | Data Analyst & BI Engineer",
-  description: "Data Analyst and Business Intelligence Engineer building scalable data models, dashboards, and performance-optimized reporting solutions.",
+  title: "Sahil Bhagat | Analytics Engineer",
+  description: "Analytics Engineer and Data Engineer building scalable pipelines, robust data models, and performance-optimized analytics solutions.",
 };
 
 export default function RootLayout({
