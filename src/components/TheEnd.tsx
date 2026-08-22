@@ -81,7 +81,7 @@ function SparkBurst() {
   return (
     <motion.div
       className="absolute pointer-events-none z-20"
-      style={{ top: "42%", left: "50%", x: "-50%", y: "-50%" }}
+      style={{ top: "50%", left: "50%", x: "-50%", y: "-50%" }}
       initial={{ opacity: 1 }}
       animate={{ opacity: 0 }}
       transition={{ duration: 1.2, ease: "easeOut" }}
@@ -231,30 +231,12 @@ export default function TheEnd() {
             transition: "border-color 0.6s, box-shadow 0.6s",
           }}
         >
-          {/* Ticker bar */}
-          <div
-            className="absolute top-0 left-0 w-full z-20 flex items-center overflow-hidden"
-            style={{ height: "26px", background: "rgba(0,0,0,0.55)", borderBottom: "1px solid rgba(255,255,255,0.04)", backdropFilter: "blur(8px)" }}
-          >
-            <motion.span
-              className="flex whitespace-nowrap gap-12 uppercase"
-              style={{ fontSize: "7px", letterSpacing: "0.15em", color: "rgba(255,255,255,0.18)" }}
-              animate={{ x: [0, -700] }}
-              transition={{ repeat: Infinity, duration: 22, ease: "linear" }}
-            >
-              {[...Array(14)].map((_, i) => (
-                <span key={i} className="flex items-center gap-12">
-                  And... that was my portfolio
-                  <span className="w-[3px] h-[3px] rounded-full inline-block" style={{ background: "rgba(167,139,250,0.5)" }} />
-                </span>
-              ))}
-            </motion.span>
-          </div>
+
 
           {/* LEFT HALF — slides in from left */}
           <motion.div
             className="absolute top-0 left-0 w-1/2 h-full overflow-hidden"
-            style={{ x: leftX }}
+            style={{ x: leftX, mixBlendMode: "screen" }}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
@@ -267,16 +249,17 @@ export default function TheEnd() {
                 maxWidth: "none",
                 objectFit: "cover",
                 objectPosition: "left center",
-                filter: "sepia(1) hue-rotate(248deg) saturate(2) brightness(0.6) contrast(1.15)",
-                mixBlendMode: "screen",
+                filter: "brightness(0.9) contrast(1.5)",
               }}
             />
+            {/* Color tint */}
+            <div className="absolute inset-0 bg-violet-400 mix-blend-color pointer-events-none" />
           </motion.div>
 
           {/* RIGHT HALF — slides in from right */}
           <motion.div
             className="absolute top-0 right-0 w-1/2 h-full overflow-hidden"
-            style={{ x: rightX }}
+            style={{ x: rightX, mixBlendMode: "screen" }}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
@@ -289,10 +272,11 @@ export default function TheEnd() {
                 maxWidth: "none",
                 objectFit: "cover",
                 objectPosition: "right center",
-                filter: "sepia(1) hue-rotate(160deg) saturate(2) brightness(0.6) contrast(1.15)",
-                mixBlendMode: "screen",
+                filter: "brightness(0.9) contrast(1.5)",
               }}
             />
+            {/* Color tint */}
+            <div className="absolute inset-0 bg-cyan-400 mix-blend-color pointer-events-none" />
           </motion.div>
 
           {/* Floating particles between hands */}
@@ -302,7 +286,7 @@ export default function TheEnd() {
           <motion.div
             className="absolute pointer-events-none z-10"
             style={{
-              top: "42%", left: "50%", x: "-50%", y: "-50%",
+              top: "50%", left: "50%", x: "-50%", y: "-50%",
               opacity: glowOpacity,
               scale: glowScale,
               width: "160px", height: "160px",
@@ -317,25 +301,7 @@ export default function TheEnd() {
             {showSparks && <SparkBurst />}
           </AnimatePresence>
 
-          {/* Scroll hint label */}
-          <AnimatePresence mode="wait">
-            <motion.p
-              key={scrollState}
-              className="absolute bottom-4 left-1/2 z-20 pointer-events-none select-none uppercase text-center"
-              style={{
-                fontSize: "9px",
-                letterSpacing: "0.18em",
-                color: currentLabel.color,
-                x: "-50%",
-              }}
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.3 }}
-            >
-              {currentLabel.text}
-            </motion.p>
-          </AnimatePresence>
+
 
           {/* Vignette */}
           <div
