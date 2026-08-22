@@ -6,7 +6,7 @@ const dir = path.join(process.cwd(), 'public', 'sequence');
 
 async function processFiles() {
   const files = fs.readdirSync(dir).filter(f => f.endsWith('.png'));
-  console.log(`Found ${files.length} PNG files. Starting conversion to WebP...`);
+  console.log(`Found ${files.length} PNG files. Starting HIGH QUALITY conversion to WebP...`);
   
   let totalSaved = 0;
   
@@ -15,7 +15,11 @@ async function processFiles() {
     const outputPath = path.join(dir, file.replace('.png', '.webp'));
     
     const info = await sharp(inputPath)
-      .webp({ quality: 75 }) // Good balance of quality and size
+      .webp({ 
+        quality: 92, // Much higher quality than before
+        smartSubsample: true, // Better color resolution
+        effort: 6 // Max compression effort without losing quality
+      })
       .toFile(outputPath);
       
     const originalSize = fs.statSync(inputPath).size;
@@ -24,7 +28,6 @@ async function processFiles() {
     
     // Delete original PNG
     fs.unlinkSync(inputPath);
-    console.log(`Converted ${file} -> saved ${(originalSize - newSize) / 1024 | 0} KB`);
   }
   
   console.log(`\nAll done! Total space saved: ${totalSaved / 1024 / 1024 | 0} MB`);
