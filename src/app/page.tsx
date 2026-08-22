@@ -6,6 +6,7 @@ import Navbar from "@/components/Navbar";
 import About from "@/components/About";
 import Photography from "@/components/Photography";
 import Contact from "@/components/Contact";
+import TheEnd from "@/components/TheEnd";
 import VinylPlayer from "@/components/VinylPlayer";
 import { getPhotos, getCategories } from "@/utils/getPhotos";
 
@@ -43,8 +44,8 @@ export default function Home() {
       {/* Photography */}
       <Photography initialPhotos={photos} categories={categories} />
 
-      {/* Contact & Footer */}
-      <Contact />
+      {/* Contact & Footer (New Michelangelo Hands layout) */}
+      <TheEnd />
 
       {/* Vinyl Music Player */}
       <VinylPlayer />
