@@ -1,14 +1,16 @@
+import dynamic from "next/dynamic";
 import ScrollyCanvas from "@/components/ScrollyCanvas";
 import Overlay from "@/components/Overlay";
-import Projects from "@/components/Projects";
-import PersonalProjects from "@/components/PersonalProjects";
 import Navbar from "@/components/Navbar";
-import About from "@/components/About";
-import Photography from "@/components/Photography";
-import Contact from "@/components/Contact";
-import TheEnd from "@/components/TheEnd";
-import VinylPlayer from "@/components/VinylPlayer";
 import { getPhotos } from "@/utils/getPhotos";
+
+// Dynamically load below-the-fold components to reduce initial bundle size
+const About = dynamic(() => import("@/components/About"));
+const Projects = dynamic(() => import("@/components/Projects"));
+const PersonalProjects = dynamic(() => import("@/components/PersonalProjects"));
+const Photography = dynamic(() => import("@/components/Photography"));
+const TheEnd = dynamic(() => import("@/components/TheEnd"));
+const VinylPlayer = dynamic(() => import("@/components/VinylPlayer"));
 
 export default function Home() {
   const photos = getPhotos();

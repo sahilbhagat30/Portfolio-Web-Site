@@ -101,6 +101,7 @@ export default function Photography({
                   alt={photo.alt}
                   fill
                   sizes="(max-width: 768px) 225px, 270px"
+                  priority={i < 3}
                   className="object-cover transition-all duration-700 ease-out group-hover:scale-105"
                   quality={85}
                 />
