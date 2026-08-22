@@ -1,7 +1,7 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
-import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { useRef, useState, useEffect, useCallback } from "react";
+import { motion, useScroll, useTransform, useSpring, useMotionValueEvent, AnimatePresence } from "framer-motion";
 import { SOCIAL_LINKS } from "./SocialLinks";
 
 function useBasePath() {
@@ -19,9 +19,130 @@ function useBasePath() {
   return bp;
 }
 
+/* ── Floating particles between the hands ── */
+function Particles({ active }: { active: boolean }) {
+  const particles = Array.from({ length: 12 }, (_, i) => ({
+    id: i,
+    x: 45 + Math.random() * 10,           // clustered near center
+    y: 20 + Math.random() * 60,
+    size: 1 + Math.random() * 2.5,
+    duration: 2 + Math.random() * 3,
+    delay: Math.random() * 2,
+    purple: Math.random() > 0.5,
+  }));
+
+  return (
+    <div className="absolute inset-0 pointer-events-none z-10 overflow-hidden">
+      {particles.map((p) => (
+        <motion.div
+          key={p.id}
+          className="absolute rounded-full"
+          style={{
+            left: `${p.x}%`,
+            top: `${p.y}%`,
+            width: p.size,
+            height: p.size,
+            background: p.purple
+              ? "rgba(167,139,250,0.7)"
+              : "rgba(34,211,238,0.7)",
+            boxShadow: p.purple
+              ? "0 0 6px rgba(167,139,250,0.5)"
+              : "0 0 6px rgba(34,211,238,0.5)",
+          }}
+          animate={active ? {
+            y: [0, -15, 5, -10, 0],
+            x: [0, 8, -6, 4, 0],
+            opacity: [0, 0.8, 0.5, 0.9, 0],
+            scale: [0.5, 1.2, 0.8, 1, 0.5],
+          } : { opacity: 0 }}
+          transition={{
+            duration: p.duration,
+            delay: p.delay,
+            repeat: Infinity,
+            ease: "easeInOut",
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
+/* ── Electric spark burst on connection ── */
+function SparkBurst() {
+  const sparks = Array.from({ length: 8 }, (_, i) => {
+    const angle = (i / 8) * Math.PI * 2;
+    return {
+      id: i,
+      endX: Math.cos(angle) * (30 + Math.random() * 20),
+      endY: Math.sin(angle) * (20 + Math.random() * 15),
+    };
+  });
+
+  return (
+    <motion.div
+      className="absolute pointer-events-none z-20"
+      style={{ top: "42%", left: "50%", x: "-50%", y: "-50%" }}
+      initial={{ opacity: 1 }}
+      animate={{ opacity: 0 }}
+      transition={{ duration: 1.2, ease: "easeOut" }}
+    >
+      {sparks.map((s) => (
+        <motion.div
+          key={s.id}
+          className="absolute rounded-full"
+          style={{
+            width: 3,
+            height: 3,
+            background: "white",
+            boxShadow: "0 0 8px rgba(200,180,255,0.9), 0 0 16px rgba(120,200,240,0.5)",
+            left: "50%",
+            top: "50%",
+          }}
+          initial={{ x: 0, y: 0, scale: 1, opacity: 1 }}
+          animate={{
+            x: s.endX,
+            y: s.endY,
+            scale: 0,
+            opacity: 0,
+          }}
+          transition={{ duration: 0.6 + Math.random() * 0.3, ease: "easeOut" }}
+        />
+      ))}
+      {/* Central flash */}
+      <motion.div
+        className="absolute rounded-full"
+        style={{
+          width: 8,
+          height: 8,
+          left: "50%",
+          top: "50%",
+          x: "-50%",
+          y: "-50%",
+          background: "white",
+          boxShadow: "0 0 30px rgba(200,180,255,0.8), 0 0 60px rgba(120,200,240,0.4)",
+        }}
+        initial={{ scale: 1, opacity: 1 }}
+        animate={{ scale: 4, opacity: 0 }}
+        transition={{ duration: 0.8, ease: "easeOut" }}
+      />
+    </motion.div>
+  );
+}
+
+/* ── Scroll hint labels ── */
+const SCROLL_STATES = [
+  { threshold: 0,    text: "scroll to connect ↓", color: "rgba(255,255,255,0.15)" },
+  { threshold: 0.4,  text: "almost there...",      color: "rgba(167,139,250,0.4)" },
+  { threshold: 0.8,  text: "so close...",          color: "rgba(200,180,255,0.5)" },
+  { threshold: 0.95, text: "✦ connected",          color: "rgba(34,211,238,0.7)" },
+];
+
 export default function TheEnd() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const basePath = useBasePath();
+  const [scrollState, setScrollState] = useState(0);
+  const [hasConnected, setHasConnected] = useState(false);
+  const [showSparks, setShowSparks] = useState(false);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
@@ -30,15 +151,31 @@ export default function TheEnd() {
 
   const progress = useSpring(scrollYProgress, { stiffness: 50, damping: 25 });
 
-  // Left half slides from -100% (fully off left) to 0% (in place)
-  const leftX = useTransform(progress, [0, 1], ["-100%", "0%"]);
-  // Right half slides from +100% (fully off right) to 0% (in place)
-  const rightX = useTransform(progress, [0, 1], ["100%", "0%"]);
+  // Track scroll state for labels + connection event
+  useMotionValueEvent(progress, "change", useCallback((v: number) => {
+    let idx = 0;
+    for (let i = SCROLL_STATES.length - 1; i >= 0; i--) {
+      if (v >= SCROLL_STATES[i].threshold) { idx = i; break; }
+    }
+    setScrollState(idx);
 
-  // Subtle glow at meeting point
-  const glowOpacity = useTransform(progress, [0.8, 1], [0, 0.6]);
+    if (v >= 0.95 && !hasConnected) {
+      setHasConnected(true);
+      setShowSparks(true);
+      setTimeout(() => setShowSparks(false), 1200);
+    }
+    if (v < 0.8) {
+      setHasConnected(false);
+    }
+  }, [hasConnected]));
+
+  const leftX = useTransform(progress, [0, 1], ["-100%", "0%"]);
+  const rightX = useTransform(progress, [0, 1], ["100%", "0%"]);
+  const glowOpacity = useTransform(progress, [0.7, 1], [0, 0.65]);
+  const glowScale = useTransform(progress, [0.7, 1], [0.6, 1]);
 
   const imgUrl = `${basePath}/assets/hands_wide.jpg`;
+  const currentLabel = SCROLL_STATES[scrollState];
 
   return (
     <section
@@ -86,9 +223,12 @@ export default function TheEnd() {
             borderRadius: "20px",
             overflow: "hidden",
             isolation: "isolate",
-            border: "1px solid rgba(255,255,255,0.06)",
+            border: `1px solid ${hasConnected ? "rgba(167,139,250,0.2)" : "rgba(255,255,255,0.06)"}`,
             background: "#050505",
-            boxShadow: "0 32px 80px rgba(0,0,0,0.65), inset 0 1px 0 rgba(255,255,255,0.03)",
+            boxShadow: hasConnected
+              ? "0 32px 80px rgba(0,0,0,0.65), 0 0 40px rgba(167,139,250,0.08)"
+              : "0 32px 80px rgba(0,0,0,0.65), inset 0 1px 0 rgba(255,255,255,0.03)",
+            transition: "border-color 0.6s, box-shadow 0.6s",
           }}
         >
           {/* Ticker bar */}
@@ -110,15 +250,6 @@ export default function TheEnd() {
               ))}
             </motion.span>
           </div>
-
-          {/*
-            Each half-panel is 50% wide and contains a full-width image.
-            The image is 200% the panel width → shows exactly one half.
-            Left panel: image aligned left → shows left half of the image.
-            Right panel: image aligned right → shows right half.
-            Both panels slide in from their respective sides on scroll.
-            mix-blend-mode: screen on the img makes black areas transparent.
-          */}
 
           {/* LEFT HALF — slides in from left */}
           <motion.div
@@ -164,22 +295,51 @@ export default function TheEnd() {
             />
           </motion.div>
 
-          {/* Subtle glow at touch point */}
+          {/* Floating particles between hands */}
+          <Particles active={scrollState >= 1} />
+
+          {/* Glow at touch point */}
           <motion.div
             className="absolute pointer-events-none z-10"
             style={{
               top: "42%", left: "50%", x: "-50%", y: "-50%",
               opacity: glowOpacity,
-              width: "140px", height: "140px",
+              scale: glowScale,
+              width: "160px", height: "160px",
               borderRadius: "50%",
-              background: "radial-gradient(circle, rgba(200,180,255,0.4) 0%, rgba(120,200,240,0.15) 50%, transparent 75%)",
+              background: "radial-gradient(circle, rgba(200,180,255,0.45) 0%, rgba(120,200,240,0.15) 50%, transparent 75%)",
               mixBlendMode: "screen",
             }}
           />
 
+          {/* Spark burst on connection */}
+          <AnimatePresence>
+            {showSparks && <SparkBurst />}
+          </AnimatePresence>
+
+          {/* Scroll hint label */}
+          <AnimatePresence mode="wait">
+            <motion.p
+              key={scrollState}
+              className="absolute bottom-4 left-1/2 z-20 pointer-events-none select-none uppercase text-center"
+              style={{
+                fontSize: "9px",
+                letterSpacing: "0.18em",
+                color: currentLabel.color,
+                x: "-50%",
+              }}
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -6 }}
+              transition={{ duration: 0.3 }}
+            >
+              {currentLabel.text}
+            </motion.p>
+          </AnimatePresence>
+
           {/* Vignette */}
           <div
-            className="absolute inset-0 pointer-events-none z-10"
+            className="absolute inset-0 pointer-events-none z-[5]"
             style={{ background: "radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.45) 100%)" }}
           />
 
