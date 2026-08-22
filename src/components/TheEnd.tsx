@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState, useEffect, useCallback } from "react";
-import { motion, useScroll, useTransform, useSpring, useMotionValueEvent, AnimatePresence } from "framer-motion";
+import { motion, useScroll, useTransform, useSpring, useMotionValueEvent, AnimatePresence, useMotionValue } from "framer-motion";
 import { SOCIAL_LINKS } from "./SocialLinks";
 
 function useBasePath() {
@@ -145,12 +145,30 @@ export default function TheEnd() {
   const [hasConnected, setHasConnected] = useState(false);
   const [showSparks, setShowSparks] = useState(false);
 
-  const { scrollYProgress } = useScroll({
+  const { scrollYProgress: desktopProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end end"],
+  });
+
+  const { scrollYProgress: mobileProgress } = useScroll({
     target: canvasRef,
     offset: ["start 90%", "end 50%"],
   });
 
-  const progress = useSpring(scrollYProgress, { stiffness: 50, damping: 25 });
+  const rawProgress = useMotionValue(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 1024);
+    check();
+    window.addEventListener("resize", check);
+    return () => window.removeEventListener("resize", check);
+  }, []);
+
+  useMotionValueEvent(desktopProgress, "change", (v) => { if (!isMobile) rawProgress.set(v); });
+  useMotionValueEvent(mobileProgress, "change", (v) => { if (isMobile) rawProgress.set(v); });
+
+  const progress = useSpring(rawProgress, { stiffness: 50, damping: 25 });
 
   // Track scroll state for labels + connection event
   useMotionValueEvent(progress, "change", useCallback((v: number) => {
