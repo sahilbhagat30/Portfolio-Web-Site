@@ -220,9 +220,9 @@ export default function Overlay() {
                 transition={{ delay: 0.9, duration: 0.6 }}
                 className="mt-6 md:mt-10 flex gap-5 md:gap-8"
               >
-                <StatItem value="5+" label="Years exp." />
-                <StatItem value="$400K+" label="Cost saved" />
-                <StatItem value="150+" label="Global facilities" />
+                <StatItem value="5+" label="Years Experience" />
+                <StatItem value="4+" label="Global Orgs" />
+                <StatItem value="$400K+" label="Savings Identified" />
               </motion.div>
 
               <ScrollCue />
@@ -247,11 +247,11 @@ export default function Overlay() {
               for scale & impact.
             </h2>
             <p className="mt-6 text-white/45 max-w-xs leading-relaxed" style={{ fontSize: "clamp(0.85rem, 1.1vw, 1rem)" }}>
-              Building robust data pipelines, scalable models, and performance-optimized solutions that drive technical excellence.
+              Designing cloud data warehouses, building orchestration pipelines, and creating BI reporting dashboards that drive decisions.
             </p>
 
             <div className="mt-8 flex flex-wrap gap-2">
-              {["Snowflake", "dbt", "Python", "Airflow", "BigQuery", "SQL"].map((tool, i) => (
+              {["Snowflake", "BigQuery", "dbt", "Airflow", "Dagster", "Power BI", "Python", "SQL"].map((tool, i) => (
                 <motion.span
                   key={tool}
                   initial={{ opacity: 0, scale: 0.8 }}
