@@ -125,8 +125,8 @@ export default function Overlay() {
   const [scrollRange, setScrollRange] = useState(4000);
 
   useEffect(() => {
-    // Hero is 300vh tall, viewport is 100vh. Scrollable distance is 200vh.
-    const handleResize = () => setScrollRange(window.innerHeight * 2);
+    // Hero is 150vh tall, viewport is 100vh. Scrollable distance is 50vh.
+    const handleResize = () => setScrollRange(window.innerHeight * 0.5);
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -135,9 +135,9 @@ export default function Overlay() {
   const { scrollY } = useScroll();
   const scrollYProgress = useTransform(scrollY, [0, scrollRange], [0, 1]);
 
-  // Section 1: Hero (0% → 30%)
-  const opacity1 = useTransform(scrollYProgress, [0, 0.15, 0.3, 1], [1, 1, 0, 0]);
-  const y1 = useTransform(scrollYProgress, [0, 0.3, 1], [0, -30, -30]);
+  // Section 1: Hero (fades out as you scroll down the 50vh)
+  const opacity1 = useTransform(scrollYProgress, [0, 0.8, 1], [1, 1, 0]);
+  const y1 = useTransform(scrollYProgress, [0, 1], [0, -50]);
 
   return (
     <div ref={containerRef} className="h-full w-full pointer-events-none z-10">

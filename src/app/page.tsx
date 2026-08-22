@@ -21,7 +21,7 @@ export default function Home() {
       <Navbar />
 
       {/* Scrollytelling Hero */}
-      <div className="relative h-[300vh] flex md:flex-row" id="hero">
+      <div className="relative h-[150vh] flex md:flex-row" id="hero">
         {/* Left: Overlay (Full width on mobile, half on desktop) */}
         <div className="absolute md:relative w-full md:w-1/2 h-full z-20 pointer-events-none md:pointer-events-auto">
           <Overlay />
