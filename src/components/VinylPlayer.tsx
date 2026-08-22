@@ -10,9 +10,6 @@ interface Track {
   art?: string; // Optional album art image path
 }
 
-// ─── Add your tracks here ──────────────────────────────────────────────────
-// Drop audio files into /public/music/ and update this list.
-// Drop album art (jpg/png) into /public/music/ and set the art path.
 // basePath is set via next.config.ts at build time
 const basePath = typeof window !== "undefined" && window.location.hostname === "localhost" ? "" : "/Portfolio-Web-Site";
 
@@ -21,31 +18,39 @@ const TRACKS: Track[] = [
   { title: "Track 2", artist: "Artist", file: `${basePath}/music/track2.mp3`, art: `${basePath}/music/art2.png` },
   { title: "Track 3", artist: "Artist", file: `${basePath}/music/track3.mp3`, art: `${basePath}/music/art3.png` },
 ];
-// ──────────────────────────────────────────────────────────────────────────
 
 // ─── Reusable Vinyl Disc SVG ─────────────────────────────────────────────
 function VinylDisc({ artSrc, id, size = 64 }: { artSrc?: string; id: string; size?: number }) {
   const cx = size / 2;
-  const labelR = (size / 64) * 10;
+  const labelR = (size / 64) * 16; // slightly larger label to match image
   const clipId = `clip-${id}`;
 
   return (
-    <svg viewBox={`0 0 ${size} ${size}`} className="w-full h-full drop-shadow-[0_4px_16px_rgba(168,85,247,0.2)]">
+    <svg viewBox={`0 0 ${size} ${size}`} className="w-full h-full drop-shadow-[0_8px_16px_rgba(0,0,0,0.5)]">
       {/* Outer record */}
-      <circle cx={cx} cy={cx} r={cx - 1} fill="#111" />
+      <circle cx={cx} cy={cx} r={cx - 2} fill="#0a0a0a" stroke="#1a1a1a" strokeWidth="1" />
+      
       {/* Grooves */}
-      {[0.94, 0.81, 0.69, 0.56, 0.44].map((ratio, i) => (
-        <circle key={i} cx={cx} cy={cx} r={(cx - 1) * ratio} fill="none" stroke="#1a1a1a" strokeWidth="0.6" />
+      {[0.88, 0.78, 0.68, 0.58, 0.48].map((ratio, i) => (
+        <circle key={i} cx={cx} cy={cx} r={(cx - 2) * ratio} fill="none" stroke="#161616" strokeWidth="1.5" />
       ))}
+
+      {/* Crescent highlight on the left edge */}
+      <path 
+        d={`M ${cx - cx*0.8} ${cx - cx*0.3} A ${cx*0.85} ${cx*0.85} 0 0 0 ${cx - cx*0.8} ${cx + cx*0.3}`} 
+        fill="none" 
+        stroke="rgba(255,255,255,0.06)" 
+        strokeWidth={size*0.02} 
+        strokeLinecap="round" 
+      />
 
       <defs>
         <clipPath id={clipId}>
           <circle cx={cx} cy={cx} r={labelR} />
         </clipPath>
         <radialGradient id={`grad-${id}`} cx="40%" cy="35%">
-          <stop offset="0%" stopColor="#7c3aed" />
-          <stop offset="60%" stopColor="#4f46e5" />
-          <stop offset="100%" stopColor="#1e1b4b" />
+          <stop offset="0%" stopColor="#222" />
+          <stop offset="100%" stopColor="#111" />
         </radialGradient>
       </defs>
 
@@ -65,22 +70,7 @@ function VinylDisc({ artSrc, id, size = 64 }: { artSrc?: string; id: string; siz
       )}
 
       {/* Center hole */}
-      <circle cx={cx} cy={cx} r={(size / 64) * 2.5} fill="#080808" />
-
-      {/* SB text only when no art */}
-      {!artSrc && (
-        <text
-          x={cx} y={cx + (size / 64) * 3}
-          textAnchor="middle"
-          fill="white"
-          fontSize={(size / 64) * 5}
-          fontWeight="900"
-          fontFamily="system-ui"
-          letterSpacing="-0.5"
-        >
-          SB
-        </text>
-      )}
+      <circle cx={cx} cy={cx} r={(size / 64) * 3} fill="#050505" stroke="#111" strokeWidth="1" />
     </svg>
   );
 }
@@ -90,9 +80,8 @@ function VinylDisc({ artSrc, id, size = 64 }: { artSrc?: string; id: string; siz
 export default function VinylPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTrack, setCurrentTrack] = useState(0);
-  const [isVisible] = useState(true);       // always visible
-  const [isMinimized, setIsMinimized] = useState(true); // starts minimized
-
+  const [isVisible] = useState(true);
+  const [isMinimized, setIsMinimized] = useState(true);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const vinylRotation = useMotionValue(0);
@@ -150,42 +139,39 @@ export default function VinylPlayer() {
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.8 }}
       transition={{ type: "spring", stiffness: 400, damping: 28 }}
-      className="fixed bottom-6 left-6 z-50 flex items-center gap-2 px-3 py-2 rounded-full cursor-pointer select-none"
+      className="fixed bottom-6 left-6 z-50 flex items-center gap-3 px-3 py-2 rounded-full cursor-pointer select-none"
       style={{
-        background: "rgba(28,20,48,0.88)",
-        border: "1px solid rgba(168,85,247,0.45)",
-        backdropFilter: "blur(16px)",
-        boxShadow: "0 0 0 1px rgba(168,85,247,0.08) inset, 0 8px 32px rgba(99,57,200,0.25), 0 2px 8px rgba(0,0,0,0.5)",
+        background: "#181818",
+        border: "1px solid #2a2a2a",
+        boxShadow: "0 8px 24px rgba(0,0,0,0.6)",
       }}
       onClick={() => setIsMinimized(false)}
       title="Expand player"
     >
-      {/* Tiny spinning vinyl */}
-      <motion.div style={{ rotate: vinylRotation }} className="w-6 h-6 shrink-0">
+      <motion.div style={{ rotate: vinylRotation }} className="w-8 h-8 shrink-0">
         <VinylDisc artSrc={TRACKS[currentTrack].art} id="mini" size={64} />
       </motion.div>
 
-      {/* Playing pulse dot or static dot */}
-      <div className="flex items-center gap-1">
+      <div className="flex items-center gap-1 pr-2">
         {isPlaying ? (
           <>
             {[0, 0.15, 0.3].map((delay) => (
               <motion.div
                 key={delay}
-                className="w-0.5 rounded-full bg-violet-400"
-                animate={{ height: ["4px", "12px", "4px"] }}
+                className="w-1 rounded-sm bg-white/60"
+                animate={{ height: ["4px", "14px", "4px"] }}
                 transition={{ duration: 0.8, repeat: Infinity, delay, ease: "easeInOut" }}
               />
             ))}
           </>
         ) : (
-          <div className="w-0.5 h-3 rounded-full bg-white/20" />
+          <div className="w-1 h-3 rounded-sm bg-white/20" />
         )}
       </div>
     </motion.div>
   );
 
-  // The full player shown when maximized
+  // The full player shown when maximized (matte dark UI as requested)
   const FullPlayer = () => (
     <motion.div
       key="full"
@@ -193,58 +179,73 @@ export default function VinylPlayer() {
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: 20, scale: 0.9 }}
       transition={{ type: "spring", stiffness: 380, damping: 28 }}
-      className="fixed bottom-6 left-6 z-50 flex items-center justify-center p-4 rounded-[2rem] select-none"
+      className="fixed bottom-6 left-6 z-50 overflow-hidden cursor-pointer select-none"
       style={{
-        background: "rgba(28,20,48,0.88)",
-        border: "1px solid rgba(168,85,247,0.45)",
-        backdropFilter: "blur(16px)",
-        boxShadow: "0 0 0 1px rgba(168,85,247,0.08) inset, 0 8px 32px rgba(99,57,200,0.25), 0 2px 8px rgba(0,0,0,0.5)",
+        width: "280px",
+        height: "170px",
+        borderRadius: "28px",
+        background: "#151515",
+        border: "1px solid #262626",
+        boxShadow: "0 24px 48px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.05)",
       }}
+      onClick={() => setIsMinimized(true)}
+      title="Click anywhere to minimise"
     >
-      {/* Click anywhere on the card (except needle) to minimize */}
-
-      <div
-        className="relative flex items-center justify-center pr-10 cursor-pointer"
-        onClick={() => setIsMinimized(true)}
-        title="Click to minimise"
+      {/* Vinyl Disc positioned on the left, bleeding off slightly */}
+      <motion.div 
+        className="absolute top-1/2 -translate-y-1/2 pointer-events-none"
+        style={{ left: "-30px", width: "190px", height: "190px", rotate: vinylRotation }}
       >
-        {/* Ambient glow */}
-        <div
-          className="absolute inset-0"
-          style={{
-            background: isPlaying
-              ? "radial-gradient(circle at center, rgba(168,85,247,0.15) 0%, transparent 70%)"
-              : "transparent",
-            transition: "background 0.8s ease",
-          }}
-        />
+        <VinylDisc artSrc={TRACKS[currentTrack].art} id="main" size={190} />
+      </motion.div>
 
-        {/* Vinyl disc */}
-        <motion.div style={{ rotate: vinylRotation }} className="relative w-20 h-20">
-          <VinylDisc artSrc={TRACKS[currentTrack].art} id="main" size={64} />
-        </motion.div>
-
-        {/* Needle */}
-        <motion.div
-          className="absolute top-0 -right-2 cursor-pointer z-10"
-          onClick={(e) => { e.stopPropagation(); togglePlay(); }}
-          title={isPlaying ? "Lift needle to pause" : "Place needle to play"}
-          style={{ transformOrigin: "top center" }}
-          animate={{ rotate: isPlaying ? 26 : 0 }}
-          transition={{ type: "spring", stiffness: 280, damping: 22 }}
-          whileHover={{ scale: 1.05 }}
-        >
-          <svg width="28" height="50" viewBox="0 0 40 72" fill="none" className="drop-shadow-lg">
-            <circle cx="20" cy="6" r="6" fill="#2a2a2a" stroke="rgba(168,85,247,0.6)" strokeWidth="1.5" />
-            <circle cx="20" cy="6" r="3" fill="#a855f7" />
-            <rect x="18.5" y="10" width="3" height="40" rx="1.5" fill="#333" />
-            <rect x="19" y="10" width="2" height="40" rx="1" fill="#444" />
-            <rect x="15" y="50" width="10" height="10" rx="2" fill="#222" stroke="#444" strokeWidth="0.8" />
-            <rect x="19.2" y="60" width="1.6" height="10" rx="0.8" fill="#a0a0a0" />
-            <circle cx="20" cy="70.5" r="1.5" fill="#e0e0e0" />
+      {/* Play/Pause Button Overlay (Static, dead center of the vinyl) */}
+      <div 
+        className="absolute top-1/2 -translate-y-1/2 flex items-center justify-center rounded-full bg-black/50 hover:bg-black/80 transition-colors border border-white/5 backdrop-blur-sm shadow-xl z-20"
+        style={{ left: "35px", width: "60px", height: "60px" }}
+        onClick={(e) => { e.stopPropagation(); togglePlay(); }}
+        title={isPlaying ? "Pause" : "Play"}
+      >
+        {isPlaying ? (
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="white" className="opacity-90">
+            <rect x="6" y="5" width="4" height="14" rx="1" />
+            <rect x="14" y="5" width="4" height="14" rx="1" />
           </svg>
-        </motion.div>
+        ) : (
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="white" className="opacity-90 ml-1">
+            <path d="M7 5.5l12 6.5-12 6.5z" />
+          </svg>
+        )}
       </div>
+
+      {/* Horizontal Tonearm at top right */}
+      <motion.div
+        className="absolute top-5 right-5 z-10"
+        onClick={(e) => { e.stopPropagation(); togglePlay(); }}
+        title={isPlaying ? "Lift needle to pause" : "Drop needle to play"}
+        style={{ transformOrigin: "90px 20px" }}
+        animate={{ rotate: isPlaying ? 16 : 0 }}
+        transition={{ type: "spring", stiffness: 220, damping: 22 }}
+        whileHover={{ scale: 1.02 }}
+      >
+        <svg width="110" height="70" viewBox="0 0 110 70" className="drop-shadow-xl">
+          {/* Pivot Base */}
+          <circle cx="90" cy="20" r="16" fill="#181818" stroke="#2a2a2a" strokeWidth="2"/>
+          <circle cx="90" cy="20" r="12" fill="#111"/>
+          <circle cx="90" cy="20" r="4" fill="#333"/>
+          <circle cx="90" cy="20" r="1.5" fill="#000"/>
+          
+          {/* Arm Rod */}
+          <rect x="25" y="17" width="65" height="6" rx="3" fill="#222" stroke="#111" strokeWidth="1" />
+          
+          {/* Headshell/Cartridge */}
+          <g transform="translate(18, 20) rotate(15)">
+            <rect x="-14" y="-10" width="22" height="16" rx="4" fill="#1a1a1a" stroke="#333" strokeWidth="1"/>
+            {/* Stylus groove detail */}
+            <rect x="-8" y="-5" width="4" height="8" rx="1" fill="#050505"/>
+          </g>
+        </svg>
+      </motion.div>
     </motion.div>
   );
 
