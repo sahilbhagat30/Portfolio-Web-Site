@@ -154,7 +154,7 @@ export default function Overlay() {
         {/* ── Section 1: Name ── */}
         <motion.div
           style={{ opacity: opacity1, y: y1 }}
-          className="absolute inset-0 flex flex-col justify-center px-5 md:px-14 pointer-events-auto"
+          className="absolute inset-0 flex flex-col px-5 md:px-14 pointer-events-auto justify-start md:justify-center pt-24 pb-12 md:py-0"
         >
           {/* Decorative left accent line — hidden on mobile */}
           <motion.div
@@ -165,69 +165,76 @@ export default function Overlay() {
             style={{ background: "linear-gradient(to bottom, transparent, #a855f7 30%, #22d3ee 70%, transparent)" }}
           />
 
-          <div className="pl-0 md:pl-10">
+          <div className="pl-0 md:pl-10 h-full flex flex-col justify-between md:justify-center md:block">
+            
+            {/* Top Portion (Name & Role) */}
+            <div>
+              {/* Name — editorial style */}
+              <div className="overflow-hidden">
+                <motion.h1
+                  initial={{ y: "100%", opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.55, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+                  className="font-black uppercase leading-none tracking-tight text-white m-0"
+                  style={{ fontSize: "clamp(2.8rem, 10vw, 6rem)", letterSpacing: "-0.03em" }}
+                >
+                  Sahil
+                </motion.h1>
+              </div>
+              <div className="overflow-hidden">
+                <motion.h1
+                  initial={{ y: "100%", opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.68, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
+                  className="font-black uppercase leading-none tracking-tight gradient-text m-0"
+                  style={{ fontSize: "clamp(2.8rem, 10vw, 6rem)", letterSpacing: "-0.03em" }}
+                >
+                  Bhagat
+                </motion.h1>
+              </div>
 
-            {/* Name — editorial style */}
-            <div className="overflow-hidden">
-              <motion.h1
-                initial={{ y: "100%", opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.55, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-                className="font-black uppercase leading-none tracking-tight text-white m-0"
-                style={{ fontSize: "clamp(2.8rem, 10vw, 6rem)", letterSpacing: "-0.03em" }}
+              {/* Typewriter role */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 1.0, duration: 0.5 }}
+                className="mt-4 h-6 flex items-center"
               >
-                Sahil
-              </motion.h1>
+                <span className="text-white/50 text-sm font-mono tracking-widest">
+                  {role}
+                  <motion.span
+                    animate={{ opacity: [1, 0] }}
+                    transition={{ duration: 0.6, repeat: Infinity, repeatType: "reverse" }}
+                    className="inline-block w-0.5 h-4 bg-violet-400 ml-0.5 align-middle"
+                  />
+                </span>
+              </motion.div>
             </div>
-            <div className="overflow-hidden">
-              <motion.h1
-                initial={{ y: "100%", opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ delay: 0.68, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-                className="font-black uppercase leading-none tracking-tight gradient-text m-0"
-                style={{ fontSize: "clamp(2.8rem, 10vw, 6rem)", letterSpacing: "-0.03em" }}
+
+            {/* Bottom Portion (Stats & Scroll Cue) */}
+            <div className="mb-6 md:mb-0">
+              {/* Stats row — count-up */}
+              <motion.div
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.9, duration: 0.6 }}
+                className="mt-6 md:mt-10 flex gap-5 md:gap-8"
               >
-                Bhagat
-              </motion.h1>
+                <StatItem value="5+" label="Years exp." />
+                <StatItem value="$400K+" label="Cost saved" />
+                <StatItem value="150+" label="Global facilities" />
+              </motion.div>
+
+              <ScrollCue />
             </div>
 
-            {/* Typewriter role */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 1.0, duration: 0.5 }}
-              className="mt-4 h-6 flex items-center"
-            >
-              <span className="text-white/50 text-sm font-mono tracking-widest">
-                {role}
-                <motion.span
-                  animate={{ opacity: [1, 0] }}
-                  transition={{ duration: 0.6, repeat: Infinity, repeatType: "reverse" }}
-                  className="inline-block w-0.5 h-4 bg-violet-400 ml-0.5 align-middle"
-                />
-              </span>
-            </motion.div>
-
-            {/* Stats row — count-up */}
-            <motion.div
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.9, duration: 0.6 }}
-              className="mt-6 md:mt-10 flex gap-5 md:gap-8"
-            >
-              <StatItem value="5+" label="Years exp." />
-              <StatItem value="$400K+" label="Cost saved" />
-              <StatItem value="150+" label="Global facilities" />
-            </motion.div>
-
-            <ScrollCue />
           </div>
         </motion.div>
 
         {/* ── Section 2: Role ── */}
         <motion.div
           style={{ opacity: opacity2, y: y2 }}
-          className="absolute inset-0 flex flex-col justify-center px-5 md:px-14 pointer-events-auto"
+          className="absolute inset-0 flex flex-col justify-end md:justify-center pb-24 md:pb-0 px-5 md:px-14 pointer-events-auto"
         >
           <div className="pl-4 md:pl-10 border-l-2 border-violet-500/40">
             <p className="section-label mb-5">What I do</p>
@@ -265,7 +272,7 @@ export default function Overlay() {
         {/* ── Section 3: Ethos ── */}
         <motion.div
           style={{ opacity: opacity3, y: y3 }}
-          className="absolute inset-0 flex flex-col justify-center px-5 md:px-14 pointer-events-auto"
+          className="absolute inset-0 flex flex-col justify-end md:justify-center pb-24 md:pb-0 px-5 md:px-14 pointer-events-auto"
         >
           <div className="pl-4 md:pl-10">
             <p className="section-label mb-5">Philosophy</p>
