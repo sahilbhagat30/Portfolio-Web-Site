@@ -7,18 +7,84 @@ interface Track {
   title: string;
   artist: string;
   file: string;
+  art?: string; // Optional album art image path
 }
 
 // ─── Add your tracks here ──────────────────────────────────────────────────
 // Drop audio files into /public/music/ and update this list.
+// Drop album art (jpg/png) into /public/music/ and set the art path.
 const basePath = process.env.NODE_ENV === "production" ? "/Portfolio-Web-Site" : "";
 
 const TRACKS: Track[] = [
-  { title: "Track 1", artist: "Artist", file: `${basePath}/music/track1.wav` },
-  { title: "Track 2", artist: "Artist", file: `${basePath}/music/track2.wav` },
-  { title: "Track 3", artist: "Artist", file: `${basePath}/music/track3.wav` },
+  { title: "Track 1", artist: "Artist", file: `${basePath}/music/track1.wav`, art: `${basePath}/music/art1.jpg` },
+  { title: "Track 2", artist: "Artist", file: `${basePath}/music/track2.wav`, art: `${basePath}/music/art2.jpg` },
+  { title: "Track 3", artist: "Artist", file: `${basePath}/music/track3.wav`, art: `${basePath}/music/art3.jpg` },
 ];
 // ──────────────────────────────────────────────────────────────────────────
+
+// ─── Reusable Vinyl Disc SVG ─────────────────────────────────────────────
+function VinylDisc({ artSrc, id, size = 64 }: { artSrc?: string; id: string; size?: number }) {
+  const cx = size / 2;
+  const labelR = (size / 64) * 10;
+  const clipId = `clip-${id}`;
+
+  return (
+    <svg viewBox={`0 0 ${size} ${size}`} className="w-full h-full drop-shadow-[0_4px_16px_rgba(168,85,247,0.2)]">
+      {/* Outer record */}
+      <circle cx={cx} cy={cx} r={cx - 1} fill="#111" />
+      {/* Grooves */}
+      {[0.94, 0.81, 0.69, 0.56, 0.44].map((ratio, i) => (
+        <circle key={i} cx={cx} cy={cx} r={(cx - 1) * ratio} fill="none" stroke="#1a1a1a" strokeWidth="0.6" />
+      ))}
+
+      <defs>
+        <clipPath id={clipId}>
+          <circle cx={cx} cy={cx} r={labelR} />
+        </clipPath>
+        <radialGradient id={`grad-${id}`} cx="40%" cy="35%">
+          <stop offset="0%" stopColor="#7c3aed" />
+          <stop offset="60%" stopColor="#4f46e5" />
+          <stop offset="100%" stopColor="#1e1b4b" />
+        </radialGradient>
+      </defs>
+
+      {/* Label: album art if provided, else gradient */}
+      {artSrc ? (
+        <image
+          href={artSrc}
+          x={cx - labelR}
+          y={cx - labelR}
+          width={labelR * 2}
+          height={labelR * 2}
+          clipPath={`url(#${clipId})`}
+          preserveAspectRatio="xMidYMid slice"
+        />
+      ) : (
+        <circle cx={cx} cy={cx} r={labelR} fill={`url(#grad-${id})`} />
+      )}
+
+      {/* Center hole */}
+      <circle cx={cx} cy={cx} r={(size / 64) * 2.5} fill="#080808" />
+
+      {/* SB text only when no art */}
+      {!artSrc && (
+        <text
+          x={cx} y={cx + (size / 64) * 3}
+          textAnchor="middle"
+          fill="white"
+          fontSize={(size / 64) * 5}
+          fontWeight="900"
+          fontFamily="system-ui"
+          letterSpacing="-0.5"
+        >
+          SB
+        </text>
+      )}
+    </svg>
+  );
+}
+// ─────────────────────────────────────────────────────────────────────────
+
 
 export default function VinylPlayer() {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -109,20 +175,7 @@ export default function VinylPlayer() {
     >
       {/* Tiny spinning vinyl */}
       <motion.div style={{ rotate: vinylRotation }} className="w-6 h-6 shrink-0">
-        <svg viewBox="0 0 64 64" className="w-full h-full">
-          <circle cx="32" cy="32" r="31" fill="#111" />
-          {[26, 18].map((r) => (
-            <circle key={r} cx="32" cy="32" r={r} fill="none" stroke="#1a1a1a" strokeWidth="1" />
-          ))}
-          <circle cx="32" cy="32" r="10" fill="url(#miniLabel)" />
-          <defs>
-            <radialGradient id="miniLabel" cx="40%" cy="35%">
-              <stop offset="0%" stopColor="#7c3aed" />
-              <stop offset="100%" stopColor="#1e1b4b" />
-            </radialGradient>
-          </defs>
-          <circle cx="32" cy="32" r="2.5" fill="#080808" />
-        </svg>
+        <VinylDisc artSrc={TRACKS[currentTrack].art} id="mini" size={64} />
       </motion.div>
 
       {/* Playing pulse dot or static dot */}
@@ -181,22 +234,7 @@ export default function VinylPlayer() {
 
         {/* Vinyl disc */}
         <motion.div style={{ rotate: vinylRotation }} className="relative w-20 h-20">
-          <svg viewBox="0 0 64 64" className="w-full h-full drop-shadow-[0_4px_16px_rgba(168,85,247,0.2)]">
-            <circle cx="32" cy="32" r="31" fill="#111" />
-            {[30, 26, 22, 18, 14].map((r) => (
-              <circle key={r} cx="32" cy="32" r={r} fill="none" stroke="#1a1a1a" strokeWidth="0.6" />
-            ))}
-            <circle cx="32" cy="32" r="10" fill="url(#labelGrad2)" />
-            <defs>
-              <radialGradient id="labelGrad2" cx="40%" cy="35%">
-                <stop offset="0%" stopColor="#7c3aed" />
-                <stop offset="60%" stopColor="#4f46e5" />
-                <stop offset="100%" stopColor="#1e1b4b" />
-              </radialGradient>
-            </defs>
-            <circle cx="32" cy="32" r="2.5" fill="#080808" />
-            <text x="32" y="35" textAnchor="middle" fill="white" fontSize="5" fontWeight="900" fontFamily="system-ui" letterSpacing="-0.5">SB</text>
-          </svg>
+          <VinylDisc artSrc={TRACKS[currentTrack].art} id="main" size={64} />
         </motion.div>
 
         {/* Needle */}
