@@ -146,18 +146,18 @@ export default function Overlay() {
         {/* ── Section 1: Name ── */}
         <motion.div
           style={{ opacity: opacity1, y: y1 }}
-          className="absolute inset-0 flex flex-col justify-center px-10 md:px-14 pointer-events-auto"
+          className="absolute inset-0 flex flex-col justify-center px-5 md:px-14 pointer-events-auto"
         >
-          {/* Decorative left accent line */}
+          {/* Decorative left accent line — hidden on mobile */}
           <motion.div
             initial={{ scaleY: 0, opacity: 0 }}
             animate={{ scaleY: 1, opacity: 1 }}
             transition={{ delay: 0.3, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="absolute left-10 md:left-14 top-[28%] h-[44%] w-[2px] origin-top"
+            className="hidden md:block absolute left-10 md:left-14 top-[28%] h-[44%] w-[2px] origin-top"
             style={{ background: "linear-gradient(to bottom, transparent, #a855f7 30%, #22d3ee 70%, transparent)" }}
           />
 
-          <div className="pl-8 md:pl-10">
+          <div className="pl-0 md:pl-10">
 
             {/* Name — editorial style */}
             <div className="overflow-hidden">
@@ -166,7 +166,7 @@ export default function Overlay() {
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.55, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
                 className="font-black uppercase leading-none tracking-tight text-white m-0"
-                style={{ fontSize: "clamp(3.2rem, 6vw, 6rem)", letterSpacing: "-0.03em" }}
+                style={{ fontSize: "clamp(2.8rem, 10vw, 6rem)", letterSpacing: "-0.03em" }}
               >
                 Sahil
               </motion.h1>
@@ -177,7 +177,7 @@ export default function Overlay() {
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ delay: 0.68, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
                 className="font-black uppercase leading-none tracking-tight gradient-text m-0"
-                style={{ fontSize: "clamp(3.2rem, 6vw, 6rem)", letterSpacing: "-0.03em" }}
+                style={{ fontSize: "clamp(2.8rem, 10vw, 6rem)", letterSpacing: "-0.03em" }}
               >
                 Bhagat
               </motion.h1>
@@ -205,7 +205,7 @@ export default function Overlay() {
               initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.9, duration: 0.6 }}
-              className="mt-10 flex gap-8"
+              className="mt-6 md:mt-10 flex gap-5 md:gap-8"
             >
               <StatItem value="5+" label="Years exp." />
               <StatItem value="$400K+" label="Cost saved" />
@@ -219,13 +219,13 @@ export default function Overlay() {
         {/* ── Section 2: Role ── */}
         <motion.div
           style={{ opacity: opacity2, y: y2 }}
-          className="absolute inset-0 flex flex-col justify-center px-10 md:px-14 pointer-events-auto"
+          className="absolute inset-0 flex flex-col justify-center px-5 md:px-14 pointer-events-auto"
         >
-          <div className="pl-8 md:pl-10 border-l-2 border-violet-500/40">
+          <div className="pl-4 md:pl-10 border-l-2 border-violet-500/40">
             <p className="section-label mb-5">What I do</p>
             <h2
               className="text-white font-bold m-0 leading-[1.1]"
-              style={{ fontSize: "clamp(2rem, 3.5vw, 3.8rem)", letterSpacing: "-0.025em" }}
+              style={{ fontSize: "clamp(1.6rem, 5.5vw, 3.8rem)", letterSpacing: "-0.025em" }}
             >
               I close the gap between{" "}
               <span className="gradient-text">data</span>
@@ -257,13 +257,13 @@ export default function Overlay() {
         {/* ── Section 3: Ethos ── */}
         <motion.div
           style={{ opacity: opacity3, y: y3 }}
-          className="absolute inset-0 flex flex-col justify-center px-10 md:px-14 pointer-events-auto"
+          className="absolute inset-0 flex flex-col justify-center px-5 md:px-14 pointer-events-auto"
         >
-          <div className="pl-8 md:pl-10">
+          <div className="pl-4 md:pl-10">
             <p className="section-label mb-5">Philosophy</p>
             <h2
               className="text-white font-bold m-0 leading-[1.1]"
-              style={{ fontSize: "clamp(1.8rem, 3vw, 3.2rem)", letterSpacing: "-0.025em" }}
+              style={{ fontSize: "clamp(1.4rem, 5vw, 3.2rem)", letterSpacing: "-0.025em" }}
             >
               The best analysis means{" "}
               <br />

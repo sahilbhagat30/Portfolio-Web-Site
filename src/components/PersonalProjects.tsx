@@ -194,7 +194,7 @@ function TiltProjectCard({ project, index }: { project: typeof PERSONAL_PROJECTS
 
 export default function PersonalProjects() {
   return (
-    <section id="projects" className="relative py-32 px-6 md:px-16 overflow-hidden">
+    <section id="projects" className="relative py-20 md:py-32 px-6 md:px-16 overflow-hidden">
       <div
         aria-hidden
         className="pointer-events-none absolute top-1/2 left-0 -translate-y-1/2 w-[600px] h-[600px] rounded-full"
@@ -222,7 +222,7 @@ export default function PersonalProjects() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16"
+          className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 md:gap-6 mb-10 md:mb-16"
         >
           <h2
             className="text-4xl md:text-5xl font-bold tracking-tight"

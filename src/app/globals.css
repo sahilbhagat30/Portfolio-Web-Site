@@ -48,6 +48,7 @@
 
 html {
   scroll-behavior: auto; /* Lenis handles smooth scroll */
+  overflow-x: hidden;
 }
 
 body {
@@ -60,6 +61,8 @@ body {
   background-attachment: fixed;
   /* Hide native cursor — replaced by Cursor component */
   cursor: none;
+  /* Prevent tap highlight on mobile */
+  -webkit-tap-highlight-color: transparent;
 }
 
 /* Restore cursor on touch devices */

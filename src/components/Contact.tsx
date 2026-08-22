@@ -76,7 +76,7 @@ function AnimatedEmail() {
     <motion.a
       href="mailto:sahilbhagat1497@gmail.com"
       className="inline-block font-bold leading-none tracking-tight cursor-pointer select-none"
-      style={{ fontSize: "clamp(1.5rem, 3vw, 2.5rem)", letterSpacing: "-0.03em" }}
+      style={{ fontSize: "clamp(1.1rem, 5vw, 2.5rem)", letterSpacing: "-0.03em" }}
       onHoverStart={() => setHovered(true)}
       onHoverEnd={() => setHovered(false)}
     >
@@ -184,7 +184,7 @@ function TiltSocialWrapper({ children }: { children: React.ReactNode }) {
 export default function Contact() {
   return (
     <>
-      <section id="contact" className="relative py-32 px-6 md:px-16 overflow-hidden">
+      <section id="contact" className="relative py-20 md:py-32 px-6 md:px-16 overflow-hidden">
         {/* Background orb — breathing */}
         <div
           aria-hidden
@@ -201,7 +201,7 @@ export default function Contact() {
         </div>
 
         {/* Divider */}
-        <div className="max-w-7xl mx-auto mb-20">
+        <div className="max-w-7xl mx-auto mb-10 md:mb-20">
           <div className="h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
         </div>
 

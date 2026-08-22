@@ -198,7 +198,7 @@ export default function Projects() {
   const featLeave = () => { fRotX.set(0); fRotY.set(0); };
 
   return (
-    <section id="work" className="relative py-32 px-6 md:px-16 overflow-hidden">
+    <section id="work" className="relative py-20 md:py-32 px-6 md:px-16 overflow-hidden">
       <div
         aria-hidden
         className="pointer-events-none absolute top-1/2 right-0 -translate-y-1/2 w-[500px] h-[500px] rounded-full"
@@ -221,7 +221,7 @@ export default function Projects() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-4xl md:text-5xl font-bold mb-16 tracking-tight"
+          className="text-4xl md:text-5xl font-bold mb-10 md:mb-16 tracking-tight"
           style={{ letterSpacing: "-0.02em" }}
         >
           Where I&apos;ve{" "}

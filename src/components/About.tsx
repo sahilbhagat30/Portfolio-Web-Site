@@ -144,7 +144,7 @@ function TiltCard({ children, className = "" }: { children: React.ReactNode; cla
 
 export default function About() {
   return (
-    <section id="about" className="relative py-32 px-6 md:px-16 overflow-hidden">
+    <section id="about" className="relative py-20 md:py-32 px-6 md:px-16 overflow-hidden">
       {/* Background glow blobs — now breathing */}
       <div
         aria-hidden
@@ -187,7 +187,7 @@ export default function About() {
               viewport={{ once: true, amount: 0.4 }}
               custom={1}
               variants={fadeUp}
-              className="text-4xl md:text-5xl font-bold leading-tight tracking-tight mb-8"
+              className="text-3xl md:text-5xl font-bold leading-tight tracking-tight mb-6 md:mb-8"
               style={{ letterSpacing: "-0.02em" }}
             >
               I turn complex data into clear decisions.{" "}
@@ -200,8 +200,7 @@ export default function About() {
               viewport={{ once: true, amount: 0.4 }}
               custom={2}
               variants={fadeUp}
-              className="text-white/70 leading-relaxed mb-5 font-medium"
-              style={{ fontSize: "1.1rem" }}
+              className="text-white/70 leading-relaxed mb-4 md:mb-5 font-medium text-base md:text-lg"
             >
               5+ years across consulting, enterprise, and global organizations have taught me one thing: the best analysis means nothing if the right people cannot act on it.
             </motion.p>
@@ -212,8 +211,7 @@ export default function About() {
               viewport={{ once: true, amount: 0.4 }}
               custom={3}
               variants={fadeUp}
-              className="text-white/60 leading-relaxed mb-5"
-              style={{ fontSize: "1.05rem" }}
+              className="text-white/60 leading-relaxed mb-4 md:mb-5 text-sm md:text-base"
             >
               I specialize in both sides of the problem. I build the pipelines that make data reliable, and I shape the dashboards and reporting frameworks that make it digestible for decision-makers at every level.
             </motion.p>
@@ -224,8 +222,7 @@ export default function About() {
               viewport={{ once: true, amount: 0.4 }}
               custom={4}
               variants={fadeUp}
-              className="text-white/50 leading-relaxed mb-5"
-              style={{ fontSize: "1.05rem" }}
+              className="text-white/50 leading-relaxed mb-4 md:mb-5 text-sm md:text-base"
             >
               At Anywhere Real Estate, I surfaced $400K in cost avoidance by connecting data points that had always existed but never been tied together. At the United Nations, I standardized reporting across 150+ global healthcare facilities. At Capgemini, I integrated data across 8 enterprise systems.
             </motion.p>
@@ -237,7 +234,7 @@ export default function About() {
               viewport={{ once: true, amount: 0.4 }}
               custom={4}
               variants={fadeUp}
-              className="flex gap-10 mb-2"
+              className="flex gap-6 md:gap-10 mb-2"
             >
               <CountStat num="5+" label="Years Experience" />
               <CountStat num="4+"  label="Global Orgs" />
