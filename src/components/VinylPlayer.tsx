@@ -13,12 +13,13 @@ interface Track {
 // ─── Add your tracks here ──────────────────────────────────────────────────
 // Drop audio files into /public/music/ and update this list.
 // Drop album art (jpg/png) into /public/music/ and set the art path.
-const basePath = process.env.NODE_ENV === "production" ? "/Portfolio-Web-Site" : "";
+// basePath is set via next.config.ts at build time
+const basePath = typeof window !== "undefined" && window.location.hostname === "localhost" ? "" : "/Portfolio-Web-Site";
 
 const TRACKS: Track[] = [
-  { title: "Track 1", artist: "Artist", file: `${basePath}/music/track1.wav`, art: `${basePath}/music/art1.jpg` },
-  { title: "Track 2", artist: "Artist", file: `${basePath}/music/track2.wav`, art: `${basePath}/music/art2.jpg` },
-  { title: "Track 3", artist: "Artist", file: `${basePath}/music/track3.wav`, art: `${basePath}/music/art3.jpg` },
+  { title: "Track 1", artist: "Artist", file: `${basePath}/music/track1.wav`, art: `${basePath}/music/art1.png` },
+  { title: "Track 2", artist: "Artist", file: `${basePath}/music/track2.wav`, art: `${basePath}/music/art2.png` },
+  { title: "Track 3", artist: "Artist", file: `${basePath}/music/track3.wav`, art: `${basePath}/music/art3.png` },
 ];
 // ──────────────────────────────────────────────────────────────────────────
 
