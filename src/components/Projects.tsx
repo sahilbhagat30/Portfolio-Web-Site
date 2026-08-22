@@ -4,13 +4,15 @@ import { motion, useSpring, useMotionValue } from "framer-motion";
 import { useRef } from "react";
 import { ArrowUpRight } from "lucide-react";
 
+const BASE = process.env.NODE_ENV === "production" ? "/Portfolio-Web-Site" : "";
+
 const PROJECT_DATA = [
   {
     number: "01",
     title: "Anywhere Real Estate",
     description:
       "Built scalable operations analytics and performance reporting solutions to monitor vendor productivity, staffing utilization, and operational health, identifying ~$400K in cost-saving opportunities.",
-    image: "logos/anywhere.png",
+    image: `${BASE}/logos/anywhere.png`,
     logoFilter: "brightness(0) invert(1)",
     tags: ["Snowflake", "dbt", "Power BI"],
     tagColor: "violet",
@@ -21,7 +23,7 @@ const PROJECT_DATA = [
     title: "iConsult Collaborative",
     description:
       "Developed semantic models and KPI dashboards for workforce planning and provider performance. Standardized multi-source workforce data into reporting-ready datasets.",
-    image: "logos/micron.png",
+    image: `${BASE}/logos/micron.png`,
     logoFilter: "brightness(0) invert(1)",
     tags: ["Power BI", "SQL", "Workforce Analytics"],
     tagColor: "cyan",
@@ -32,7 +34,7 @@ const PROJECT_DATA = [
     title: "United Nations",
     description:
       "Architected GCP-based healthcare analytics pipeline integrating clinical, finance, and operational data across 183 global facilities. Built Looker dashboards for compliance monitoring.",
-    image: "logos/UN_emblem.svg",
+    image: `${BASE}/logos/UN_emblem.svg`,
     logoFilter: "brightness(0) invert(1)",
     tags: ["BigQuery", "Looker", "GCP"],
     tagColor: "amber",
@@ -43,7 +45,7 @@ const PROJECT_DATA = [
     title: "Capgemini",
     description:
       "Engineered ETL/ELT pipelines across NetSuite, Salesforce, and Workday into Snowflake. Delivered Tableau dashboards replacing manual workflows and saving ~40 hours/month.",
-    image: "logos/capgemini.png",
+    image: `${BASE}/logos/capgemini.png`,
     logoFilter: "brightness(0) invert(1)",
     tags: ["Tableau", "AWS S3", "ETL"],
     tagColor: "violet",
@@ -54,7 +56,7 @@ const PROJECT_DATA = [
     title: "Tata Consultancy Services",
     description:
       "Data Analyst role driving business insights, standardizing enterprise data pipelines, and developing executive dashboards to support strategic decision-making.",
-    image: "logos/Tata_Consultancy_Services_old_logo.svg",
+    image: `${BASE}/logos/Tata_Consultancy_Services_old_logo.svg`,
     logoFilter: "brightness(0) invert(1)",
     tags: ["Data Analysis", "SQL", "Dashboards"],
     tagColor: "cyan",

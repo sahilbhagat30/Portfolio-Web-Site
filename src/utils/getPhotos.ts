@@ -33,8 +33,9 @@ export function getPhotos(): PhotoData[] {
       // Create a readable alt text from the filename
       const altText = file.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ");
       
+      const base = process.env.NODE_ENV === "production" ? "/Portfolio-Web-Site" : "";
       photos.push({
-        src: `photos/personal/${category}/${file}`,
+        src: `${base}/photos/personal/${category}/${file}`,
         alt: altText,
         category: category,
         span: spans[spanIdx % spans.length]

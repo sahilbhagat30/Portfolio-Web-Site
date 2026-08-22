@@ -18,6 +18,9 @@ export default function ScrollyCanvas() {
   const frameIndex = useTransform(scrollYProgress, [0, 1], [0, FRAME_COUNT - 1]);
 
   useEffect(() => {
+    // Determine base path for assets (needed for GitHub Pages subdirectory hosting)
+    const base = process.env.NODE_ENV === "production" ? "/Portfolio-Web-Site" : "";
+
     // Preload images
     const loadedImages: HTMLImageElement[] = [];
     let loadedCount = 0;
@@ -25,7 +28,7 @@ export default function ScrollyCanvas() {
     for (let i = 0; i < FRAME_COUNT; i++) {
       const img = new Image();
       const frameNum = i.toString().padStart(3, '0');
-      img.src = `sequence/frame_${frameNum}_delay-0.067s.png`;
+      img.src = `${base}/sequence/frame_${frameNum}_delay-0.067s.png`;
       img.onload = () => {
         loadedCount++;
         if (loadedCount === FRAME_COUNT) {
@@ -35,6 +38,7 @@ export default function ScrollyCanvas() {
       loadedImages.push(img);
     }
   }, []);
+
 
   useMotionValueEvent(frameIndex, "change", (latest) => {
     if (images.length === FRAME_COUNT && canvasRef.current) {
