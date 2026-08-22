@@ -224,7 +224,7 @@ export default function VinylPlayer() {
         onClick={(e) => { e.stopPropagation(); togglePlay(); }}
         title={isPlaying ? "Lift needle to pause" : "Drop needle to play"}
         style={{ transformOrigin: "90px 20px" }}
-        animate={{ rotate: isPlaying ? 16 : 0 }}
+        animate={{ rotate: isPlaying ? 0 : 16 }}
         transition={{ type: "spring", stiffness: 220, damping: 22 }}
         whileHover={{ scale: 1.02 }}
       >
