@@ -58,6 +58,13 @@ body {
   -webkit-font-smoothing: antialiased;
   background-image: var(--gradient-bg);
   background-attachment: fixed;
+  /* Hide native cursor — replaced by Cursor component */
+  cursor: none;
+}
+
+/* Restore cursor on touch devices */
+@media (pointer: coarse) {
+  body { cursor: auto; }
 }
 
 /* ─── Custom Scrollbar ───────────────────────────────────────────── */
@@ -115,6 +122,24 @@ body {
   50%       { opacity: 0.4; }
 }
 
+/* ── NEW: Breathing orbs ── */
+@keyframes breathe {
+  0%, 100% { transform: scale(1);    opacity: 0.08; }
+  50%       { transform: scale(1.18); opacity: 0.14; }
+}
+
+/* ── NEW: Shimmer sweep ── */
+@keyframes shimmer-sweep {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* ── NEW: Glow pulse (border) ── */
+@keyframes border-glow {
+  0%, 100% { border-color: rgba(168,85,247,0.3); box-shadow: 0 0 0px rgba(168,85,247,0); }
+  50%       { border-color: rgba(168,85,247,0.6); box-shadow: 0 0 20px rgba(168,85,247,0.15); }
+}
+
 /* ─── Utility: Animated Gradient Text ───────────────────────────── */
 .gradient-text {
   background: var(--gradient-hero);
@@ -132,7 +157,7 @@ body {
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid var(--border-subtle);
   border-radius: 20px;
-  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
 }
 .glass-card:hover {
   background: var(--surface-2);
@@ -180,4 +205,32 @@ body {
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
   pointer-events: none;
   z-index: 0;
+}
+
+/* ─── Utility: Magnetic button ───────────────────────────────────── */
+.magnetic {
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  display: inline-block;
+}
+
+/* ─── Shimmer border card ────────────────────────────────────────── */
+.shimmer-border {
+  position: relative;
+  overflow: hidden;
+}
+.shimmer-border::before {
+  content: '';
+  position: absolute;
+  top: 0; left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+  animation: shimmer-sweep 3s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ─── Perspective wrapper for 3D cards ──────────────────────────── */
+.perspective-container {
+  perspective: 1000px;
 }

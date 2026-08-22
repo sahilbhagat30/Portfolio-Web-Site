@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import LenisProvider from "@/components/LenisProvider";
+import Cursor from "@/components/Cursor";
+import AmbientCanvas from "@/components/AmbientCanvas";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 
@@ -18,6 +20,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col font-sans overflow-x-hidden text-foreground bg-background">
+        {/* Global ambient layer — behind everything */}
+        <AmbientCanvas />
+        {/* Custom cursor — above everything */}
+        <Cursor />
         <LenisProvider>{children}</LenisProvider>
       </body>
     </html>

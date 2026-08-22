@@ -1,9 +1,10 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useSpring, useMotionValue } from "framer-motion";
+import { useRef } from "react";
 import { ArrowUpRight, Brain, Database, LineChart } from "lucide-react";
 
-const GithubIcon = ({ size = 24, className = "" }: { size?: number, className?: string }) => (
+const GithubIcon = ({ size = 24, className = "" }: { size?: number; className?: string }) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={size}
@@ -21,16 +22,13 @@ const GithubIcon = ({ size = 24, className = "" }: { size?: number, className?: 
   </svg>
 );
 
-// ─────────────────────────────────────────────
-// Add more personal/ML/data projects here
-// ─────────────────────────────────────────────
 const PERSONAL_PROJECTS = [
   {
     id: "gestational-diabetes",
     title: "Gestational Diabetes Early Prediction",
     tagline: "ML + Deep Learning · Healthcare AI",
     description:
-      "Early prediction of gestational diabetes using machine learning and deep learning models. Developed in collaboration with Fetal Life to enable timely clinical interventions and improve maternal health outcomes. Benchmarked multiple classifiers and neural architectures on clinical datasets.",
+      "Early prediction of gestational diabetes using machine learning and deep learning models. Developed in collaboration with Fetal Life to enable timely clinical interventions and improve maternal health outcomes.",
     githubUrl: "https://github.com/sahilbhagat30/Gestational-Diabetes-Early-Prediction",
     tags: ["Python", "Scikit-learn", "TensorFlow", "Pandas", "Healthcare AI"],
     tagColor: "violet",
@@ -44,7 +42,7 @@ const PERSONAL_PROJECTS = [
     title: "Medication Reminder Platform",
     tagline: "Full-Stack React + Node.js · Healthcare",
     description:
-      "A production-grade, full-stack application designed for the Aetna Medication Reminder System. Empowers administrators with an intuitive dashboard to manage prescriptions, evaluate member eligibility, coordinate outreach campaigns, and monitor real-time communication telemetry.",
+      "A production-grade, full-stack application designed for the Aetna Medication Reminder System. Empowers administrators with an intuitive dashboard to manage prescriptions, eligibility, and real-time communication telemetry.",
     githubUrl: "https://github.com/sahilbhagat30/medication-reminder-ui",
     tags: ["React 19", "Node.js", "Express", "PostgreSQL", "Docker", "BFF Architecture"],
     tagColor: "cyan",
@@ -56,16 +54,16 @@ const PERSONAL_PROJECTS = [
 ];
 
 const TAG_COLORS: Record<string, { border: string; bg: string; text: string }> = {
-  violet: { border: "rgba(168,85,247,0.35)", bg: "rgba(168,85,247,0.1)", text: "#c084fc" },
-  cyan:   { border: "rgba(34,211,238,0.35)", bg: "rgba(34,211,238,0.1)", text: "#67e8f9" },
-  amber:  { border: "rgba(245,158,11,0.35)", bg: "rgba(245,158,11,0.1)", text: "#fcd34d" },
-  emerald: { border: "rgba(52,211,153,0.35)", bg: "rgba(52,211,153,0.1)", text: "#6ee7b7" },
+  violet:  { border: "rgba(168,85,247,0.35)", bg: "rgba(168,85,247,0.1)",  text: "#c084fc" },
+  cyan:    { border: "rgba(34,211,238,0.35)",  bg: "rgba(34,211,238,0.1)", text: "#67e8f9" },
+  amber:   { border: "rgba(245,158,11,0.35)",  bg: "rgba(245,158,11,0.1)", text: "#fcd34d" },
+  emerald: { border: "rgba(52,211,153,0.35)",  bg: "rgba(52,211,153,0.1)", text: "#6ee7b7" },
 };
 
 const PROJECT_ICONS: Record<string, React.ReactNode> = {
-  brain: <Brain size={28} className="text-violet-400" />,
-  database: <Database size={28} className="text-cyan-400" />,
-  chart: <LineChart size={28} className="text-amber-400" />,
+  brain:    <Brain    size={28} className="text-violet-400" />,
+  database: <Database size={28} className="text-cyan-400"   />,
+  chart:    <LineChart size={28} className="text-amber-400"  />,
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -78,19 +76,134 @@ const fadeUp: any = {
   }),
 };
 
+function TiltProjectCard({ project, index }: { project: typeof PERSONAL_PROJECTS[0]; index: number }) {
+  const colors  = TAG_COLORS[project.tagColor] ?? TAG_COLORS.violet;
+  const ref     = useRef<HTMLAnchorElement>(null);
+  const rotX    = useSpring(0, { stiffness: 200, damping: 22 });
+  const rotY    = useSpring(0, { stiffness: 200, damping: 22 });
+  const glowX   = useMotionValue(50);
+  const glowY   = useMotionValue(50);
+
+  const handleMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    const el = ref.current;
+    if (!el) return;
+    const rect = el.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width;
+    const y = (e.clientY - rect.top)  / rect.height;
+    rotX.set((0.5 - y) * 8);
+    rotY.set((x - 0.5) * 8);
+    glowX.set(x * 100);
+    glowY.set(y * 100);
+  };
+
+  const handleLeave = () => { rotX.set(0); rotY.set(0); };
+
+  return (
+    <motion.a
+      ref={ref}
+      href={project.githubUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.15 }}
+      custom={index}
+      variants={fadeUp}
+      onMouseMove={handleMove}
+      onMouseLeave={handleLeave}
+      style={{ rotateX: rotX, rotateY: rotY, transformStyle: "preserve-3d", textDecoration: "none" }}
+      className="group relative glass-card overflow-hidden cursor-pointer flex flex-col"
+      id={`personal-project-${project.id}`}
+    >
+      {/* Top accent bar */}
+      <div
+        className="h-[3px] w-full transition-all duration-500 group-hover:opacity-100 opacity-60"
+        style={{ background: `linear-gradient(90deg, ${project.accentColor}, transparent)` }}
+      />
+
+      {/* Cursor glow */}
+      <motion.div
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-[20px]"
+        style={{
+          background: `radial-gradient(circle at ${glowX}% ${glowY}%, ${project.accentColorMuted} 0%, transparent 65%)`,
+        }}
+      />
+
+      {/* Card body */}
+      <div className="p-7 flex flex-col gap-5 flex-1">
+        {/* Icon + links */}
+        <div className="flex items-start justify-between gap-3">
+          <div
+            className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
+            style={{ background: project.accentColorMuted, border: `1px solid ${project.accentColor}30` }}
+          >
+            {PROJECT_ICONS[project.icon]}
+          </div>
+          <div className="flex items-center gap-2 mt-1">
+            <GithubIcon size={16} className="text-white/25 group-hover:text-white/60 transition-colors duration-300" />
+            <ArrowUpRight
+              size={16}
+              className="text-white/25 group-hover:text-violet-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300"
+            />
+          </div>
+        </div>
+
+        {/* Text */}
+        <div>
+          <p
+            className="text-[0.65rem] font-semibold uppercase tracking-widest mb-2"
+            style={{ color: project.accentColor }}
+          >
+            {project.tagline}
+          </p>
+          <h3
+            className="text-lg font-bold text-white leading-snug mb-3 group-hover:text-white/90 transition-colors"
+            style={{ letterSpacing: "-0.015em" }}
+          >
+            {project.title}
+          </h3>
+          <p className="text-white/45 text-sm leading-relaxed">{project.description}</p>
+        </div>
+
+        {/* Tags */}
+        <div className="flex flex-wrap gap-2 mt-auto pt-2">
+          {project.tags.map((tag, ti) => (
+            <motion.span
+              key={tag}
+              initial={{ opacity: 0, y: 4 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: ti * 0.05 }}
+              className="px-2.5 py-1 rounded-full text-[0.65rem] font-medium"
+              style={{ background: colors.bg, border: `1px solid ${colors.border}`, color: colors.text }}
+            >
+              {tag}
+            </motion.span>
+          ))}
+        </div>
+      </div>
+
+      {/* Bottom hover glow line */}
+      <div
+        className="absolute bottom-0 left-0 w-full h-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+        style={{ background: `linear-gradient(90deg, transparent, ${project.accentColor}, transparent)` }}
+      />
+    </motion.a>
+  );
+}
+
 export default function PersonalProjects() {
   return (
     <section id="projects" className="relative py-32 px-6 md:px-16 overflow-hidden">
-      {/* Background glow */}
       <div
         aria-hidden
-        className="pointer-events-none absolute top-1/2 left-0 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-[0.07]"
-        style={{ background: "radial-gradient(circle, #a855f7, transparent 70%)" }}
+        className="pointer-events-none absolute top-1/2 left-0 -translate-y-1/2 w-[600px] h-[600px] rounded-full"
+        style={{ background: "radial-gradient(circle, #a855f7, transparent 70%)", opacity: 0.07, animation: "breathe 11s ease-in-out infinite" }}
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full opacity-[0.05]"
-        style={{ background: "radial-gradient(circle, #22d3ee, transparent 70%)" }}
+        className="pointer-events-none absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full"
+        style={{ background: "radial-gradient(circle, #22d3ee, transparent 70%)", opacity: 0.05, animation: "breathe 8s ease-in-out infinite reverse" }}
       />
 
       <div className="max-w-7xl mx-auto relative z-10">
@@ -130,122 +243,30 @@ export default function PersonalProjects() {
           </a>
         </motion.div>
 
-        {/* Projects Grid */}
+        {/* Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {PERSONAL_PROJECTS.map((project, i) => {
-            const colors = TAG_COLORS[project.tagColor] ?? TAG_COLORS.violet;
-            return (
-              <motion.a
-                key={project.id}
-                href={project.githubUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                initial="hidden"
-                whileInView="visible"
-                viewport={{ once: true, amount: 0.15 }}
-                custom={i}
-                variants={fadeUp}
-                className="group relative glass-card overflow-hidden cursor-pointer flex flex-col"
-                id={`personal-project-${project.id}`}
-                style={{ textDecoration: "none" }}
-              >
-                {/* Top accent bar */}
-                <div
-                  className="h-[3px] w-full transition-all duration-500 group-hover:opacity-100 opacity-60"
-                  style={{
-                    background: `linear-gradient(90deg, ${project.accentColor}, transparent)`,
-                  }}
-                />
+          {PERSONAL_PROJECTS.map((project, i) => (
+            <TiltProjectCard key={project.id} project={project} index={i} />
+          ))}
 
-                {/* Card body */}
-                <div className="p-7 flex flex-col gap-5 flex-1">
-                  {/* Icon + Title row */}
-                  <div className="flex items-start justify-between gap-3">
-                    <div
-                      className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0"
-                      style={{ background: project.accentColorMuted, border: `1px solid ${project.accentColor}30` }}
-                    >
-                      {PROJECT_ICONS[project.icon]}
-                    </div>
-                    <div className="flex items-center gap-2 mt-1">
-                      <GithubIcon
-                        size={16}
-                        className="text-white/25 group-hover:text-white/60 transition-colors duration-300"
-                      />
-                      <ArrowUpRight
-                        size={16}
-                        className="text-white/25 group-hover:text-violet-400 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all duration-300"
-                      />
-                    </div>
-                  </div>
-
-                  {/* Text */}
-                  <div>
-                    <p
-                      className="text-[0.65rem] font-semibold uppercase tracking-widest mb-2"
-                      style={{ color: project.accentColor }}
-                    >
-                      {project.tagline}
-                    </p>
-                    <h3
-                      className="text-lg font-bold text-white leading-snug mb-3 group-hover:text-white/90 transition-colors"
-                      style={{ letterSpacing: "-0.015em" }}
-                    >
-                      {project.title}
-                    </h3>
-                    <p className="text-white/45 text-sm leading-relaxed">
-                      {project.description}
-                    </p>
-                  </div>
-
-                  {/* Tags */}
-                  <div className="flex flex-wrap gap-2 mt-auto pt-2">
-                    {project.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="px-2.5 py-1 rounded-full text-[0.65rem] font-medium"
-                        style={{
-                          background: colors.bg,
-                          border: `1px solid ${colors.border}`,
-                          color: colors.text,
-                        }}
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Bottom hover glow */}
-                <div
-                  className="absolute bottom-0 left-0 w-full h-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-                  style={{
-                    background: `linear-gradient(90deg, transparent, ${project.accentColor}, transparent)`,
-                  }}
-                />
-              </motion.a>
-            );
-          })}
-
-          {/* "More coming soon" placeholder card */}
+          {/* Coming soon */}
           <motion.div
             initial="hidden"
             whileInView="visible"
             viewport={{ once: true, amount: 0.15 }}
             custom={PERSONAL_PROJECTS.length}
             variants={fadeUp}
-            className="glass-card p-7 flex flex-col items-center justify-center gap-3 min-h-[260px] border-dashed"
-            style={{
-              border: "1px dashed rgba(255,255,255,0.08)",
-              background: "rgba(255,255,255,0.02)",
-            }}
+            className="glass-card p-7 flex flex-col items-center justify-center gap-3 min-h-[260px]"
+            style={{ border: "1px dashed rgba(255,255,255,0.08)", background: "rgba(255,255,255,0.02)" }}
           >
-            <div
+            <motion.div
+              animate={{ rotate: [0, 360] }}
+              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
               className="w-10 h-10 rounded-xl flex items-center justify-center"
               style={{ background: "rgba(255,255,255,0.04)" }}
             >
               <GithubIcon size={20} className="text-white/20" />
-            </div>
+            </motion.div>
             <p className="text-white/20 text-sm text-center leading-relaxed">
               More projects<br />coming soon
             </p>

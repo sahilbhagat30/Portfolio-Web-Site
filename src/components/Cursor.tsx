@@ -1,0 +1,130 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
+import { motion, useSpring, useMotionValue } from "framer-motion";
+
+export default function Cursor() {
+  const cursorX = useMotionValue(-100);
+  const cursorY = useMotionValue(-100);
+
+  const springConfig = { damping: 28, stiffness: 350, mass: 0.5 };
+  const ringConfig   = { damping: 20, stiffness: 150, mass: 0.8 };
+
+  const dotX  = useSpring(cursorX, springConfig);
+  const dotY  = useSpring(cursorY, springConfig);
+  const ringX = useSpring(cursorX, ringConfig);
+  const ringY = useSpring(cursorY, ringConfig);
+
+  const [variant, setVariant] = useState<"default" | "hover" | "text" | "click">("default");
+  const [isVisible, setIsVisible] = useState(false);
+
+  const rafRef = useRef<number | null>(null);
+
+  useEffect(() => {
+    // Hide on touch devices
+    if (window.matchMedia("(pointer: coarse)").matches) return;
+
+    const move = (e: MouseEvent) => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      rafRef.current = requestAnimationFrame(() => {
+        cursorX.set(e.clientX);
+        cursorY.set(e.clientY);
+        setIsVisible(true);
+      });
+    };
+
+    const enter = () => setIsVisible(true);
+    const leave = () => setIsVisible(false);
+
+    const handleHover = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      const isLink   = target.closest("a, button, [role='button'], [data-cursor='hover']");
+      const isText   = target.closest("p, h1, h2, h3, h4, span");
+      const isCanvas = target.closest("canvas");
+
+      if (isCanvas) { setVariant("default"); return; }
+      if (isLink)   { setVariant("hover");   return; }
+      if (isText)   { setVariant("text");    return; }
+      setVariant("default");
+    };
+
+    const down = () => setVariant("click");
+    const up   = () => setVariant("default");
+
+    window.addEventListener("mousemove", move,       { passive: true });
+    window.addEventListener("mousemove", handleHover, { passive: true });
+    window.addEventListener("mouseenter", enter);
+    window.addEventListener("mouseleave", leave);
+    window.addEventListener("mousedown",  down);
+    window.addEventListener("mouseup",    up);
+
+    return () => {
+      window.removeEventListener("mousemove", move);
+      window.removeEventListener("mousemove", handleHover);
+      window.removeEventListener("mouseenter", enter);
+      window.removeEventListener("mouseleave", leave);
+      window.removeEventListener("mousedown", down);
+      window.removeEventListener("mouseup",   up);
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
+  }, [cursorX, cursorY]);
+
+  const dotVariants = {
+    default: { width: 8,  height: 8,  backgroundColor: "#a855f7", opacity: 1 },
+    hover:   { width: 12, height: 12, backgroundColor: "#c084fc", opacity: 1 },
+    text:    { width: 4,  height: 24, backgroundColor: "#a855f7", borderRadius: "2px", opacity: 0.8 },
+    click:   { width: 6,  height: 6,  backgroundColor: "#22d3ee", opacity: 1 },
+  };
+
+  const ringVariants = {
+    default: { width: 36, height: 36, borderColor: "rgba(168,85,247,0.5)", opacity: isVisible ? 1 : 0, scale: 1 },
+    hover:   { width: 56, height: 56, borderColor: "rgba(192,132,252,0.7)", opacity: isVisible ? 1 : 0, scale: 1 },
+    text:    { width: 40, height: 40, borderColor: "rgba(168,85,247,0.3)", opacity: isVisible ? 0.6 : 0, scale: 1 },
+    click:   { width: 28, height: 28, borderColor: "rgba(34,211,238,0.8)", opacity: isVisible ? 1 : 0, scale: 0.9 },
+  };
+
+  if (typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches) {
+    return null;
+  }
+
+  return (
+    <>
+      {/* Dot */}
+      <motion.div
+        animate={dotVariants[variant]}
+        transition={{ duration: 0.15, ease: "easeOut" }}
+        style={{
+          x: dotX,
+          y: dotY,
+          position: "fixed",
+          top: 0,
+          left: 0,
+          borderRadius: variant === "text" ? "2px" : "50%",
+          transform: "translate(-50%, -50%)",
+          pointerEvents: "none",
+          zIndex: 9999,
+          mixBlendMode: "normal",
+        }}
+      />
+
+      {/* Ring */}
+      <motion.div
+        animate={ringVariants[variant]}
+        transition={{ duration: 0.25, ease: "easeOut" }}
+        style={{
+          x: ringX,
+          y: ringY,
+          position: "fixed",
+          top: 0,
+          left: 0,
+          borderRadius: "50%",
+          border: "1.5px solid rgba(168,85,247,0.5)",
+          transform: "translate(-50%, -50%)",
+          pointerEvents: "none",
+          zIndex: 9998,
+          backdropFilter: "none",
+        }}
+      />
+    </>
+  );
+}
