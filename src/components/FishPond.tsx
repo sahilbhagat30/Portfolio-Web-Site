@@ -23,22 +23,15 @@ class Boid {
     this.vx = (Math.random() - 0.5) * 4;
     this.vy = (Math.random() - 0.5) * 4;
     this.history = [];
-    this.maxSpeed = 2 + Math.random() * 2.5; // Variations in speed
-    this.maxForce = 0.04 + Math.random() * 0.04;
+    this.maxSpeed = 1.5 + Math.random() * 1.5; // Slower, more natural speed
+    this.maxForce = 0.03 + Math.random() * 0.02;
     this.color = color;
-    this.size = 2 + Math.random() * 2;
+    this.size = 3 + Math.random() * 3; // Slightly larger for fish bodies
   }
 
   update() {
     this.x += this.vx;
     this.y += this.vy;
-    
-    this.history.push({ x: this.x, y: this.y });
-    // Keep trail length proportional to speed
-    if (this.history.length > 25) {
-      this.history.shift();
-    }
-  }
 
   edges(width: number, height: number) {
     const margin = 100;
@@ -205,7 +198,7 @@ export default function FishPond() {
     handleResize();
     window.addEventListener("resize", handleResize);
 
-    const colors = ["#a855f7", "#22d3ee", "#e2e8f0"]; // violet, cyan, silver
+    const colors = ["#FF6B00", "#FF6B00", "#EEEEEE", "#222222", "#FFB300"]; // Natural koi colors: orange, white, black, gold
     const boids: Boid[] = [];
     for (let i = 0; i < 35; i++) {
       boids.push(new Boid(Math.random() * width, Math.random() * height, colors[Math.floor(Math.random() * colors.length)]));
@@ -215,11 +208,11 @@ export default function FishPond() {
     let animationFrameId: number;
 
     const render = () => {
-      // Fade out background for trail effect (gives the neon glow trails)
-      ctx.fillStyle = "rgba(8, 8, 8, 0.25)";
+      // Clear with slight trail for smooth water movement, but not neon
+      ctx.fillStyle = "rgba(5, 16, 20, 0.4)";
       ctx.fillRect(0, 0, width, height);
 
-      // Render foods (ripples)
+      // Render foods (water ripples / food pellets)
       for (let i = foods.length - 1; i >= 0; i--) {
         let f = foods[i];
         if (!f.update()) {
@@ -227,53 +220,81 @@ export default function FishPond() {
           continue;
         }
         
-        // Inner glowing orb
+        // Food pellet
         ctx.beginPath();
-        ctx.arc(f.x, f.y, Math.max(0, f.radius), 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 255, 255, ${f.life / 255})`;
+        ctx.arc(f.x, f.y, Math.max(0, f.radius * 0.4), 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(210, 180, 140, ${f.life / 255})`; // tan color
         ctx.fill();
         
-        // Expanding ripple
+        // Expanding water ripple
         ctx.beginPath();
-        const rippleExpansion = (255 - f.life) * 0.4;
+        const rippleExpansion = (255 - f.life) * 0.5;
         ctx.arc(f.x, f.y, f.maxRadius + rippleExpansion, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(255, 255, 255, ${f.life / 500})`;
-        ctx.lineWidth = 1.5;
+        ctx.strokeStyle = `rgba(255, 255, 255, ${f.life / 800})`; // very subtle white
+        ctx.lineWidth = 1;
         ctx.stroke();
       }
 
-      // Render flock
+      const time = Date.now() * 0.005; // For swimming animation
+
+      // Render flock (Koi)
       for (let b of boids) {
         b.flock(boids, foods);
         b.update();
         b.edges(width, height);
 
-        // Draw flowing trail
-        if (b.history.length > 1) {
-          ctx.beginPath();
-          ctx.moveTo(b.history[0].x, b.history[0].y);
-          for (let i = 1; i < b.history.length; i++) {
-            // Taper the width of the line over its history
-            ctx.lineTo(b.history[i].x, b.history[i].y);
-          }
-          ctx.strokeStyle = b.color;
-          ctx.lineWidth = b.size;
-          ctx.lineCap = "round";
-          ctx.lineJoin = "round";
-          ctx.stroke();
-        }
+        const angle = Math.atan2(b.vy, b.vx);
+        const speed = Math.hypot(b.vx, b.vy);
+        
+        ctx.save();
+        ctx.translate(b.x, b.y);
+        ctx.rotate(angle);
 
-        // Draw vivid "head"
+        // Swimming tail wiggle based on speed and time
+        const wiggle = Math.sin(time + b.x * 0.1) * (speed * 1.5);
+        
+        // Shadow for depth
+        ctx.shadowBlur = 15;
+        ctx.shadowColor = "rgba(0,0,0,0.5)";
+        ctx.shadowOffsetY = 10;
+        
+        ctx.fillStyle = b.color;
+        
+        // Draw Tail
         ctx.beginPath();
-        ctx.arc(b.x, b.y, b.size + 1, 0, Math.PI * 2);
-        ctx.fillStyle = "#ffffff";
+        ctx.moveTo(-b.size * 1.5, 0);
+        ctx.lineTo(-b.size * 3.5, -b.size + wiggle);
+        ctx.lineTo(-b.size * 3.5, b.size + wiggle);
+        ctx.fill();
+
+        // Draw Body (Ellipse)
+        ctx.beginPath();
+        ctx.ellipse(0, 0, b.size * 2.5, b.size * 1.2, 0, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Draw Fin (Left)
+        ctx.beginPath();
+        ctx.ellipse(-b.size * 0.5, -b.size * 1.2, b.size * 1.5, b.size * 0.5, -Math.PI / 6 + wiggle * 0.1, 0, Math.PI * 2);
         ctx.fill();
         
-        // Glow effect on head
-        ctx.shadowBlur = 10;
-        ctx.shadowColor = b.color;
+        // Draw Fin (Right)
+        ctx.beginPath();
+        ctx.ellipse(-b.size * 0.5, b.size * 1.2, b.size * 1.5, b.size * 0.5, Math.PI / 6 + wiggle * 0.1, 0, Math.PI * 2);
         ctx.fill();
-        ctx.shadowBlur = 0; // reset
+
+        // Reset shadow for details
+        ctx.shadowBlur = 0;
+        ctx.shadowOffsetY = 0;
+
+        // White spots on orange/black fish to make them look like Koi
+        if ((b.color === "#FF6B00" || b.color === "#222222") && b.size > 4) {
+           ctx.fillStyle = "#ffffff";
+           ctx.beginPath();
+           ctx.ellipse(b.size * 0.8, 0, b.size * 1.2, b.size * 0.7, 0, 0, Math.PI * 2);
+           ctx.fill();
+        }
+
+        ctx.restore();
       }
 
       animationFrameId = requestAnimationFrame(render);
@@ -298,24 +319,24 @@ export default function FishPond() {
   }, []);
 
   return (
-    <section className="relative w-full border-t border-white/5 bg-[#080808] overflow-hidden" style={{ height: "min(80vh, 600px)" }}>
+    <section className="relative w-full border-t border-white/5 bg-[#051014] overflow-hidden" style={{ height: "min(80vh, 600px)" }}>
       {/* Title */}
       <div className="absolute top-10 left-6 md:left-12 pointer-events-none z-10">
         <p className="text-white/30 text-[10px] md:text-xs font-semibold tracking-widest uppercase mb-1">
-          System Idle
+          Koi Pond
         </p>
         <p className="text-white/60 text-xs md:text-sm">
-          Click to feed the digital koi.
+          Click to feed the fish.
         </p>
       </div>
       
       <canvas 
         ref={canvasRef} 
-        className="block w-full h-full cursor-crosshair mix-blend-screen"
+        className="block w-full h-full cursor-crosshair"
       />
       
       {/* Inner shadow to blend edges into the void */}
-      <div className="absolute inset-0 pointer-events-none shadow-[inset_0_0_120px_rgba(8,8,8,1)]" />
+      <div className="absolute inset-0 pointer-events-none shadow-[inset_0_0_120px_rgba(5,16,20,1)]" />
     </section>
   );
 }
