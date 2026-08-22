@@ -139,14 +139,15 @@ const SCROLL_STATES = [
 
 export default function TheEnd() {
   const sectionRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLDivElement>(null);
   const basePath = useBasePath();
   const [scrollState, setScrollState] = useState(0);
   const [hasConnected, setHasConnected] = useState(false);
   const [showSparks, setShowSparks] = useState(false);
 
   const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end end"],
+    target: canvasRef,
+    offset: ["start 90%", "end 50%"],
   });
 
   const progress = useSpring(scrollYProgress, { stiffness: 50, damping: 25 });
@@ -212,6 +213,7 @@ export default function TheEnd() {
 
         {/* CENTER: Hands canvas */}
         <motion.div
+          ref={canvasRef}
           className="relative flex-1 w-full"
           initial={{ opacity: 0, scale: 0.98 }}
           whileInView={{ opacity: 1, scale: 1 }}
