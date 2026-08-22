@@ -29,7 +29,7 @@ export default function TheEnd() {
   const rightHandX = useTransform(scrollYProgress, [0, 1], ["60%", "-5%"]);
 
   return (
-    <section className="relative py-24 px-6 md:px-12 w-full max-w-[1400px] mx-auto overflow-hidden">
+    <section className="relative py-24 px-6 md:px-12 w-full max-w-[1400px] mx-auto">
       <div className="flex flex-col lg:flex-row items-stretch justify-between gap-8 h-[60vh] min-h-[500px]">
         
         {/* Left Text Block */}
@@ -71,31 +71,31 @@ export default function TheEnd() {
 
           {/* Left Hand Image (Colorized via multiply/screen blend modes) */}
           <motion.div 
-            className="absolute top-1/2 -translate-y-1/2 left-0 w-[45%] h-[70%] origin-left mix-blend-screen"
+            className="absolute top-0 left-0 w-1/2 h-full origin-left mix-blend-screen"
             style={{ x: leftHandX }}
           >
-            <div className="relative w-full h-full rounded-r-full overflow-hidden bg-violet-400" style={{ backgroundImage: "linear-gradient(to right, #c084fc, #e879f9)" }}>
+            <div className="relative w-full h-full bg-violet-400 overflow-hidden" style={{ backgroundImage: "linear-gradient(to right, #c084fc, #e879f9)", borderRight: "1px solid rgba(255,255,255,0.1)" }}>
               {/* Multiply: White becomes Violet, Black stays Black */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img 
                 src={`${basePath}/assets/left_hand.jpg`} 
                 alt="Left Hand" 
-                className="absolute inset-0 w-full h-full object-contain object-left mix-blend-multiply" 
+                className="absolute inset-0 w-[120%] h-[120%] -top-[10%] -left-[10%] object-contain object-right mix-blend-multiply rotate-[18deg]" 
               />
             </div>
           </motion.div>
 
           {/* Right Hand Image */}
           <motion.div 
-            className="absolute top-1/2 -translate-y-1/2 right-0 w-[45%] h-[70%] origin-right mix-blend-screen"
+            className="absolute top-0 right-0 w-1/2 h-full origin-right mix-blend-screen"
             style={{ x: rightHandX }}
           >
-            <div className="relative w-full h-full rounded-l-full overflow-hidden bg-cyan-400" style={{ backgroundImage: "linear-gradient(to left, #22d3ee, #818cf8)" }}>
+            <div className="relative w-full h-full bg-cyan-400 overflow-hidden" style={{ backgroundImage: "linear-gradient(to left, #22d3ee, #818cf8)" }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img 
                 src={`${basePath}/assets/right_hand.jpg`} 
                 alt="Right Hand" 
-                className="absolute inset-0 w-full h-full object-contain object-right mix-blend-multiply" 
+                className="absolute inset-0 w-[120%] h-[120%] -top-[10%] -right-[10%] object-contain object-left mix-blend-multiply -rotate-[18deg]" 
               />
             </div>
           </motion.div>
@@ -108,7 +108,7 @@ export default function TheEnd() {
         </div>
 
         {/* Right Text Block */}
-        <div className="flex flex-col justify-center shrink-0 lg:w-48 z-10 text-center lg:text-left">
+        <div className="flex flex-col justify-center shrink-0 lg:w-[320px] z-10 text-center lg:text-left">
           <h2 className="font-black text-6xl md:text-7xl leading-none tracking-tighter mb-4 text-white">
             SAY
             <br />
