@@ -3,7 +3,6 @@ import { Lexend, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import LenisProvider from "@/components/LenisProvider";
 import Cursor from "@/components/Cursor";
-import AmbientCanvas from "@/components/AmbientCanvas";
 import Preloader from "@/components/Preloader";
 
 const lexend = Lexend({ subsets: ["latin"], variable: "--font-lexend", weight: ["300","400","500","600","700","800","900"] });
@@ -27,8 +26,6 @@ export default function RootLayout({
     <html lang="en" className={`${lexend.variable} ${playfair.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col font-sans text-foreground bg-background">
         <Preloader />
-        {/* Global ambient layer — behind everything */}
-        <AmbientCanvas />
         {/* Custom cursor — above everything */}
         <Cursor />
         <LenisProvider>{children}</LenisProvider>

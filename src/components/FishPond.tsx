@@ -696,7 +696,7 @@ export default function FishPond() {
 
     return () => {
       if (rafId.current) cancelAnimationFrame(rafId.current);
-      footer?.removeEventListener("click", handleClick);
+      footer.removeEventListener("click", handleClick);
     };
   }, []);
 
