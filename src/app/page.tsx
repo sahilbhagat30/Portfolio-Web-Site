@@ -9,11 +9,10 @@ import Contact from "@/components/Contact";
 import TheEnd from "@/components/TheEnd";
 import FishPond from "@/components/FishPond";
 import VinylPlayer from "@/components/VinylPlayer";
-import { getPhotos, getCategories } from "@/utils/getPhotos";
+import { getPhotos } from "@/utils/getPhotos";
 
 export default function Home() {
   const photos = getPhotos();
-  const categories = getCategories(photos);
 
   return (
     <main className="relative bg-[#080808]">
@@ -43,7 +42,7 @@ export default function Home() {
       <PersonalProjects />
 
       {/* Photography */}
-      <Photography initialPhotos={photos} categories={categories} />
+      <Photography initialPhotos={photos} />
 
       {/* Contact & Footer (New Michelangelo Hands layout) */}
       <TheEnd />

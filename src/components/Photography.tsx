@@ -2,33 +2,48 @@
 
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ZoomIn, Camera } from "lucide-react";
+import { X, ZoomIn } from "lucide-react";
 
 import { PhotoData } from "@/utils/getPhotos";
 
-const spanClass: Record<string, string> = {
-  tall: "row-span-2",
-  wide: "col-span-2",
-  normal: "",
-};
-
 export default function Photography({
   initialPhotos = [],
-  categories = ["All"],
 }: {
   initialPhotos?: PhotoData[];
-  categories?: string[];
 }) {
-  const [activeCategory, setActiveCategory] = useState("All");
   const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
   const [lightboxAlt, setLightboxAlt] = useState("");
 
-  const filtered = initialPhotos.filter(
-    (p) => activeCategory === "All" || p.category === activeCategory
-  );
+  // Split photos into two rows for the double marquee effect
+  const mid = Math.ceil(initialPhotos.length / 2);
+  const row1 = initialPhotos.slice(0, mid);
+  const row2 = initialPhotos.slice(mid);
 
   return (
-    <section id="photography" className="relative py-32 px-6 md:px-16 overflow-hidden">
+    <section id="photography" className="relative py-32 overflow-hidden bg-[#080808]">
+      {/* Injecting marquee animations */}
+      <style dangerouslySetInnerHTML={{
+        __html: `
+        @keyframes scroll-left {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(calc(-50% - 0.5rem)); }
+        }
+        @keyframes scroll-right {
+          0% { transform: translateX(calc(-50% - 0.5rem)); }
+          100% { transform: translateX(0); }
+        }
+        .marquee-left {
+          animation: scroll-left 40s linear infinite;
+        }
+        .marquee-right {
+          animation: scroll-right 40s linear infinite;
+        }
+        .marquee-left:hover, .marquee-right:hover {
+          animation-play-state: paused;
+        }
+        `
+      }} />
+
       {/* Background glow */}
       <div
         aria-hidden
@@ -41,7 +56,7 @@ export default function Photography({
         style={{ background: "radial-gradient(circle, #a855f7, transparent 70%)" }}
       />
 
-      <div className="max-w-7xl mx-auto relative z-10">
+      <div className="max-w-7xl mx-auto relative z-10 px-6 md:px-16">
         {/* Header */}
         <motion.p
           initial={{ opacity: 0, y: 16 }}
@@ -70,99 +85,70 @@ export default function Photography({
               When I&apos;m not pushing pixels or writing code, you can find me exploring the world, chasing experiences, and capturing moments through my lens.
             </p>
           </div>
-
-          {/* Category filter */}
-          <div className="flex gap-2 flex-wrap">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setActiveCategory(cat)}
-                className="px-4 py-1.5 rounded-full text-xs font-medium transition-all duration-300"
-                style={
-                  activeCategory === cat
-                    ? {
-                        background: "linear-gradient(135deg, #a855f7, #22d3ee)",
-                        color: "#fff",
-                        border: "1px solid transparent",
-                      }
-                    : {
-                        background: "rgba(255,255,255,0.04)",
-                        color: "rgba(255,255,255,0.45)",
-                        border: "1px solid rgba(255,255,255,0.1)",
-                      }
-                }
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
         </motion.div>
+      </div>
 
-
-        {/* Masonry-style grid */}
-        <motion.div
-          layout
-          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 auto-rows-[200px] gap-3"
-        >
-          <AnimatePresence>
-            {filtered.map((photo, i) => (
-              <motion.div
-                key={photo.src}
-                layout
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0, scale: 0.95 }}
-                transition={{ duration: 0.4, delay: i * 0.04 }}
-                className={`group relative overflow-hidden rounded-2xl cursor-pointer ${spanClass[photo.span] ?? ""}`}
+      {/* Marquee Slideshows */}
+      <div className="relative w-full flex flex-col gap-4 mt-8 pb-12 z-20 overflow-hidden">
+        {/* Row 1: Scrolls Left */}
+        {row1.length > 0 && (
+          <div className="flex w-max gap-4 marquee-left">
+            {[...row1, ...row1].map((photo, i) => (
+              <div
+                key={i}
+                className="w-[280px] h-[190px] md:w-[380px] md:h-[260px] relative overflow-hidden rounded-2xl shrink-0 group cursor-pointer"
                 style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)" }}
                 onClick={() => {
                   setLightboxSrc(photo.src);
                   setLightboxAlt(photo.alt);
                 }}
               >
-                {/* Photo */}
                 <img
                   src={photo.src}
                   alt={photo.alt}
-                  className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                  className="w-full h-full object-cover transition-all duration-700 ease-out grayscale group-hover:grayscale-0 group-hover:scale-105"
                   onError={(e) => {
-                    // Placeholder gradient if photo not found
                     (e.target as HTMLImageElement).style.display = "none";
                   }}
                 />
-
-                {/* Placeholder shown when no image yet */}
-                <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 opacity-100 group-hover:opacity-0 transition-opacity duration-300"
-                     style={{ zIndex: 0 }}>
-                  <Camera size={24} className="text-white/10" />
-                  <p className="text-[0.6rem] text-white/10 text-center px-4">{photo.alt}</p>
+                <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-500" />
+                <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 pointer-events-none">
+                  <ZoomIn size={32} className="text-white drop-shadow-lg" />
                 </div>
-
-                {/* Hover overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-400 z-10" />
-
-                {/* Zoom icon + category */}
-                <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <ZoomIn size={22} className="text-white" />
-                </div>
-                <div className="absolute bottom-3 left-3 z-20 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <span
-                    className="text-[0.6rem] font-medium px-2 py-0.5 rounded-full"
-                    style={{
-                      background: "rgba(168,85,247,0.3)",
-                      border: "1px solid rgba(168,85,247,0.4)",
-                      color: "#c084fc",
-                    }}
-                  >
-                    {photo.category}
-                  </span>
-                </div>
-              </motion.div>
+              </div>
             ))}
-          </AnimatePresence>
-        </motion.div>
+          </div>
+        )}
 
-
+        {/* Row 2: Scrolls Right */}
+        {row2.length > 0 && (
+          <div className="flex w-max gap-4 marquee-right">
+            {[...row2, ...row2].map((photo, i) => (
+              <div
+                key={i}
+                className="w-[280px] h-[190px] md:w-[380px] md:h-[260px] relative overflow-hidden rounded-2xl shrink-0 group cursor-pointer"
+                style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)" }}
+                onClick={() => {
+                  setLightboxSrc(photo.src);
+                  setLightboxAlt(photo.alt);
+                }}
+              >
+                <img
+                  src={photo.src}
+                  alt={photo.alt}
+                  className="w-full h-full object-cover transition-all duration-700 ease-out grayscale group-hover:grayscale-0 group-hover:scale-105"
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).style.display = "none";
+                  }}
+                />
+                <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-500" />
+                <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 pointer-events-none">
+                  <ZoomIn size={32} className="text-white drop-shadow-lg" />
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* ── Lightbox ── */}
