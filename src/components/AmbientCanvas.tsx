@@ -40,7 +40,7 @@ export default function AmbientCanvas() {
 
     const resize = () => {
       canvas.width  = window.innerWidth;
-      canvas.height = document.documentElement.scrollHeight;
+      canvas.height = window.innerHeight; // Fix canvas vertical squashing
     };
     resize();
     window.addEventListener("resize", resize);
@@ -56,7 +56,7 @@ export default function AmbientCanvas() {
       if (cx) {
         const grad = cx.createRadialGradient(size, size, 0, size, size, size);
         grad.addColorStop(0, `${color}1)`);
-        grad.addColorStop(0.2, `${color}0.8)`);
+        grad.addColorStop(0.4, `${color}0.8)`);
         grad.addColorStop(1, `${color}0)`);
         cx.fillStyle = grad;
         cx.fillRect(0, 0, size * 2, size * 2);
@@ -65,7 +65,8 @@ export default function AmbientCanvas() {
     });
 
     const onMouse = (e: MouseEvent) => {
-      mouseRef.current = { x: e.clientX, y: e.clientY + window.scrollY };
+      // For fixed canvas, mouse Y is just clientY
+      mouseRef.current = { x: e.clientX, y: e.clientY };
     };
     window.addEventListener("mousemove", onMouse, { passive: true });
 
@@ -85,8 +86,8 @@ export default function AmbientCanvas() {
         y: Math.random() * h,
         vx: (Math.random() - 0.5) * 0.4,
         vy: (Math.random() - 0.5) * 0.4,
-        radius: Math.random() * 2.5 + 0.5,
-        opacity: Math.random() * 0.3 + 0.05,
+        radius: Math.random() * 2.5 + 1.0, // Make slightly bigger
+        opacity: Math.random() * 0.5 + 0.2, // Make brighter
         opacityDir: (Math.random() > 0.5 ? 1 : -1) * 0.003,
         color,
         life: 0,
@@ -119,12 +120,11 @@ export default function AmbientCanvas() {
       const dt = Math.min(time - lastTime, 50);
       lastTime = time;
 
-      const scrollTop = window.scrollY;
-      const viewH     = window.innerHeight;
-
-      ctx.clearRect(0, scrollTop, canvas.width, viewH);
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
       const mouse = mouseRef.current;
+      const w = canvas.width;
+      const h = canvas.height;
 
       // Particles (Dust Motes / Fireflies)
       for (let i = particles.length - 1; i >= 0; i--) {
@@ -154,27 +154,24 @@ export default function AmbientCanvas() {
         
         // Twinkling
         p.opacity += p.opacityDir;
-        if (p.opacity > 0.4 || p.opacity < 0.02) p.opacityDir *= -1;
+        if (p.opacity > 0.8 || p.opacity < 0.1) p.opacityDir *= -1;
 
-        // Wrap
-        if (p.x < -50) p.x = canvas.width + 50;
-        if (p.x > canvas.width + 50) p.x = -50;
-        if (p.y < scrollTop - 100) p.y = scrollTop + viewH + 100;
-        if (p.y > scrollTop + viewH + 100) p.y = scrollTop - 100;
+        // Wrap around viewport
+        if (p.x < -50) p.x = w + 50;
+        if (p.x > w + 50) p.x = -50;
+        if (p.y < -50) p.y = h + 50;
+        if (p.y > h + 50) p.y = -50;
 
-        if (p.y > scrollTop - 50 && p.y < scrollTop + viewH + 50) {
-          const cachedOrb = orbCache[p.color];
-          if (cachedOrb) {
-            ctx.globalAlpha = p.opacity;
-            const drawSize = p.radius * 6;
-            ctx.drawImage(cachedOrb, p.x - drawSize / 2, p.y - drawSize / 2, drawSize, drawSize);
-            ctx.globalAlpha = 1.0; // reset
-          }
+        const cachedOrb = orbCache[p.color];
+        if (cachedOrb) {
+          ctx.globalAlpha = p.opacity;
+          const drawSize = p.radius * 6;
+          ctx.drawImage(cachedOrb, p.x - drawSize / 2, p.y - drawSize / 2, drawSize, drawSize);
+          ctx.globalAlpha = 1.0; // reset
         }
 
         if (p.life > p.maxLife) {
-          particles[i] = createParticle(canvas.width, canvas.height);
-          particles[i].y = scrollTop + Math.random() * viewH;
+          particles[i] = createParticle(w, h);
         }
       }
 
@@ -193,24 +190,22 @@ export default function AmbientCanvas() {
         s.vy *= 0.98;
 
         const progress = s.life / s.maxLife;
-        const alpha    = (1 - Math.pow(progress, 2)) * 0.4;
+        const alpha    = (1 - Math.pow(progress, 2)) * 0.8;
 
-        if (s.y > scrollTop - 10 && s.y < scrollTop + viewH + 10) {
-          const cachedOrb = orbCache[s.color];
-          if (cachedOrb) {
-            ctx.globalAlpha = alpha;
-            ctx.drawImage(cachedOrb, s.x - 10, s.y - 10, 20, 20);
-            
-            // Trail
-            ctx.beginPath();
-            ctx.moveTo(s.x, s.y);
-            ctx.lineTo(s.x - s.vx * 12, s.y - s.vy * 12);
-            ctx.strokeStyle = `${s.color}0.6)`;
-            ctx.lineWidth = 1.5;
-            ctx.stroke();
-            
-            ctx.globalAlpha = 1.0;
-          }
+        const cachedOrb = orbCache[s.color];
+        if (cachedOrb) {
+          ctx.globalAlpha = alpha;
+          ctx.drawImage(cachedOrb, s.x - 10, s.y - 10, 20, 20);
+          
+          // Trail
+          ctx.beginPath();
+          ctx.moveTo(s.x, s.y);
+          ctx.lineTo(s.x - s.vx * 12, s.y - s.vy * 12);
+          ctx.strokeStyle = `${s.color}0.6)`;
+          ctx.lineWidth = 1.5;
+          ctx.stroke();
+          
+          ctx.globalAlpha = 1.0;
         }
 
         if (s.life >= s.maxLife) sparks.splice(i, 1);
