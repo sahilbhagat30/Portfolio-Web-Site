@@ -19,7 +19,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`${inter.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col font-sans overflow-x-hidden text-foreground bg-background">
+      <body className="min-h-full flex flex-col font-sans text-foreground bg-background">
         {/* Global ambient layer — behind everything */}
         <AmbientCanvas />
         {/* Custom cursor — above everything */}

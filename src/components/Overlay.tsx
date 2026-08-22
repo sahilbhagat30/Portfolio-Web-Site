@@ -122,10 +122,18 @@ export default function Overlay() {
   const containerRef = useRef<HTMLDivElement>(null);
   const role = useTypewriter(ROLES);
 
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"],
-  });
+  const [scrollRange, setScrollRange] = useState(4000);
+
+  useEffect(() => {
+    // Hero is 500vh tall, viewport is 100vh. Scrollable distance is 400vh.
+    const handleResize = () => setScrollRange(window.innerHeight * 4);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const { scrollY } = useScroll();
+  const scrollYProgress = useTransform(scrollY, [0, scrollRange], [0, 1]);
 
   // Section 1: Hero (0% → 20%)
   const opacity1 = useTransform(scrollYProgress, [0, 0.12, 0.22, 1], [1, 1, 0, 0]);

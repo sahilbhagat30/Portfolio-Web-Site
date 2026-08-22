@@ -10,12 +10,17 @@ export default function ScrollyCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [images, setImages] = useState<HTMLImageElement[]>([]);
   
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start start", "end end"]
-  });
+  const [scrollRange, setScrollRange] = useState(4000);
 
-  const frameIndex = useTransform(scrollYProgress, [0, 1], [0, FRAME_COUNT - 1]);
+  useEffect(() => {
+    const handleResize = () => setScrollRange(window.innerHeight * 4);
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  const { scrollY } = useScroll();
+  const frameIndex = useTransform(scrollY, [0, scrollRange], [0, FRAME_COUNT - 1]);
 
   useEffect(() => {
     const loadedImages: HTMLImageElement[] = [];
