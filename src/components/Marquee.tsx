@@ -11,8 +11,17 @@ const KEYWORDS = [
   "Python",
   "SQL",
   "Power BI",
+  "Tableau",
+  "Looker",
   "Databricks",
   "AWS",
+  "Data Architecture",
+  "Data Modeling",
+  "ETL Pipelines",
+  "DAX",
+  "Pandas",
+  "CI/CD",
+  "Informatica",
   "Analytics Engineer",
   "Problem Solver",
 ];
@@ -27,7 +36,7 @@ export default function Marquee() {
         transition={{
           repeat: Infinity,
           ease: "linear",
-          duration: 35,
+          duration: 60,
         }}
       >
         {[...KEYWORDS, ...KEYWORDS].map((word, i) => (
