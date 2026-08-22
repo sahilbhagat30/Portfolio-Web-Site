@@ -32,6 +32,7 @@ class Boid {
   update() {
     this.x += this.vx;
     this.y += this.vy;
+  }
 
   edges(width: number, height: number) {
     const margin = 100;
