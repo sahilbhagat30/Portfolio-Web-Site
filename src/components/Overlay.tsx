@@ -125,8 +125,8 @@ export default function Overlay() {
   const [scrollRange, setScrollRange] = useState(4000);
 
   useEffect(() => {
-    // Hero is 500vh tall, viewport is 100vh. Scrollable distance is 400vh.
-    const handleResize = () => setScrollRange(window.innerHeight * 4);
+    // Hero is 300vh tall, viewport is 100vh. Scrollable distance is 200vh.
+    const handleResize = () => setScrollRange(window.innerHeight * 2);
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -135,17 +135,9 @@ export default function Overlay() {
   const { scrollY } = useScroll();
   const scrollYProgress = useTransform(scrollY, [0, scrollRange], [0, 1]);
 
-  // Section 1: Hero (0% → 20%)
-  const opacity1 = useTransform(scrollYProgress, [0, 0.12, 0.22, 1], [1, 1, 0, 0]);
-  const y1 = useTransform(scrollYProgress, [0, 0.22, 1], [0, -30, -30]);
-
-  // Section 2: Role (25% → 55%)
-  const opacity2 = useTransform(scrollYProgress, [0, 0.25, 0.35, 0.47, 0.57, 1], [0, 0, 1, 1, 0, 0]);
-  const y2 = useTransform(scrollYProgress, [0, 0.25, 0.57, 1], [20, 20, -20, -20]);
-
-  // Section 3: Ethos (60% → 90%)
-  const opacity3 = useTransform(scrollYProgress, [0, 0.6, 0.7, 0.82, 0.92, 1], [0, 0, 1, 1, 0, 0]);
-  const y3 = useTransform(scrollYProgress, [0, 0.6, 0.92, 1], [20, 20, -20, -20]);
+  // Section 1: Hero (0% → 30%)
+  const opacity1 = useTransform(scrollYProgress, [0, 0.15, 0.3, 1], [1, 1, 0, 0]);
+  const y1 = useTransform(scrollYProgress, [0, 0.3, 1], [0, -30, -30]);
 
   return (
     <div ref={containerRef} className="h-full w-full pointer-events-none z-10">
@@ -231,82 +223,7 @@ export default function Overlay() {
           </div>
         </motion.div>
 
-        {/* ── Section 2: Role ── */}
-        <motion.div
-          style={{ opacity: opacity2, y: y2 }}
-          className="absolute inset-0 flex flex-col justify-end md:justify-center pb-24 md:pb-0 px-5 md:px-14 pointer-events-auto"
-        >
-          <div className="pl-4 md:pl-10 border-l-2 border-violet-500/40">
-            <p className="section-label mb-5">What I do</p>
-            <h2
-              className="text-white font-bold m-0 leading-[1.1]"
-              style={{ fontSize: "clamp(1.6rem, 5.5vw, 3.8rem)", letterSpacing: "-0.025em" }}
-            >
-              I architect <span className="gradient-text">data</span>
-              <br />
-              for scale & impact.
-            </h2>
-            <p className="mt-6 text-white/45 max-w-xs leading-relaxed" style={{ fontSize: "clamp(0.85rem, 1.1vw, 1rem)" }}>
-              Designing cloud data warehouses, building orchestration pipelines, and creating BI reporting dashboards that drive decisions.
-            </p>
 
-            <div className="mt-8 flex flex-wrap gap-2">
-              {["Snowflake", "BigQuery", "dbt", "Airflow", "Dagster", "Power BI", "Python", "SQL"].map((tool, i) => (
-                <motion.span
-                  key={tool}
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  whileInView={{ opacity: 1, scale: 1 }}
-                  transition={{ delay: i * 0.07, duration: 0.3 }}
-                  whileHover={{ scale: 1.1, y: -2 }}
-                  className="px-3 py-1 rounded-full text-[0.7rem] font-medium text-white/60 cursor-default"
-                  style={{ background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.12)" }}
-                >
-                  {tool}
-                </motion.span>
-              ))}
-            </div>
-          </div>
-        </motion.div>
-
-        {/* ── Section 3: Ethos ── */}
-        <motion.div
-          style={{ opacity: opacity3, y: y3 }}
-          className="absolute inset-0 flex flex-col justify-end md:justify-center pb-24 md:pb-0 px-5 md:px-14 pointer-events-auto"
-        >
-          <div className="pl-4 md:pl-10">
-            <p className="section-label mb-5">Philosophy</p>
-            <h2
-              className="text-white font-bold m-0 leading-[1.1]"
-              style={{ fontSize: "clamp(1.4rem, 5vw, 3.2rem)", letterSpacing: "-0.025em" }}
-            >
-              The best analysis means{" "}
-              <br />
-              nothing if it doesn&apos;t{" "}
-              <span className="gradient-text">land.</span>
-            </h2>
-            <div className="mt-10 space-y-5">
-              {[
-                { icon: "◈", text: "Every metric deliberate.", sub: "No vanity numbers." },
-                { icon: "◈", text: "Every pipeline resilient.", sub: "Built to outlast its builder." },
-                { icon: "◈", text: "Every dashboard built to be understood.", sub: "Not just looked at." },
-              ].map((item, i) => (
-                <motion.div
-                  key={item.text}
-                  initial={{ opacity: 0, x: -16 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  transition={{ delay: i * 0.12, duration: 0.5 }}
-                  className="flex items-start gap-3"
-                >
-                  <span className="text-violet-400 text-xs mt-1">{item.icon}</span>
-                  <div>
-                    <p className="text-white/70 text-sm tracking-wide">{item.text}</p>
-                    <p className="text-white/30 text-xs mt-0.5">{item.sub}</p>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-          </div>
-        </motion.div>
 
       </div>
     </div>
