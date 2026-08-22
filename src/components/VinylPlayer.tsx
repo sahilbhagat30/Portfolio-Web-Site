@@ -27,8 +27,14 @@ export default function VinylPlayer() {
 
   useEffect(() => {
     const handleScroll = () => {
-      // Show when scrolled past 50% of the viewport height
-      setIsVisible(window.scrollY > window.innerHeight * 0.5);
+      const aboutEl = document.getElementById("about");
+      if (aboutEl) {
+        // Show when we scroll close to the About section
+        setIsVisible(window.scrollY >= aboutEl.offsetTop - window.innerHeight * 0.8);
+      } else {
+        // Fallback
+        setIsVisible(window.scrollY > window.innerHeight * 0.8);
+      }
     };
     
     // Initial check
