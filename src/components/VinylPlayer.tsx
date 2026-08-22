@@ -17,9 +17,9 @@ interface Track {
 const basePath = typeof window !== "undefined" && window.location.hostname === "localhost" ? "" : "/Portfolio-Web-Site";
 
 const TRACKS: Track[] = [
-  { title: "Track 1", artist: "Artist", file: `${basePath}/music/track1.wav`, art: `${basePath}/music/art1.png` },
-  { title: "Track 2", artist: "Artist", file: `${basePath}/music/track2.wav`, art: `${basePath}/music/art2.png` },
-  { title: "Track 3", artist: "Artist", file: `${basePath}/music/track3.wav`, art: `${basePath}/music/art3.png` },
+  { title: "Track 1", artist: "Artist", file: `${basePath}/music/track1.mp3`, art: `${basePath}/music/art1.png` },
+  { title: "Track 2", artist: "Artist", file: `${basePath}/music/track2.mp3`, art: `${basePath}/music/art2.png` },
+  { title: "Track 3", artist: "Artist", file: `${basePath}/music/track3.mp3`, art: `${basePath}/music/art3.png` },
 ];
 // ──────────────────────────────────────────────────────────────────────────
 
