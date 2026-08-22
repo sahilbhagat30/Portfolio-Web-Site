@@ -69,48 +69,35 @@ export default function TheEnd() {
             </motion.div>
           </div>
 
-          {/* Left Hand Image (Using CSS Mask to colorize it) */}
+          {/* Left Hand Image (Colorized via multiply/screen blend modes) */}
           <motion.div 
-            className="absolute top-1/2 -translate-y-1/2 left-0 w-[45%] h-[70%] origin-left"
+            className="absolute top-1/2 -translate-y-1/2 left-0 w-[45%] h-[70%] origin-left mix-blend-screen"
             style={{ x: leftHandX }}
           >
-            <div 
-              className="w-full h-full"
-              style={{
-                backgroundColor: "#c084fc", // violet-400 base
-                backgroundImage: "linear-gradient(to right, #c084fc, #e879f9)",
-                maskImage: `url(${basePath}/assets/left_hand.jpg)`,
-                maskSize: "contain",
-                maskRepeat: "no-repeat",
-                maskPosition: "center left",
-                WebkitMaskImage: `url(${basePath}/assets/left_hand.jpg)`,
-                WebkitMaskSize: "contain",
-                WebkitMaskRepeat: "no-repeat",
-                WebkitMaskPosition: "center left",
-              }}
-            />
+            <div className="relative w-full h-full rounded-r-full overflow-hidden bg-violet-400" style={{ backgroundImage: "linear-gradient(to right, #c084fc, #e879f9)" }}>
+              {/* Multiply: White becomes Violet, Black stays Black */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img 
+                src={`${basePath}/assets/left_hand.jpg`} 
+                alt="Left Hand" 
+                className="absolute inset-0 w-full h-full object-contain object-left mix-blend-multiply" 
+              />
+            </div>
           </motion.div>
 
           {/* Right Hand Image */}
           <motion.div 
-            className="absolute top-1/2 -translate-y-1/2 right-0 w-[45%] h-[70%] origin-right"
+            className="absolute top-1/2 -translate-y-1/2 right-0 w-[45%] h-[70%] origin-right mix-blend-screen"
             style={{ x: rightHandX }}
           >
-            <div 
-              className="w-full h-full"
-              style={{
-                backgroundColor: "#22d3ee", // cyan-400 base
-                backgroundImage: "linear-gradient(to left, #22d3ee, #818cf8)",
-                maskImage: `url(${basePath}/assets/right_hand.jpg)`,
-                maskSize: "contain",
-                maskRepeat: "no-repeat",
-                maskPosition: "center right",
-                WebkitMaskImage: `url(${basePath}/assets/right_hand.jpg)`,
-                WebkitMaskSize: "contain",
-                WebkitMaskRepeat: "no-repeat",
-                WebkitMaskPosition: "center right",
-              }}
-            />
+            <div className="relative w-full h-full rounded-l-full overflow-hidden bg-cyan-400" style={{ backgroundImage: "linear-gradient(to left, #22d3ee, #818cf8)" }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img 
+                src={`${basePath}/assets/right_hand.jpg`} 
+                alt="Right Hand" 
+                className="absolute inset-0 w-full h-full object-contain object-right mix-blend-multiply" 
+              />
+            </div>
           </motion.div>
           
           <div className="absolute bottom-6 right-6 z-20">
