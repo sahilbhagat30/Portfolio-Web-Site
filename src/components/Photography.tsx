@@ -88,7 +88,7 @@ export default function Photography({
             {[...row, ...row].map((photo, i) => (
               <div
                 key={i}
-                className="w-[280px] h-[190px] md:w-[380px] md:h-[260px] relative overflow-hidden rounded-2xl shrink-0 group cursor-pointer"
+                className="w-[225px] h-[400px] md:w-[270px] md:h-[480px] relative overflow-hidden rounded-2xl shrink-0 group cursor-pointer"
                 style={{ background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)" }}
                 onClick={() => {
                   setLightboxSrc(photo.src);
@@ -103,7 +103,6 @@ export default function Photography({
                     (e.target as HTMLImageElement).style.display = "none";
                   }}
                 />
-                <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-500" />
                 <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 pointer-events-none">
                   <ZoomIn size={32} className="text-white drop-shadow-lg" />
                 </div>
