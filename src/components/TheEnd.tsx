@@ -19,53 +19,6 @@ function useBasePath() {
   return bp;
 }
 
-/* ── Floating particles between the hands ── */
-function Particles({ active }: { active: boolean }) {
-  const particles = Array.from({ length: 12 }, (_, i) => ({
-    id: i,
-    x: 45 + Math.random() * 10,           // clustered near center
-    y: 20 + Math.random() * 60,
-    size: 1 + Math.random() * 2.5,
-    duration: 2 + Math.random() * 3,
-    delay: Math.random() * 2,
-    purple: Math.random() > 0.5,
-  }));
-
-  return (
-    <div className="absolute inset-0 pointer-events-none z-10 overflow-hidden">
-      {particles.map((p) => (
-        <motion.div
-          key={p.id}
-          className="absolute rounded-full"
-          style={{
-            left: `${p.x}%`,
-            top: `${p.y}%`,
-            width: p.size,
-            height: p.size,
-            background: p.purple
-              ? "rgba(234,230,225,0.7)"
-              : "rgba(163,163,163,0.7)",
-            boxShadow: p.purple
-              ? "0 0 6px rgba(234,230,225,0.5)"
-              : "0 0 6px rgba(163,163,163,0.5)",
-          }}
-          animate={active ? {
-            y: [0, -15, 5, -10, 0],
-            x: [0, 8, -6, 4, 0],
-            opacity: [0, 0.8, 0.5, 0.9, 0],
-            scale: [0.5, 1.2, 0.8, 1, 0.5],
-          } : { opacity: 0 }}
-          transition={{
-            duration: p.duration,
-            delay: p.delay,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        />
-      ))}
-    </div>
-  );
-}
 
 /* ── Electric spark burst on connection ── */
 function SparkBurst() {
@@ -295,8 +248,6 @@ export default function TheEnd() {
             />
           </motion.div>
 
-          {/* Floating particles between hands */}
-          <Particles active={scrollState >= 1} />
 
           {/* Glow at touch point */}
           <motion.div
