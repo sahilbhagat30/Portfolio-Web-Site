@@ -7,7 +7,6 @@ import About from "@/components/About";
 import Photography from "@/components/Photography";
 import Contact from "@/components/Contact";
 import TheEnd from "@/components/TheEnd";
-import FishPond from "@/components/FishPond";
 import VinylPlayer from "@/components/VinylPlayer";
 import { getPhotos } from "@/utils/getPhotos";
 
@@ -46,9 +45,6 @@ export default function Home() {
 
       {/* Contact & Footer (New Michelangelo Hands layout) */}
       <TheEnd />
-
-      {/* Interactive Fish Pond */}
-      <FishPond />
 
       {/* Vinyl Music Player */}
       <VinylPlayer />
