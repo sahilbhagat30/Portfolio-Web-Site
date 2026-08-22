@@ -125,8 +125,8 @@ export default function Overlay() {
   const [scrollRange, setScrollRange] = useState(4000);
 
   useEffect(() => {
-    // Hero is 150vh tall, viewport is 100vh. Scrollable distance is 50vh.
-    const handleResize = () => setScrollRange(window.innerHeight * 0.5);
+    // Hero is 500vh tall, viewport is 100vh. Scrollable distance is 400vh.
+    const handleResize = () => setScrollRange(window.innerHeight * 4);
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
@@ -135,9 +135,17 @@ export default function Overlay() {
   const { scrollY } = useScroll();
   const scrollYProgress = useTransform(scrollY, [0, scrollRange], [0, 1]);
 
-  // Section 1: Hero (fades out as you scroll down the 50vh)
-  const opacity1 = useTransform(scrollYProgress, [0, 0.8, 1], [1, 1, 0]);
-  const y1 = useTransform(scrollYProgress, [0, 1], [0, -50]);
+  // Section 1: Hero (0% → 20%)
+  const opacity1 = useTransform(scrollYProgress, [0, 0.12, 0.22, 1], [1, 1, 0, 0]);
+  const y1 = useTransform(scrollYProgress, [0, 0.22, 1], [0, -40, -40]);
+
+  // Section 2: Role (25% → 55%)
+  const opacity2 = useTransform(scrollYProgress, [0, 0.25, 0.35, 0.47, 0.57, 1], [0, 0, 1, 1, 0, 0]);
+  const y2 = useTransform(scrollYProgress, [0, 0.25, 0.35, 0.47, 0.57, 1], [30, 30, 0, 0, -30, -30]);
+
+  // Section 3: Ethos (60% → 90%)
+  const opacity3 = useTransform(scrollYProgress, [0, 0.6, 0.7, 0.82, 0.92, 1], [0, 0, 1, 1, 0, 0]);
+  const y3 = useTransform(scrollYProgress, [0, 0.6, 0.7, 0.82, 0.92, 1], [30, 30, 0, 0, -30, -30]);
 
   return (
     <div ref={containerRef} className="h-full w-full pointer-events-none z-10">
@@ -224,6 +232,60 @@ export default function Overlay() {
         </motion.div>
 
 
+
+        {/* ── Section 2: Role ── */}
+        <motion.div
+          style={{ opacity: opacity2, y: y2 }}
+          className="absolute inset-0 flex flex-col justify-end md:justify-center pb-24 md:pb-0 px-5 md:px-14 pointer-events-auto"
+        >
+          <div className="pl-4 md:pl-12 border-l border-white/20">
+            <p className="text-[0.65rem] tracking-[0.2em] uppercase text-white/40 mb-6 font-medium">What I do</p>
+            <h2
+              className="text-white font-serif italic font-light leading-[1.05] tracking-tight m-0"
+              style={{ fontSize: "clamp(2rem, 6vw, 4.2rem)" }}
+            >
+              I architect <span className="font-sans not-italic font-bold text-[#EAE6E1]">data</span>
+              <br />
+              for scale & impact.
+            </h2>
+            <p className="mt-8 text-white/50 max-w-sm leading-relaxed" style={{ fontSize: "clamp(0.9rem, 1.2vw, 1.1rem)" }}>
+              Designing cloud data warehouses, building resilient orchestration pipelines, and creating intuitive BI reporting frameworks that drive multi-million dollar decisions.
+            </p>
+          </div>
+        </motion.div>
+
+        {/* ── Section 3: Ethos ── */}
+        <motion.div
+          style={{ opacity: opacity3, y: y3 }}
+          className="absolute inset-0 flex flex-col justify-end md:justify-center pb-24 md:pb-0 px-5 md:px-14 pointer-events-auto"
+        >
+          <div className="pl-4 md:pl-12">
+            <p className="text-[0.65rem] tracking-[0.2em] uppercase text-white/40 mb-6 font-medium">Philosophy</p>
+            <h2
+              className="text-white font-serif italic font-light leading-[1.05] tracking-tight m-0"
+              style={{ fontSize: "clamp(1.8rem, 5.5vw, 4rem)" }}
+            >
+              The best analysis means<br />nothing if it doesn&apos;t<br />
+              <span className="font-sans not-italic font-bold text-[#A3A3A3]">land.</span>
+            </h2>
+            
+            <div className="mt-10 space-y-6 max-w-sm">
+              {[
+                { label: "Every metric deliberate", sub: "No vanity numbers allowed." },
+                { label: "Every pipeline resilient", sub: "Engineered to outlast its builder." },
+                { label: "Every dashboard intuitive", sub: "Built to be understood, not just looked at." },
+              ].map((item, i) => (
+                <div key={i} className="flex gap-4 items-start">
+                  <div className="mt-1.5 w-1.5 h-1.5 bg-[#EAE6E1] rounded-full opacity-60" />
+                  <div>
+                    <p className="text-white/80 font-medium tracking-wide text-[0.95rem]">{item.label}</p>
+                    <p className="text-white/40 text-[0.8rem] mt-1">{item.sub}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </motion.div>
 
       </div>
     </div>
