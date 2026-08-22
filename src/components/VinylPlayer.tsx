@@ -142,11 +142,6 @@ export default function VinylPlayer() {
           <div className="w-0.5 h-3 rounded-full bg-white/20" />
         )}
       </div>
-
-      {/* Expand chevron */}
-      <svg width="10" height="10" viewBox="0 0 12 12" fill="none" className="text-white/40">
-        <path d="M2 8l4-4 4 4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-      </svg>
     </motion.div>
   );
 
