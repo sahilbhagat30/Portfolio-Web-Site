@@ -78,9 +78,9 @@ export default function TheEnd() {
               {/* Multiply: White becomes Violet, Black stays Black */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img 
-                src={`${basePath}/assets/left_hand.jpg`} 
+                src={`${basePath}/assets/hands_combined.jpg`} 
                 alt="Left Hand" 
-                className="absolute inset-0 w-[120%] h-[120%] -top-[10%] -left-[10%] object-contain object-right mix-blend-multiply rotate-[18deg]" 
+                className="absolute inset-0 w-[200%] max-w-none h-[120%] -top-[10%] left-0 object-cover object-left mix-blend-multiply rotate-[16deg]" 
               />
             </div>
           </motion.div>
@@ -93,9 +93,9 @@ export default function TheEnd() {
             <div className="relative w-full h-full bg-cyan-400 overflow-hidden" style={{ backgroundImage: "linear-gradient(to left, #22d3ee, #818cf8)" }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img 
-                src={`${basePath}/assets/right_hand.jpg`} 
+                src={`${basePath}/assets/hands_combined.jpg`} 
                 alt="Right Hand" 
-                className="absolute inset-0 w-[120%] h-[120%] -top-[10%] -right-[10%] object-contain object-left mix-blend-multiply -rotate-[18deg]" 
+                className="absolute inset-0 w-[200%] max-w-none h-[120%] -top-[10%] right-0 object-cover object-right mix-blend-multiply -rotate-[16deg]" 
               />
             </div>
           </motion.div>
