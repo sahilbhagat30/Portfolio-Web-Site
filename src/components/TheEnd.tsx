@@ -1,11 +1,20 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { SocialCardGrid } from "./SocialLinks";
 
 export default function TheEnd() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [basePath, setBasePath] = useState(
+    process.env.NODE_ENV === "production" ? "/Portfolio-Web-Site" : ""
+  );
+
+  useEffect(() => {
+    if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
+      setBasePath("");
+    }
+  }, []);
 
   // Track scroll progress relative to this section
   const { scrollYProgress } = useScroll({
@@ -70,11 +79,11 @@ export default function TheEnd() {
               style={{
                 backgroundColor: "#c084fc", // violet-400 base
                 backgroundImage: "linear-gradient(to right, #c084fc, #e879f9)",
-                maskImage: `url(${process.env.NODE_ENV === "production" ? "/Portfolio-Web-Site" : ""}/assets/left_hand.jpg)`,
+                maskImage: `url(${basePath}/assets/left_hand.jpg)`,
                 maskSize: "contain",
                 maskRepeat: "no-repeat",
                 maskPosition: "center left",
-                WebkitMaskImage: `url(${process.env.NODE_ENV === "production" ? "/Portfolio-Web-Site" : ""}/assets/left_hand.jpg)`,
+                WebkitMaskImage: `url(${basePath}/assets/left_hand.jpg)`,
                 WebkitMaskSize: "contain",
                 WebkitMaskRepeat: "no-repeat",
                 WebkitMaskPosition: "center left",
@@ -92,11 +101,11 @@ export default function TheEnd() {
               style={{
                 backgroundColor: "#22d3ee", // cyan-400 base
                 backgroundImage: "linear-gradient(to left, #22d3ee, #818cf8)",
-                maskImage: `url(${process.env.NODE_ENV === "production" ? "/Portfolio-Web-Site" : ""}/assets/right_hand.jpg)`,
+                maskImage: `url(${basePath}/assets/right_hand.jpg)`,
                 maskSize: "contain",
                 maskRepeat: "no-repeat",
                 maskPosition: "center right",
-                WebkitMaskImage: `url(${process.env.NODE_ENV === "production" ? "/Portfolio-Web-Site" : ""}/assets/right_hand.jpg)`,
+                WebkitMaskImage: `url(${basePath}/assets/right_hand.jpg)`,
                 WebkitMaskSize: "contain",
                 WebkitMaskRepeat: "no-repeat",
                 WebkitMaskPosition: "center right",

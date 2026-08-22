@@ -10,13 +10,13 @@ interface Track {
   art?: string; // Optional album art image path
 }
 
-// basePath is set via next.config.ts at build time
-const basePath = typeof window !== "undefined" && window.location.hostname === "localhost" ? "" : "/Portfolio-Web-Site";
+// Initial basePath matches SSR based on NODE_ENV
+const getInitialBasePath = () => process.env.NODE_ENV === "production" ? "/Portfolio-Web-Site" : "";
 
-const TRACKS: Track[] = [
-  { title: "Track 1", artist: "Artist", file: `${basePath}/music/track1.mp3`, art: `${basePath}/music/art1.png` },
-  { title: "Track 2", artist: "Artist", file: `${basePath}/music/track2.mp3`, art: `${basePath}/music/art2.png` },
-  { title: "Track 3", artist: "Artist", file: `${basePath}/music/track3.mp3`, art: `${basePath}/music/art3.png` },
+const getInitialTracks = (bp: string): Track[] => [
+  { title: "Track 1", artist: "Artist", file: `${bp}/music/track1.mp3`, art: `${bp}/music/art1.png` },
+  { title: "Track 2", artist: "Artist", file: `${bp}/music/track2.mp3`, art: `${bp}/music/art2.png` },
+  { title: "Track 3", artist: "Artist", file: `${bp}/music/track3.mp3`, art: `${bp}/music/art3.png` },
 ];
 
 // ─── Reusable Vinyl Disc SVG ─────────────────────────────────────────────
@@ -82,6 +82,14 @@ export default function VinylPlayer() {
   const [currentTrack, setCurrentTrack] = useState(0);
   const [isVisible] = useState(true);
   const [isMinimized, setIsMinimized] = useState(true);
+  const [tracks, setTracks] = useState<Track[]>(getInitialTracks(getInitialBasePath()));
+
+  // Fix basePath for local testing of production builds without hydration errors
+  useEffect(() => {
+    if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
+      setTracks(getInitialTracks(""));
+    }
+  }, []);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const vinylRotation = useMotionValue(0);
@@ -111,8 +119,8 @@ export default function VinylPlayer() {
   useEffect(() => {
     const audio = audioRef.current;
     if (!audio) return;
-    const onEnded = () => setCurrentTrack((t) => (t + 1) % TRACKS.length);
-    audio.src = TRACKS[currentTrack].file;
+    const onEnded = () => setCurrentTrack((t) => (t + 1) % tracks.length);
+    audio.src = tracks[currentTrack].file;
     audio.load();
     audio.addEventListener("ended", onEnded);
     if (isPlaying) audio.play().catch(() => {});
@@ -149,7 +157,7 @@ export default function VinylPlayer() {
       title="Expand player"
     >
       <motion.div style={{ rotate: vinylRotation }} className="w-8 h-8 shrink-0">
-        <VinylDisc artSrc={TRACKS[currentTrack].art} id="mini" size={64} />
+        <VinylDisc artSrc={tracks[currentTrack].art} id="mini" size={64} />
       </motion.div>
 
       <div className="flex items-center gap-1 pr-2">
@@ -204,7 +212,7 @@ export default function VinylPlayer() {
           height: "190px",
         }}
       >
-        <VinylDisc artSrc={TRACKS[currentTrack].art} id="main" size={190} />
+        <VinylDisc artSrc={tracks[currentTrack].art} id="main" size={190} />
       </motion.div>
 
       {/* Play/Pause Button — perfectly centered on the disc */}
