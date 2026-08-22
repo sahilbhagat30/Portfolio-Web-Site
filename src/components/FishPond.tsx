@@ -6,27 +6,77 @@ interface Vector {
   y: number;
 }
 
+class LilyPad {
+  x: number;
+  y: number;
+  r: number;
+  angle: number;
+
+  constructor(x: number, y: number, r: number) {
+    this.x = x;
+    this.y = y;
+    this.r = r;
+    this.angle = Math.random() * Math.PI * 2;
+  }
+
+  draw(ctx: CanvasRenderingContext2D) {
+    ctx.save();
+    ctx.translate(this.x, this.y);
+    ctx.rotate(this.angle);
+
+    // Drop shadow
+    ctx.shadowColor = "rgba(0, 50, 40, 0.4)";
+    ctx.shadowBlur = 10;
+    ctx.shadowOffsetY = 15;
+
+    ctx.beginPath();
+    ctx.arc(0, 0, this.r, 0.3, Math.PI * 2 - 0.3);
+    ctx.lineTo(0, 0);
+    ctx.fillStyle = "#4a8542";
+    ctx.fill();
+
+    // Turn off shadow for veins
+    ctx.shadowColor = "transparent";
+    
+    ctx.strokeStyle = "#3a6a33";
+    ctx.lineWidth = 1.5;
+    for (let i = 1; i < 8; i++) {
+      ctx.beginPath();
+      ctx.moveTo(0, 0);
+      const a = 0.3 + i * ((Math.PI * 2 - 0.6) / 8);
+      ctx.lineTo(Math.cos(a) * this.r * 0.85, Math.sin(a) * this.r * 0.85);
+      ctx.stroke();
+    }
+    
+    // Center dot
+    ctx.beginPath();
+    ctx.arc(0, 0, 2, 0, Math.PI * 2);
+    ctx.fillStyle = "#ffffff";
+    ctx.fill();
+
+    ctx.restore();
+  }
+}
+
 class Boid {
   x: number;
   y: number;
   vx: number;
   vy: number;
-  history: Vector[];
   maxSpeed: number;
   maxForce: number;
-  color: string;
   size: number;
+  seed: number;
 
-  constructor(x: number, y: number, color: string) {
+  constructor(x: number, y: number) {
     this.x = x;
     this.y = y;
     this.vx = (Math.random() - 0.5) * 4;
     this.vy = (Math.random() - 0.5) * 4;
-    this.history = [];
-    this.maxSpeed = 1.5 + Math.random() * 1.5; // Slower, more natural speed
+    this.maxSpeed = 1.5 + Math.random() * 1.5;
     this.maxForce = 0.03 + Math.random() * 0.02;
-    this.color = color;
-    this.size = 3 + Math.random() * 3; // Slightly larger for fish bodies
+    this.size = 3 + Math.random() * 5; // Variation in fish sizes
+    this.seed = Math.random() * 1000;
   }
 
   update() {
@@ -60,7 +110,6 @@ class Boid {
         cohesion.x += other.x;
         cohesion.y += other.y;
         
-        // Separation is stronger closer they are
         let diff = { x: this.x - other.x, y: this.y - other.y };
         diff.x /= (d * d || 1); 
         diff.y /= (d * d || 1);
@@ -82,7 +131,6 @@ class Boid {
       separation = this.steer(separation.x, separation.y);
     }
 
-    // Food attraction overrides flocking slightly
     let foodForce = { x: 0, y: 0 };
     let closestFood = -1;
     let recordDist = Infinity;
@@ -96,12 +144,10 @@ class Boid {
     }
     
     if (closestFood !== -1 && recordDist < 400) {
-      // Seek food aggressively
       foodForce = this.seek(foods[closestFood].x, foods[closestFood].y);
       foodForce.x *= 4;
       foodForce.y *= 4;
       
-      // If close enough, eat it
       if (recordDist < 20) {
         foods[closestFood].radius -= 8;
       }
@@ -110,7 +156,6 @@ class Boid {
     this.vx += alignment.x * 1.0 + cohesion.x * 0.8 + separation.x * 1.5 + foodForce.x;
     this.vy += alignment.y * 1.0 + cohesion.y * 0.8 + separation.y * 1.5 + foodForce.y;
 
-    // Limit speed
     let speed = Math.hypot(this.vx, this.vy);
     if (speed > this.maxSpeed) {
       this.vx = (this.vx / speed) * this.maxSpeed;
@@ -148,6 +193,68 @@ class Boid {
     }
     return steer;
   }
+
+  draw(ctx: CanvasRenderingContext2D, time: number) {
+    const angle = Math.atan2(this.vy, this.vx);
+    const speed = Math.hypot(this.vx, this.vy);
+    
+    ctx.save();
+    ctx.translate(this.x, this.y);
+    ctx.rotate(angle);
+
+    const wiggle = Math.sin(time * 0.005 + this.seed) * (speed * 1.5);
+    const fishColor = "#F94C2B"; // Vibrant orange vector style
+    
+    // Drop shadow
+    ctx.shadowColor = "rgba(0, 30, 20, 0.4)";
+    ctx.shadowBlur = 10;
+    ctx.shadowOffsetY = 15;
+
+    ctx.fillStyle = fishColor;
+
+    // Tail (sharp triangle)
+    ctx.beginPath();
+    ctx.moveTo(-this.size * 1.5, 0);
+    ctx.lineTo(-this.size * 4, -this.size * 1.2 + wiggle);
+    ctx.lineTo(-this.size * 3.5, wiggle);
+    ctx.lineTo(-this.size * 4, this.size * 1.2 + wiggle);
+    ctx.fill();
+
+    // Body (Ellipse)
+    ctx.beginPath();
+    ctx.ellipse(0, 0, this.size * 2.5, this.size * 1.2, 0, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Fins (sharp triangles)
+    ctx.beginPath();
+    ctx.moveTo(0, -this.size);
+    ctx.lineTo(-this.size * 1.5, -this.size * 2.5 + wiggle * 0.5);
+    ctx.lineTo(-this.size, -this.size);
+    ctx.fill();
+
+    ctx.beginPath();
+    ctx.moveTo(0, this.size);
+    ctx.lineTo(-this.size * 1.5, this.size * 2.5 + wiggle * 0.5);
+    ctx.lineTo(-this.size, this.size);
+    ctx.fill();
+
+    // Turn off shadow for details
+    ctx.shadowColor = "transparent";
+
+    // Back scale pattern on larger fish
+    if (this.size > 4) {
+      ctx.strokeStyle = "rgba(200, 40, 20, 0.5)";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.arc(this.size * 0.5, 0, this.size * 0.8, -Math.PI/3, Math.PI/3);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.arc(this.size * 1.2, 0, this.size * 0.6, -Math.PI/3, Math.PI/3);
+      ctx.stroke();
+    }
+
+    ctx.restore();
+  }
 }
 
 class Food {
@@ -182,11 +289,12 @@ export default function FishPond() {
 
     let width = 0;
     let height = 0;
+    let lilyPads: LilyPad[] = [];
 
     const handleResize = () => {
       const dpr = window.devicePixelRatio || 1;
       width = window.innerWidth;
-      height = Math.min(window.innerHeight * 0.8, 600); // Responsive height
+      height = Math.min(window.innerHeight * 0.8, 600);
       
       canvas.width = width * dpr;
       canvas.height = height * dpr;
@@ -194,26 +302,40 @@ export default function FishPond() {
       canvas.style.height = `${height}px`;
       
       ctx.scale(dpr, dpr);
+
+      // Regenerate lily pads on resize to distribute them
+      lilyPads = [];
+      const numPads = Math.floor(width / 200);
+      for (let i = 0; i < numPads; i++) {
+        lilyPads.push(new LilyPad(
+          Math.random() * width,
+          Math.random() * height,
+          30 + Math.random() * 40
+        ));
+      }
     };
     
     handleResize();
     window.addEventListener("resize", handleResize);
 
-    const colors = ["#FF6B00", "#FF6B00", "#EEEEEE", "#222222", "#FFB300"]; // Natural koi colors: orange, white, black, gold
     const boids: Boid[] = [];
-    for (let i = 0; i < 35; i++) {
-      boids.push(new Boid(Math.random() * width, Math.random() * height, colors[Math.floor(Math.random() * colors.length)]));
+    for (let i = 0; i < 20; i++) {
+      boids.push(new Boid(Math.random() * width, Math.random() * height));
     }
 
     let foods: Food[] = [];
     let animationFrameId: number;
 
     const render = () => {
-      // Clear with slight trail for smooth water movement, but not neon
-      ctx.fillStyle = "rgba(5, 16, 20, 0.4)";
-      ctx.fillRect(0, 0, width, height);
+      // Clear canvas entirely (no motion trails)
+      ctx.clearRect(0, 0, width, height);
 
-      // Render foods (water ripples / food pellets)
+      // Render static lily pads
+      for (let pad of lilyPads) {
+        pad.draw(ctx);
+      }
+
+      // Render foods (ripples)
       for (let i = foods.length - 1; i >= 0; i--) {
         let f = foods[i];
         if (!f.update()) {
@@ -221,81 +343,27 @@ export default function FishPond() {
           continue;
         }
         
-        // Food pellet
         ctx.beginPath();
-        ctx.arc(f.x, f.y, Math.max(0, f.radius * 0.4), 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(210, 180, 140, ${f.life / 255})`; // tan color
+        ctx.arc(f.x, f.y, Math.max(0, f.radius * 0.3), 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${f.life / 255})`;
         ctx.fill();
         
-        // Expanding water ripple
         ctx.beginPath();
         const rippleExpansion = (255 - f.life) * 0.5;
         ctx.arc(f.x, f.y, f.maxRadius + rippleExpansion, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(255, 255, 255, ${f.life / 800})`; // very subtle white
+        ctx.strokeStyle = `rgba(255, 255, 255, ${f.life / 600})`;
         ctx.lineWidth = 1;
         ctx.stroke();
       }
 
-      const time = Date.now() * 0.005; // For swimming animation
+      const time = Date.now();
 
       // Render flock (Koi)
       for (let b of boids) {
         b.flock(boids, foods);
         b.update();
         b.edges(width, height);
-
-        const angle = Math.atan2(b.vy, b.vx);
-        const speed = Math.hypot(b.vx, b.vy);
-        
-        ctx.save();
-        ctx.translate(b.x, b.y);
-        ctx.rotate(angle);
-
-        // Swimming tail wiggle based on speed and time
-        const wiggle = Math.sin(time + b.x * 0.1) * (speed * 1.5);
-        
-        // Shadow for depth
-        ctx.shadowBlur = 15;
-        ctx.shadowColor = "rgba(0,0,0,0.5)";
-        ctx.shadowOffsetY = 10;
-        
-        ctx.fillStyle = b.color;
-        
-        // Draw Tail
-        ctx.beginPath();
-        ctx.moveTo(-b.size * 1.5, 0);
-        ctx.lineTo(-b.size * 3.5, -b.size + wiggle);
-        ctx.lineTo(-b.size * 3.5, b.size + wiggle);
-        ctx.fill();
-
-        // Draw Body (Ellipse)
-        ctx.beginPath();
-        ctx.ellipse(0, 0, b.size * 2.5, b.size * 1.2, 0, 0, Math.PI * 2);
-        ctx.fill();
-
-        // Draw Fin (Left)
-        ctx.beginPath();
-        ctx.ellipse(-b.size * 0.5, -b.size * 1.2, b.size * 1.5, b.size * 0.5, -Math.PI / 6 + wiggle * 0.1, 0, Math.PI * 2);
-        ctx.fill();
-        
-        // Draw Fin (Right)
-        ctx.beginPath();
-        ctx.ellipse(-b.size * 0.5, b.size * 1.2, b.size * 1.5, b.size * 0.5, Math.PI / 6 + wiggle * 0.1, 0, Math.PI * 2);
-        ctx.fill();
-
-        // Reset shadow for details
-        ctx.shadowBlur = 0;
-        ctx.shadowOffsetY = 0;
-
-        // White spots on orange/black fish to make them look like Koi
-        if ((b.color === "#FF6B00" || b.color === "#222222") && b.size > 4) {
-           ctx.fillStyle = "#ffffff";
-           ctx.beginPath();
-           ctx.ellipse(b.size * 0.8, 0, b.size * 1.2, b.size * 0.7, 0, 0, Math.PI * 2);
-           ctx.fill();
-        }
-
-        ctx.restore();
+        b.draw(ctx, time);
       }
 
       animationFrameId = requestAnimationFrame(render);
@@ -308,7 +376,7 @@ export default function FishPond() {
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
       foods.push(new Food(x, y));
-      if (foods.length > 8) foods.shift(); // Max 8 active foods
+      if (foods.length > 8) foods.shift();
     };
     canvas.addEventListener("click", handleClick);
 
@@ -320,13 +388,19 @@ export default function FishPond() {
   }, []);
 
   return (
-    <section className="relative w-full border-t border-white/5 bg-[#051014] overflow-hidden" style={{ height: "min(80vh, 600px)" }}>
-      {/* Title */}
+    <section 
+      className="relative w-full border-t border-[#3a6a33] overflow-hidden" 
+      style={{ 
+        height: "min(80vh, 600px)",
+        // Soft teal radial gradient matching the reference image
+        background: "radial-gradient(ellipse at center, #358071 0%, #1f574d 100%)"
+      }}
+    >
       <div className="absolute top-10 left-6 md:left-12 pointer-events-none z-10">
-        <p className="text-white/30 text-[10px] md:text-xs font-semibold tracking-widest uppercase mb-1">
+        <p className="text-white/50 text-[10px] md:text-xs font-semibold tracking-widest uppercase mb-1">
           Koi Pond
         </p>
-        <p className="text-white/60 text-xs md:text-sm">
+        <p className="text-white/80 text-xs md:text-sm">
           Click to feed the fish.
         </p>
       </div>
@@ -335,9 +409,6 @@ export default function FishPond() {
         ref={canvasRef} 
         className="block w-full h-full cursor-crosshair"
       />
-      
-      {/* Inner shadow to blend edges into the void */}
-      <div className="absolute inset-0 pointer-events-none shadow-[inset_0_0_120px_rgba(5,16,20,1)]" />
     </section>
   );
 }
