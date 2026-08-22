@@ -181,8 +181,8 @@ export default function VinylPlayer() {
       transition={{ type: "spring", stiffness: 380, damping: 28 }}
       className="fixed bottom-6 left-6 z-50 overflow-hidden cursor-pointer select-none"
       style={{
-        width: "280px",
-        height: "170px",
+        width: "220px",
+        height: "220px",
         borderRadius: "28px",
         background: "#151515",
         border: "1px solid #262626",
@@ -191,59 +191,61 @@ export default function VinylPlayer() {
       onClick={() => setIsMinimized(true)}
       title="Click anywhere to minimise"
     >
-      {/* Vinyl Disc positioned on the left, bleeding off slightly */}
-      <motion.div 
-        className="absolute top-1/2 -translate-y-1/2 pointer-events-none"
-        style={{ left: "-30px", width: "190px", height: "190px", rotate: vinylRotation }}
+      {/* Vinyl Disc — large, fills most of the card, centered and spinning */}
+      <motion.div
+        className="absolute pointer-events-none"
+        style={{
+          rotate: vinylRotation,
+          top: "50%",
+          left: "50%",
+          x: "-50%",
+          y: "-50%",
+          width: "190px",
+          height: "190px",
+        }}
       >
         <VinylDisc artSrc={TRACKS[currentTrack].art} id="main" size={190} />
       </motion.div>
 
-      {/* Play/Pause Button Overlay (Static, dead center of the vinyl) */}
-      <div 
-        className="absolute top-1/2 -translate-y-1/2 flex items-center justify-center rounded-full bg-black/50 hover:bg-black/80 transition-colors border border-white/5 backdrop-blur-sm shadow-xl z-20"
-        style={{ left: "35px", width: "60px", height: "60px" }}
+      {/* Play/Pause Button — perfectly centered on the disc */}
+      <div
+        className="absolute flex items-center justify-center rounded-full bg-black/50 hover:bg-black/80 transition-colors border border-white/10 shadow-xl z-20"
+        style={{ top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: "52px", height: "52px" }}
         onClick={(e) => { e.stopPropagation(); togglePlay(); }}
         title={isPlaying ? "Pause" : "Play"}
       >
         {isPlaying ? (
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="white" className="opacity-90">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="white" className="opacity-90">
             <rect x="6" y="5" width="4" height="14" rx="1" />
             <rect x="14" y="5" width="4" height="14" rx="1" />
           </svg>
         ) : (
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="white" className="opacity-90 ml-1">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="white" className="opacity-90 ml-1">
             <path d="M7 5.5l12 6.5-12 6.5z" />
           </svg>
         )}
       </div>
 
-      {/* Horizontal Tonearm at top right */}
+      {/* Tonearm — top right corner, pivots from the circle */}
       <motion.div
-        className="absolute top-5 right-5 z-10"
+        className="absolute z-10"
+        style={{ top: "8px", right: "8px", transformOrigin: "38px 16px" }}
         onClick={(e) => { e.stopPropagation(); togglePlay(); }}
         title={isPlaying ? "Lift needle to pause" : "Drop needle to play"}
-        style={{ transformOrigin: "90px 20px" }}
-        animate={{ rotate: isPlaying ? 0 : 16 }}
+        animate={{ rotate: isPlaying ? -22 : 0 }}
         transition={{ type: "spring", stiffness: 220, damping: 22 }}
-        whileHover={{ scale: 1.02 }}
+        whileHover={{ scale: 1.04 }}
       >
-        <svg width="110" height="70" viewBox="0 0 110 70" className="drop-shadow-xl">
-          {/* Pivot Base */}
-          <circle cx="90" cy="20" r="16" fill="#181818" stroke="#2a2a2a" strokeWidth="2"/>
-          <circle cx="90" cy="20" r="12" fill="#111"/>
-          <circle cx="90" cy="20" r="4" fill="#333"/>
-          <circle cx="90" cy="20" r="1.5" fill="#000"/>
-          
-          {/* Arm Rod */}
-          <rect x="25" y="17" width="65" height="6" rx="3" fill="#222" stroke="#111" strokeWidth="1" />
-          
-          {/* Headshell/Cartridge */}
-          <g transform="translate(18, 20) rotate(15)">
-            <rect x="-14" y="-10" width="22" height="16" rx="4" fill="#1a1a1a" stroke="#333" strokeWidth="1"/>
-            {/* Stylus groove detail */}
-            <rect x="-8" y="-5" width="4" height="8" rx="1" fill="#050505"/>
-          </g>
+        <svg width="60" height="40" viewBox="0 0 60 40" className="drop-shadow-lg cursor-pointer">
+          {/* Pivot */}
+          <circle cx="38" cy="16" r="11" fill="#1e1e1e" stroke="#333" strokeWidth="1.5"/>
+          <circle cx="38" cy="16" r="6" fill="#141414"/>
+          <circle cx="38" cy="16" r="2" fill="#444"/>
+          {/* Arm */}
+          <rect x="0" y="13" width="38" height="5" rx="2.5" fill="#2a2a2a" stroke="#111" strokeWidth="0.8"/>
+          {/* Headshell tip */}
+          <rect x="-4" y="11" width="10" height="9" rx="2" fill="#1e1e1e" stroke="#3a3a3a" strokeWidth="1"/>
+          <rect x="-1" y="13" width="3" height="6" rx="1" fill="#0a0a0a"/>
         </svg>
       </motion.div>
     </motion.div>
