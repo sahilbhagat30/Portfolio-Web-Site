@@ -16,7 +16,7 @@ const SKILL_COLORS: Record<string, { border: string; bg: string; text: string }>
 };
 
 const INTERESTS = [
-  { emoji: "📷", label: "Photography" },
+  { emoji: "📷", label: "Life out of Office" },
   { emoji: "🎵", label: "Music" },
   { emoji: "🏔️", label: "Hiking" },
   { emoji: "🌏", label: "Travel" },

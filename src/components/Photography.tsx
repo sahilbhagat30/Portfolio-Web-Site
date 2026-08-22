@@ -50,7 +50,7 @@ export default function Photography({
           transition={{ duration: 0.5 }}
           className="section-label mb-4"
         >
-          Through the lens
+          Beyond the screen
         </motion.p>
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -64,14 +64,10 @@ export default function Photography({
               className="text-4xl md:text-5xl font-bold tracking-tight"
               style={{ letterSpacing: "-0.02em" }}
             >
-              Photography{" "}
-              <span className="gradient-text">/ Hobby</span>
+              Life out of office
             </h2>
             <p className="mt-3 text-white/40 max-w-md text-sm leading-relaxed">
-              Official photographer for{" "}
-              <span className="text-cyan-400 font-medium">Tuck &amp; Dive</span>
-              {" "}- India&apos;s aquatics sports organization -
-              and an avid personal photographer ever since.
+              When I&apos;m not pushing pixels or writing code, you can find me exploring the world, chasing experiences, and capturing moments through my lens.
             </p>
           </div>
 
@@ -102,25 +98,6 @@ export default function Photography({
           </div>
         </motion.div>
 
-        {/* Tuck & Dive credit badge */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="flex items-center gap-3 mb-10 p-4 rounded-2xl"
-          style={{
-            background: "rgba(34,211,238,0.06)",
-            border: "1px solid rgba(34,211,238,0.15)",
-          }}
-        >
-          <Camera size={18} className="text-cyan-400 shrink-0" />
-          <p className="text-xs text-white/50 leading-relaxed">
-            <span className="text-cyan-400 font-semibold">Official Photographer</span>
-            {" · "}Tuck &amp; Dive Aquatics, India - photographed competitive diving events,
-            athlete portraits, and poolside action during my undergraduate years.
-          </p>
-        </motion.div>
 
         {/* Masonry-style grid */}
         <motion.div
