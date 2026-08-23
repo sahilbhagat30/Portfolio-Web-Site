@@ -91,40 +91,49 @@ export default function Cursor() {
     <>
       {/* Dot */}
       <motion.div
-        animate={dotVariants[variant]}
-        transition={{ duration: 0.15, ease: "easeOut" }}
         style={{
           x: dotX,
           y: dotY,
           position: "fixed",
           top: 0,
           left: 0,
-          borderRadius: variant === "text" ? "2px" : "50%",
-          transform: "translate(-50%, -50%)",
           pointerEvents: "none",
           zIndex: 9999,
           mixBlendMode: "normal",
         }}
-      />
+      >
+        <motion.div
+          animate={dotVariants[variant]}
+          transition={{ duration: 0.15, ease: "easeOut" }}
+          style={{
+            borderRadius: variant === "text" ? "2px" : "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+        />
+      </motion.div>
 
       {/* Ring */}
       <motion.div
-        animate={ringVariants[variant]}
-        transition={{ duration: 0.25, ease: "easeOut" }}
         style={{
           x: ringX,
           y: ringY,
           position: "fixed",
           top: 0,
           left: 0,
-          borderRadius: "50%",
-          border: "1.5px solid rgba(234,230,225,0.5)",
-          transform: "translate(-50%, -50%)",
           pointerEvents: "none",
           zIndex: 9998,
-          backdropFilter: "none",
         }}
-      />
+      >
+        <motion.div
+          animate={ringVariants[variant]}
+          transition={{ duration: 0.25, ease: "easeOut" }}
+          style={{
+            borderRadius: "50%",
+            border: "1.5px solid rgba(234,230,225,0.5)",
+            transform: "translate(-50%, -50%)",
+          }}
+        />
+      </motion.div>
     </>
   );
 }
