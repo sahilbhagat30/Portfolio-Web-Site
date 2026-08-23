@@ -41,12 +41,12 @@ export default function Photography({
       <div
         aria-hidden
         className="pointer-events-none absolute top-1/2 left-0 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-[0.2] blur-[120px]"
-        style={{ background: "radial-gradient(circle, #1a1a1a, transparent 70%)" }}
+        style={{ background: "radial-gradient(circle, rgba(255,255,255,0.05), transparent 70%)" }}
       />
       <div
         aria-hidden
         className="pointer-events-none absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full opacity-[0.1] blur-[100px]"
-        style={{ background: "radial-gradient(circle, #333333, transparent 70%)" }}
+        style={{ background: "radial-gradient(circle, rgba(255,255,255,0.08), transparent 70%)" }}
       />
 
       <div className="max-w-7xl mx-auto relative z-10 px-6 md:px-16">

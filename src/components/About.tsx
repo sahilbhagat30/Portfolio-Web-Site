@@ -150,7 +150,7 @@ export default function About() {
         aria-hidden
         className="pointer-events-none absolute -top-40 right-0 w-[600px] h-[600px] rounded-full blur-[120px]"
         style={{
-          background: "radial-gradient(circle, #1a1a1a, transparent 70%)",
+          background: "radial-gradient(circle, rgba(255,255,255,0.05), transparent 70%)",
           opacity: 0.3,
         }}
       />
