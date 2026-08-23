@@ -1,10 +1,9 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { X, ZoomIn } from "lucide-react";
+import { motion } from "framer-motion";
+import { ArrowRight, ZoomIn } from "lucide-react";
 import Image from "next/image";
-
+import Link from "next/link";
 import { PhotoData } from "@/utils/getPhotos";
 
 export default function Photography({
@@ -12,10 +11,6 @@ export default function Photography({
 }: {
   initialPhotos?: PhotoData[];
 }) {
-  const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
-  const [lightboxAlt, setLightboxAlt] = useState("");
-
-  // Use all photos in a single row
   const row = initialPhotos;
 
   return (
@@ -78,6 +73,9 @@ export default function Photography({
               When I&apos;m not pushing pixels or writing code, you can find me exploring the world, chasing experiences, and capturing moments through my lens.
             </p>
           </div>
+          <Link href="/photography" className="shrink-0 mt-4 md:mt-0 flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold bg-white/5 hover:bg-white/10 border border-white/10 transition-colors">
+            View Full Gallery <ArrowRight size={16} />
+          </Link>
         </motion.div>
       </div>
 
@@ -87,14 +85,11 @@ export default function Photography({
         {row.length > 0 && (
           <div className="flex w-max gap-4 marquee-left">
             {[...row, ...row].map((photo, i) => (
-              <div
+              <Link
+                href="/photography"
                 key={i}
-                className="w-[225px] h-[400px] md:w-[270px] md:h-[480px] relative overflow-hidden rounded-sm shrink-0 group cursor-pointer"
+                className="w-[225px] h-[400px] md:w-[270px] md:h-[480px] relative overflow-hidden rounded-sm shrink-0 group cursor-pointer block"
                 style={{ background: "rgba(255,255,255,0.04)", border: "4px solid rgba(234,230,225,0.15)", outline: "1px solid rgba(234,230,225,0.4)", outlineOffset: "-4px" }}
-                onClick={() => {
-                  setLightboxSrc(photo.src);
-                  setLightboxAlt(photo.alt);
-                }}
               >
                 <Image
                   src={photo.src}
@@ -108,56 +103,11 @@ export default function Photography({
                 <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 pointer-events-none">
                   <ZoomIn size={32} className="text-white drop-shadow-lg" />
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         )}
       </div>
-
-      {/* ── Lightbox ── */}
-      <AnimatePresence>
-        {lightboxSrc && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-[100] bg-[#060000]/95 flex items-center justify-center p-6"
-            onClick={() => setLightboxSrc(null)}
-          >
-            <motion.button
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="absolute top-6 right-6 text-white/60 hover:text-white transition-colors"
-              onClick={() => setLightboxSrc(null)}
-              aria-label="Close lightbox"
-            >
-              <X size={28} />
-            </motion.button>
-
-            <motion.div
-              initial={{ opacity: 0, scale: 0.92 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.92 }}
-              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="relative max-w-5xl w-full max-h-[85vh] flex flex-col items-center"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <div className="relative w-full h-[80vh]">
-                <Image
-                  src={lightboxSrc}
-                  alt={lightboxAlt}
-                  fill
-                  className="object-contain rounded-2xl shadow-2xl"
-                  sizes="100vw"
-                  quality={100}
-                />
-              </div>
-              <p className="mt-4 text-white/40 text-sm text-center">{lightboxAlt}</p>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </section>
   );
 }
