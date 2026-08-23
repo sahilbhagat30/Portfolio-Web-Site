@@ -107,7 +107,8 @@ export default function Cursor() {
           transition={{ duration: 0.15, ease: "easeOut" }}
           style={{
             borderRadius: variant === "text" ? "2px" : "50%",
-            transform: "translate(-50%, -50%)",
+            x: "-50%",
+            y: "-50%",
           }}
         />
       </motion.div>
@@ -130,7 +131,8 @@ export default function Cursor() {
           style={{
             borderRadius: "50%",
             border: "1.5px solid rgba(234,230,225,0.5)",
-            transform: "translate(-50%, -50%)",
+            x: "-50%",
+            y: "-50%",
           }}
         />
       </motion.div>
