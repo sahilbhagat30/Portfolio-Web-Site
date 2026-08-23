@@ -23,15 +23,15 @@ function RippleButton({ href, children }: { href: string; children: React.ReactN
       onClick={handleClick}
       className="relative inline-flex items-center gap-3 px-8 py-4 rounded-2xl text-sm font-semibold text-white overflow-hidden group"
       style={{
-        background: "linear-gradient(135deg, rgba(168,85,247,0.15), rgba(34,211,238,0.1))",
-        border: "1px solid rgba(168,85,247,0.4)",
+        background: "linear-gradient(135deg, rgba(234,230,225,0.15), rgba(163,163,163,0.1))",
+        border: "1px solid rgba(234,230,225,0.4)",
       }}
     >
       {/* Shimmer border effect */}
       <motion.div
         className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"
         style={{
-          background: "linear-gradient(90deg, transparent, rgba(168,85,247,0.15), rgba(34,211,238,0.1), transparent)",
+          background: "linear-gradient(90deg, transparent, rgba(234,230,225,0.15), rgba(163,163,163,0.1), transparent)",
           backgroundSize: "200% auto",
         }}
         animate={{ backgroundPosition: ["0% 0%", "200% 0%"] }}
@@ -42,7 +42,7 @@ function RippleButton({ href, children }: { href: string; children: React.ReactN
       {ripples.map((r) => (
         <motion.span
           key={r.id}
-          className="absolute rounded-full bg-violet-400/20 pointer-events-none"
+          className="absolute rounded-full bg-white/20 pointer-events-none"
           style={{ left: r.x, top: r.y, translateX: "-50%", translateY: "-50%" }}
           initial={{ width: 0, height: 0, opacity: 0.6 }}
           animate={{ width: 200, height: 200, opacity: 0 }}
@@ -88,7 +88,7 @@ function AnimatedEmail() {
             hovered
               ? {
                   y: [0, -4, 0],
-                  color: ["#ffffff", "#c084fc", "#67e8f9", "#ffffff"],
+                  color: ["#ffffff", "#EAE6E1", "#A3A3A3", "#ffffff"],
                 }
               : { y: 0, color: "rgba(255,255,255,0.75)" }
           }
@@ -134,8 +134,8 @@ function ScrollToTop() {
       transition={{ duration: 0.3 }}
       className="fixed bottom-8 right-8 z-50 w-12 h-12 rounded-full flex items-center justify-center text-xl cursor-pointer"
       style={{
-        background: "rgba(168,85,247,0.15)",
-        border: "1px solid rgba(168,85,247,0.4)",
+        background: "rgba(234,230,225,0.15)",
+        border: "1px solid rgba(234,230,225,0.4)",
         backdropFilter: "blur(12px)",
       }}
       whileHover={{ scale: 1.1 }}
@@ -195,7 +195,7 @@ export default function Contact() {
           <div
             className="w-[700px] h-[700px] rounded-full blur-3xl"
             style={{
-              background: "radial-gradient(circle, #7c3aed 0%, #22d3ee 50%, transparent 70%)",
+              background: "radial-gradient(circle, #EAE6E1 0%, #A3A3A3 50%, transparent 70%)",
               opacity: 0.08,
               animation: "breathe 12s ease-in-out infinite",
             }}
@@ -285,9 +285,9 @@ export default function Contact() {
               className="text-white/20 text-xs tracking-widest uppercase"
               animate={{
                 backgroundImage: [
-                  "linear-gradient(90deg, rgba(255,255,255,0.2), rgba(168,85,247,0.4), rgba(255,255,255,0.2))",
-                  "linear-gradient(90deg, rgba(168,85,247,0.4), rgba(34,211,238,0.4), rgba(168,85,247,0.4))",
-                  "linear-gradient(90deg, rgba(255,255,255,0.2), rgba(168,85,247,0.4), rgba(255,255,255,0.2))",
+                  "linear-gradient(90deg, rgba(255,255,255,0.2), rgba(234,230,225,0.4), rgba(255,255,255,0.2))",
+                  "linear-gradient(90deg, rgba(234,230,225,0.4), rgba(163,163,163,0.4), rgba(234,230,225,0.4))",
+                  "linear-gradient(90deg, rgba(255,255,255,0.2), rgba(234,230,225,0.4), rgba(255,255,255,0.2))",
                 ],
               }}
               transition={{ duration: 5, repeat: Infinity, ease: "linear" }}

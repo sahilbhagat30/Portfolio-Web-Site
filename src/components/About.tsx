@@ -15,14 +15,7 @@ const SKILL_COLORS: Record<string, { border: string; bg: string; text: string }>
   "Programming & Tools": { border: "rgba(214,211,209,0.4)", bg: "rgba(214,211,209,0.08)", text: "#D6D3D1" },
 };
 
-const INTERESTS = [
-  { emoji: "📷", label: "Life out of Office" },
-  { emoji: "🎵", label: "Music" },
-  { emoji: "🏔️", label: "Hiking" },
-  { emoji: "🌏", label: "Travel" },
-  { emoji: "📊", label: "Data Art" },
-  { emoji: "🎮", label: "Gaming" },
-];
+
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const fadeUp: any = {
@@ -100,7 +93,7 @@ function CurrentlyBlock() {
       <p className="text-[0.65rem] font-semibold uppercase tracking-widest text-white/30">Currently</p>
       <div className="grid grid-cols-1 gap-4">
         <div className="flex items-center gap-2">
-          <span className="text-lg">📍</span>
+          <div className="w-1.5 h-1.5 rounded-full bg-white/40 mt-1.5" />
           <div>
             <p className="text-white/80 text-sm font-medium">New York City</p>
             <p className="text-white/30 text-xs">EST · {time}</p>

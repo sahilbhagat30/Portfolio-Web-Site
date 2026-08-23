@@ -118,7 +118,7 @@ export default function Cursor() {
           top: 0,
           left: 0,
           borderRadius: "50%",
-          border: "1.5px solid rgba(168,85,247,0.5)",
+          border: "1.5px solid rgba(234,230,225,0.5)",
           transform: "translate(-50%, -50%)",
           pointerEvents: "none",
           zIndex: 9998,

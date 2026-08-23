@@ -121,7 +121,7 @@ function TiltProjectCard({ project, index }: { project: typeof PROJECT_DATA[0]; 
       <motion.div
         className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-[20px]"
         style={{
-          background: `radial-gradient(circle at ${glowX}% ${glowY}%, rgba(168,85,247,0.12) 0%, transparent 60%)`,
+          background: `radial-gradient(circle at ${glowX}% ${glowY}%, rgba(234,230,225,0.12) 0%, transparent 60%)`,
         }}
       />
 
@@ -247,7 +247,7 @@ export default function Projects() {
           <motion.div
             className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
             style={{
-              background: `radial-gradient(circle at ${fGlowX}% ${fGlowY}%, rgba(168,85,247,0.1) 0%, transparent 60%)`,
+              background: `radial-gradient(circle at ${fGlowX}% ${fGlowY}%, rgba(234,230,225,0.1) 0%, transparent 60%)`,
             }}
           />
 

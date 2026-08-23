@@ -105,7 +105,7 @@ function ScrollCue() {
         <svg width="16" height="20" viewBox="0 0 16 20" fill="none">
           <motion.path
             d="M8 1 L8 16 M2 10 L8 17 L14 10"
-            stroke="rgba(168,85,247,0.6)"
+            stroke="rgba(234,230,225,0.6)"
             strokeWidth="1.5"
             strokeLinecap="round"
             strokeLinejoin="round"
@@ -205,7 +205,7 @@ export default function Overlay() {
                   <motion.span
                     animate={{ opacity: [1, 0] }}
                     transition={{ duration: 0.6, repeat: Infinity, repeatType: "reverse" }}
-                    className="inline-block w-0.5 h-4 bg-violet-400 ml-0.5 align-middle"
+                    className="inline-block w-0.5 h-4 bg-white/60 ml-0.5 align-middle"
                   />
                 </span>
               </motion.div>

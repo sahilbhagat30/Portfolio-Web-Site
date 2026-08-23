@@ -78,7 +78,7 @@ export default function Preloader() {
             
             {/* Loading text details */}
             <div className="w-full flex justify-between text-[10px] uppercase tracking-[0.25em] font-semibold text-white/40">
-              <span className="text-violet-400/80">System.Boot()</span>
+              <span className="text-white/60">System.Boot()</span>
               <span>{progress === 100 ? "Ready_>" : "Loading..."}</span>
             </div>
           </div>
