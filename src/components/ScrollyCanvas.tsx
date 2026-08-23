@@ -105,10 +105,15 @@ export default function ScrollyCanvas() {
     <div className="h-full w-full relative">
       <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
         {/* Frame: Full bleed on mobile, portrait frame on desktop */}
-        <div className="w-full h-full md:w-auto md:max-w-md lg:max-w-lg md:aspect-[9/16] md:h-[85vh] relative md:rounded-[32px] overflow-hidden">
+        <div className="w-full h-full md:w-auto md:max-w-md lg:max-w-lg md:aspect-[9/16] md:h-[85vh] relative md:rounded-[32px] overflow-hidden md:shadow-2xl bg-[var(--background)]">
           <canvas
             ref={canvasRef}
             className="w-full h-full block object-cover"
+          />
+          {/* Soft border overlay that blends the edges into the background */}
+          <div 
+            className="absolute inset-0 pointer-events-none z-10" 
+            style={{ boxShadow: "inset 0 0 120px 40px var(--background)" }} 
           />
         </div>
       </div>
