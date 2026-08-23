@@ -43,7 +43,7 @@ export default function PhotographyClient({ photos }: { photos: PhotoData[] }) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 0.2 }}
-          className="flex flex-wrap items-center justify-center gap-12 md:gap-16 xl:gap-20"
+          className="flex flex-wrap items-center justify-center gap-8 md:gap-12 lg:gap-16"
         >
           {photos.map((photo, i) => (
             <motion.div
@@ -53,9 +53,9 @@ export default function PhotographyClient({ photos }: { photos: PhotoData[] }) {
               viewport={{ once: true, margin: "0px 0px -50px 0px" }}
               transition={{ duration: 0.5, delay: (i % 6) * 0.1 }}
               className={`relative overflow-hidden group cursor-pointer shrink-0 ${
-                photo.span === 'tall' ? 'w-[200px] md:w-[280px] xl:w-[320px]' :
-                photo.span === 'wide' ? 'w-[280px] md:w-[380px] xl:w-[480px]' :
-                'w-[220px] md:w-[300px] xl:w-[360px]'
+                photo.span === 'tall' ? 'w-[140px] md:w-[180px] lg:w-[220px]' :
+                photo.span === 'wide' ? 'w-[220px] md:w-[280px] lg:w-[340px]' :
+                'w-[160px] md:w-[220px] lg:w-[260px]'
               }`}
               style={{ outline: "1px solid rgba(255,255,255,0.05)" }}
               onClick={() => {
