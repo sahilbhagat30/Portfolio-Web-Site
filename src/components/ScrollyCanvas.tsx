@@ -113,7 +113,7 @@ export default function ScrollyCanvas() {
           {/* Soft border overlay that blends the edges into the background */}
           <div 
             className="absolute inset-0 pointer-events-none z-10" 
-            style={{ boxShadow: "inset 0 0 180px 80px var(--background), inset 0 0 60px 20px var(--background)" }} 
+            style={{ boxShadow: "inset 0 0 120px 40px var(--background)" }} 
           />
         </div>
       </div>
