@@ -157,7 +157,7 @@ function TiltProjectCard({ project, index }: { project: typeof PERSONAL_PROJECTS
             {project.tagline}
           </p>
           <h3
-            className="text-lg font-bold text-white leading-snug mb-3 group-hover:text-white/90 transition-colors font-serif"
+            className="text-lg font-bold text-white leading-snug mb-3 group-hover:text-white/90 transition-colors"
             style={{ letterSpacing: "-0.015em" }}
           >
             {project.title}
@@ -225,11 +225,11 @@ export default function PersonalProjects() {
           className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 md:gap-6 mb-10 md:mb-16"
         >
           <h2
-            className="text-4xl md:text-5xl font-bold tracking-tight font-serif"
+            className="text-4xl md:text-5xl font-bold tracking-tight"
             style={{ letterSpacing: "-0.02em" }}
           >
             Personal{" "}
-            <span className="gradient-text italic font-serif">Projects</span>
+            <span className="gradient-text">Projects</span>
           </h2>
           <a
             href="https://github.com/sahilbhagat30"

@@ -134,7 +134,7 @@ export default function Navbar() {
             className="group flex items-center gap-2 select-none"
           >
             <motion.span
-              className="font-bold tracking-tight text-lg font-serif"
+              className="font-bold tracking-tight text-lg"
               style={{ letterSpacing: "-0.02em" }}
               animate={{ filter: ["drop-shadow(0 0 8px rgba(212,175,55,0.4))", "drop-shadow(0 0 2px rgba(212,175,55,0.1))", "drop-shadow(0 0 8px rgba(212,175,55,0.4))"] }}
               transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}

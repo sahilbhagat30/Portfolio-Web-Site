@@ -172,7 +172,7 @@ export default function TheEnd() {
           transition={{ duration: 0.6 }}
         >
           <h2
-            className="font-extrabold leading-[0.9] text-white font-serif"
+            className="font-extrabold leading-[0.9] text-white"
             style={{ fontSize: "clamp(3rem, 4.5vw, 5rem)", letterSpacing: "-0.03em" }}
           >
             THE<br />END
@@ -291,7 +291,7 @@ export default function TheEnd() {
           transition={{ duration: 0.6, delay: 0.1 }}
         >
           <h2
-            className="font-extrabold leading-[0.9] text-white font-serif"
+            className="font-extrabold leading-[0.9] text-white"
             style={{ fontSize: "clamp(3rem, 4.5vw, 5rem)", letterSpacing: "-0.03em" }}
           >
             SAY<br />HEY

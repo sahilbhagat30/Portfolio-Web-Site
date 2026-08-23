@@ -140,7 +140,7 @@ function TiltProjectCard({ project, index }: { project: typeof PROJECT_DATA[0]; 
       <div className="p-6">
         <div className="flex items-start justify-between gap-4 mb-3">
           <h3
-            className="text-xl font-bold text-white group-hover:text-white/90 leading-snug font-serif"
+            className="text-xl font-bold text-white group-hover:text-white/90 leading-snug"
             style={{ letterSpacing: "-0.015em" }}
           >
             {project.title}
@@ -223,11 +223,11 @@ export default function Projects() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="text-4xl md:text-5xl font-bold mb-10 md:mb-16 tracking-tight font-serif"
+          className="text-4xl md:text-5xl font-bold mb-10 md:mb-16 tracking-tight"
           style={{ letterSpacing: "-0.02em" }}
         >
           Where I&apos;ve{" "}
-          <span className="gradient-text italic font-serif">worked</span>
+          <span className="gradient-text">worked</span>
         </motion.h2>
 
         {/* Featured — tilt */}
@@ -266,7 +266,7 @@ export default function Projects() {
             <div className="p-8 md:p-12 flex flex-col justify-center">
               <span className="section-label mb-4">Most Recent</span>
               <h3
-                className="text-3xl md:text-4xl font-bold text-white mb-5 leading-tight font-serif"
+                className="text-3xl md:text-4xl font-bold text-white mb-5 leading-tight"
                 style={{ letterSpacing: "-0.02em" }}
               >
                 {featured.title}

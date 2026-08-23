@@ -66,7 +66,7 @@ function CountStat({ num, label }: { num: string; label: string }) {
 
   return (
     <div ref={ref}>
-      <p className="gradient-text font-serif font-black text-4xl leading-none mb-1" style={{ fontVariantNumeric: "tabular-nums" }}>
+      <p className="gradient-text font-black text-4xl leading-none mb-1" style={{ fontVariantNumeric: "tabular-nums" }}>
         {displayed}
       </p>
       <p className="text-white/40 text-xs tracking-widest uppercase">{label}</p>
@@ -177,11 +177,11 @@ export default function About() {
               viewport={{ once: true, amount: 0.4 }}
               custom={1}
               variants={fadeUp}
-              className="text-3xl md:text-5xl font-bold leading-tight tracking-tight mb-6 md:mb-8 font-serif"
+              className="text-3xl md:text-5xl font-bold leading-tight tracking-tight mb-6 md:mb-8"
               style={{ letterSpacing: "-0.02em" }}
             >
               I turn complex data into clear decisions.{" "}
-              <span className="gradient-text italic font-serif">Faster.</span>
+              <span className="gradient-text">Faster.</span>
             </motion.h2>
 
             <motion.p

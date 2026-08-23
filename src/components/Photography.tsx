@@ -69,7 +69,7 @@ export default function Photography({
         >
           <div>
             <h2
-              className="text-4xl md:text-5xl font-bold tracking-tight font-serif"
+              className="text-4xl md:text-5xl font-bold tracking-tight"
               style={{ letterSpacing: "-0.02em" }}
             >
               Life out of office
