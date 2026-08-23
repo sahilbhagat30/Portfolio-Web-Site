@@ -43,7 +43,7 @@ export default function PhotographyClient({ photos }: { photos: PhotoData[] }) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 0.2 }}
-          className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-6 space-y-6"
+          className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 gap-12 md:gap-16 xl:gap-20 items-center"
         >
           {photos.map((photo, i) => (
             <motion.div
@@ -51,9 +51,9 @@ export default function PhotographyClient({ photos }: { photos: PhotoData[] }) {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "0px 0px -50px 0px" }}
-              transition={{ duration: 0.5, delay: (i % 4) * 0.1 }}
-              className="relative overflow-hidden group cursor-pointer rounded-sm"
-              style={{ background: "rgba(255,255,255,0.02)", outline: "1px solid rgba(255,255,255,0.05)" }}
+              transition={{ duration: 0.5, delay: (i % 6) * 0.1 }}
+              className="relative overflow-hidden group cursor-pointer"
+              style={{ outline: "1px solid rgba(255,255,255,0.05)" }}
               onClick={() => {
                 setLightboxIndex(i);
               }}
