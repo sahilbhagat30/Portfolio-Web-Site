@@ -241,10 +241,10 @@ export default function Overlay() {
           <div className="pl-4 md:pl-12 border-l border-white/20">
             <p className="text-[0.65rem] tracking-[0.2em] uppercase text-white/40 mb-6 font-medium">What I do</p>
             <h2
-              className="text-white font-serif italic font-light leading-[1.05] tracking-tight m-0"
+              className="text-white font-bold leading-[1.05] tracking-tight m-0"
               style={{ fontSize: "clamp(2rem, 6vw, 4.2rem)" }}
             >
-              I architect <span className="font-sans not-italic font-bold text-[#EAE6E1]">data</span>
+              I architect <span className="text-[#EAE6E1]">data</span>
               <br />
               for scale & impact.
             </h2>
@@ -262,11 +262,11 @@ export default function Overlay() {
           <div className="pl-4 md:pl-12">
             <p className="text-[0.65rem] tracking-[0.2em] uppercase text-white/40 mb-6 font-medium">Philosophy</p>
             <h2
-              className="text-white font-serif italic font-light leading-[1.05] tracking-tight m-0"
+              className="text-white font-bold leading-[1.05] tracking-tight m-0"
               style={{ fontSize: "clamp(1.8rem, 5.5vw, 4rem)" }}
             >
               The best analysis means<br />nothing if it doesn&apos;t<br />
-              <span className="font-sans not-italic font-bold text-[#A3A3A3]">land.</span>
+              <span className="text-[#A3A3A3]">land.</span>
             </h2>
             
             <div className="mt-10 space-y-6 max-w-sm">
