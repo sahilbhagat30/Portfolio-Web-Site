@@ -2,7 +2,7 @@
 
 /* ─── Design Tokens ─────────────────────────────────────────────── */
 :root {
-  --background: #110000; /* Extremely dark maroon/black */
+  --background: #060000; /* Barely maroon, almost pure black */
   --foreground: #eae6e1; /* Warm off-white */
 
   /* Accent palette */
@@ -88,7 +88,7 @@ body::after {
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #110000;
+  background: #060000;
 }
 ::-webkit-scrollbar-thumb {
   background: linear-gradient(to bottom, var(--accent-primary), var(--accent-secondary));
