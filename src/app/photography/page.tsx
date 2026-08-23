@@ -15,8 +15,8 @@ export default function PhotographyPage() {
             <ArrowLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
             <span className="text-sm font-semibold tracking-wide uppercase">Back</span>
           </Link>
-          <div className="font-bold tracking-tighter text-xl">
-            Sahil <span className="text-white/30 font-normal">Bhagat</span>
+          <div className="font-bold tracking-tighter text-xl bg-[var(--gradient-hero)] bg-clip-text text-transparent drop-shadow-sm">
+            Sahil <span className="font-normal opacity-80">Bhagat</span>
           </div>
         </div>
       </nav>
