@@ -16,7 +16,7 @@ export default function PhotographyPage() {
             <span className="text-sm font-semibold tracking-wide uppercase">Back</span>
           </Link>
           <div className="font-bold tracking-tighter text-xl">
-            Weiss <span className="text-white/30 font-normal">Gallery</span>
+            Sahil <span className="text-white/30 font-normal">Bhagat</span>
           </div>
         </div>
       </nav>
