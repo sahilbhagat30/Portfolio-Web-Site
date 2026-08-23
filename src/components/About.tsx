@@ -180,8 +180,8 @@ export default function About() {
               className="text-3xl md:text-5xl font-bold leading-tight tracking-tight mb-6 md:mb-8"
               style={{ letterSpacing: "-0.02em" }}
             >
-              I turn complex data into clear decisions.{" "}
-              <span className="gradient-text">Faster.</span>
+              I build data foundations that scale and insights that{" "}
+              <span className="gradient-text">land.</span>
             </motion.h2>
 
             <motion.p
@@ -192,7 +192,7 @@ export default function About() {
               variants={fadeUp}
               className="text-white/70 leading-relaxed mb-4 md:mb-5 font-medium text-base md:text-lg"
             >
-              5+ years across consulting, enterprise, and global organizations have taught me one thing: the best analysis means nothing if the right people cannot act on it.
+              As a Data Analytics Engineer with a strong trajectory in Data Engineering, I specialize in bridging the gap between raw data and executive-level clarity.
             </motion.p>
 
             <motion.p
@@ -203,7 +203,7 @@ export default function About() {
               variants={fadeUp}
               className="text-white/60 leading-relaxed mb-4 md:mb-5 text-sm md:text-base"
             >
-              I specialize in both sides of the problem. I build the pipelines that make data reliable, and I shape the dashboards and reporting frameworks that make it digestible for decision-makers at every level.
+              Over the last 5+ years, I've engineered resilient data pipelines, designed scalable cloud architectures, and built semantic layers using Snowflake, dbt, and Python. I don't just build reports—I architect the entire data ecosystem that powers them.
             </motion.p>
 
             <motion.p

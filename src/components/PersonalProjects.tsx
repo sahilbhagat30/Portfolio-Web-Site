@@ -28,7 +28,7 @@ const PERSONAL_PROJECTS = [
     title: "Gestational Diabetes Early Prediction",
     tagline: "ML + Deep Learning · Healthcare AI",
     description:
-      "Early prediction of gestational diabetes using machine learning and deep learning models. Developed in collaboration with Fetal Life to enable timely clinical interventions and improve maternal health outcomes.",
+      "Architected machine learning and deep learning pipelines for early prediction of gestational diabetes. Developed in collaboration with Fetal Life to process complex healthcare datasets and enable timely clinical interventions.",
     githubUrl: "https://github.com/sahilbhagat30/Gestational-Diabetes-Early-Prediction",
     tags: ["Python", "Scikit-learn", "TensorFlow", "Pandas", "Healthcare AI"],
     tagColor: "violet",
@@ -42,9 +42,9 @@ const PERSONAL_PROJECTS = [
     title: "Medication Reminder Platform",
     tagline: "Full-Stack React + Node.js · Healthcare",
     description:
-      "A production-grade, full-stack application designed for the Aetna Medication Reminder System. Empowers administrators with an intuitive dashboard to manage prescriptions, eligibility, and real-time communication telemetry.",
+      "Engineered a production-grade analytics platform and full-stack application for the Aetna Medication Reminder System. Built robust data telemetry pipelines to empower administrators with real-time tracking.",
     githubUrl: "https://github.com/sahilbhagat30/medication-reminder-ui",
-    tags: ["React 19", "Node.js", "Express", "PostgreSQL", "Docker", "BFF Architecture"],
+    tags: ["React 19", "Node.js", "Data Telemetry", "PostgreSQL", "Docker", "BFF Architecture"],
     tagColor: "cyan",
     icon: "database",
     accentColor: "#A3A3A3",
