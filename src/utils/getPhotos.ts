@@ -10,6 +10,17 @@ export interface PhotoData {
 
 export function getPhotos(): PhotoData[] {
   const baseDir = path.join(process.cwd(), "public", "photos");
+  const metaPath = path.join(baseDir, "meta.json");
+  
+  let metadata: Record<string, string> = {};
+  if (fs.existsSync(metaPath)) {
+    try {
+      metadata = JSON.parse(fs.readFileSync(metaPath, "utf-8"));
+    } catch (e) {
+      console.error("Error reading photos metadata", e);
+    }
+  }
+
   const photos: PhotoData[] = [];
   
   if (!fs.existsSync(baseDir)) return [];
@@ -20,8 +31,8 @@ export function getPhotos(): PhotoData[] {
   let spanIdx = 0;
 
   for (const file of files) {
-    // Create a readable alt text from the filename
-    const altText = file.replace(/\.[^/.]+$/, "").replace(/[-_]/g, " ");
+    // Read the description from metadata.json, fallback to a generic description
+    const altText = metadata[file] || "A captured moment";
     
     const base = process.env.NODE_ENV === "production" ? "/Portfolio-Web-Site" : "";
     photos.push({
