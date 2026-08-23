@@ -175,7 +175,7 @@ export default function Overlay() {
                   initial={{ y: "100%", opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ delay: 0.55, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-                  className="font-black uppercase leading-none tracking-tight text-white m-0"
+                  className="font-black uppercase leading-none tracking-tight gradient-text m-0"
                   style={{ fontSize: "clamp(2.3rem, 10vw, 6rem)", letterSpacing: "-0.03em" }}
                 >
                   Sahil
