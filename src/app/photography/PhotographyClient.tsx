@@ -1,14 +1,40 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, ZoomIn } from "lucide-react";
+import { X, ZoomIn, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
 import { PhotoData } from "@/utils/getPhotos";
 
 export default function PhotographyClient({ photos }: { photos: PhotoData[] }) {
-  const [lightboxSrc, setLightboxSrc] = useState<string | null>(null);
-  const [lightboxAlt, setLightboxAlt] = useState("");
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+
+  const handleNext = useCallback((e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    if (lightboxIndex !== null && photos.length > 0) {
+      setLightboxIndex((lightboxIndex + 1) % photos.length);
+    }
+  }, [lightboxIndex, photos.length]);
+
+  const handlePrev = useCallback((e?: React.MouseEvent) => {
+    e?.stopPropagation();
+    if (lightboxIndex !== null && photos.length > 0) {
+      setLightboxIndex((lightboxIndex - 1 + photos.length) % photos.length);
+    }
+  }, [lightboxIndex, photos.length]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (lightboxIndex === null) return;
+      if (e.key === "Escape") setLightboxIndex(null);
+      if (e.key === "ArrowRight") handleNext();
+      if (e.key === "ArrowLeft") handlePrev();
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [lightboxIndex, handleNext, handlePrev]);
+
+  const currentPhoto = lightboxIndex !== null ? photos[lightboxIndex] : null;
 
   return (
     <>
@@ -29,8 +55,7 @@ export default function PhotographyClient({ photos }: { photos: PhotoData[] }) {
               className="relative overflow-hidden group cursor-pointer rounded-sm"
               style={{ background: "rgba(255,255,255,0.02)", outline: "1px solid rgba(255,255,255,0.05)" }}
               onClick={() => {
-                setLightboxSrc(photo.src);
-                setLightboxAlt(photo.alt);
+                setLightboxIndex(i);
               }}
             >
               <div 
@@ -56,26 +81,47 @@ export default function PhotographyClient({ photos }: { photos: PhotoData[] }) {
 
       {/* Lightbox */}
       <AnimatePresence>
-        {lightboxSrc && (
+        {currentPhoto && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
             className="fixed inset-0 z-[100] bg-[#060000]/95 backdrop-blur-sm flex items-center justify-center p-4 md:p-8"
-            onClick={() => setLightboxSrc(null)}
+            onClick={() => setLightboxIndex(null)}
           >
+            {/* Close Button */}
             <motion.button
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               className="absolute top-6 right-6 z-50 text-white/50 hover:text-white transition-colors bg-white/10 p-2 rounded-full backdrop-blur-md"
-              onClick={() => setLightboxSrc(null)}
+              onClick={(e) => {
+                e.stopPropagation();
+                setLightboxIndex(null);
+              }}
               aria-label="Close lightbox"
             >
               <X size={24} />
             </motion.button>
 
+            {/* Navigation Buttons (Desktop mostly) */}
+            <button
+              onClick={handlePrev}
+              className="absolute left-4 md:left-8 z-50 text-white/50 hover:text-white transition-colors bg-white/5 hover:bg-white/10 p-3 rounded-full backdrop-blur-md hidden sm:block"
+              aria-label="Previous photo"
+            >
+              <ChevronLeft size={32} />
+            </button>
+            <button
+              onClick={handleNext}
+              className="absolute right-4 md:right-8 z-50 text-white/50 hover:text-white transition-colors bg-white/5 hover:bg-white/10 p-3 rounded-full backdrop-blur-md hidden sm:block"
+              aria-label="Next photo"
+            >
+              <ChevronRight size={32} />
+            </button>
+
             <motion.div
+              key={currentPhoto.src} // forces re-animation when source changes
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               exit={{ opacity: 0, scale: 0.95 }}
@@ -85,16 +131,17 @@ export default function PhotographyClient({ photos }: { photos: PhotoData[] }) {
             >
               <div className="relative w-full h-[85vh]">
                 <Image
-                  src={lightboxSrc}
-                  alt={lightboxAlt}
+                  src={currentPhoto.src}
+                  alt={currentPhoto.alt}
                   fill
                   className="object-contain drop-shadow-2xl"
                   sizes="100vw"
                   quality={100}
+                  priority
                 />
               </div>
-              {lightboxAlt && (
-                <p className="mt-4 text-white/40 text-sm tracking-wide">{lightboxAlt}</p>
+              {currentPhoto.alt && (
+                <p className="mt-4 text-white/40 text-sm tracking-wide">{currentPhoto.alt}</p>
               )}
             </motion.div>
           </motion.div>
