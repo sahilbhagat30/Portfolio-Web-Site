@@ -42,7 +42,7 @@ export default function Preloader() {
       {isLoading && (
         <motion.div
           key="preloader"
-          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#080808] origin-top"
+          className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[var(--background)] origin-top"
           initial={{ y: 0 }}
           exit={{ y: "-100%" }}
           transition={{ duration: 1, ease: [0.76, 0, 0.24, 1] }}
