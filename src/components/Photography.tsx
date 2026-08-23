@@ -122,7 +122,7 @@ export default function Photography({
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-[100] bg-black/95 flex items-center justify-center p-6"
+            className="fixed inset-0 z-[100] bg-[#060000]/95 flex items-center justify-center p-6"
             onClick={() => setLightboxSrc(null)}
           >
             <motion.button

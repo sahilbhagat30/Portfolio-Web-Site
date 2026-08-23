@@ -149,7 +149,7 @@ export default function VinylPlayer() {
       transition={{ type: "spring", stiffness: 400, damping: 28 }}
       className="fixed bottom-6 left-6 z-50 flex items-center gap-3 px-3 py-2 rounded-full cursor-pointer select-none"
       style={{
-        background: "#181818",
+        background: "var(--background)",
         border: "1px solid rgba(234,230,225,0.15)", // Silver border
         boxShadow: "0 8px 24px rgba(0,0,0,0.6)",
       }}
@@ -192,7 +192,7 @@ export default function VinylPlayer() {
         width: "220px",
         height: "220px",
         borderRadius: "28px",
-        background: "#181818",
+        background: "var(--background)",
         border: "1px solid rgba(234,230,225,0.15)", // Silver border
         boxShadow: "0 24px 48px rgba(0,0,0,0.7), inset 0 1px 0 rgba(234,230,225,0.08)",
       }}
@@ -217,7 +217,7 @@ export default function VinylPlayer() {
 
       {/* Play/Pause Button — perfectly centered on the disc */}
       <div
-        className="absolute flex items-center justify-center rounded-full bg-black/50 hover:bg-black/80 transition-colors border border-white/10 shadow-xl z-20"
+        className="absolute flex items-center justify-center rounded-full bg-[#060000]/50 hover:bg-[#060000]/80 transition-colors border border-white/10 shadow-xl z-20"
         style={{ top: "50%", left: "50%", transform: "translate(-50%, -50%)", width: "52px", height: "52px" }}
         onClick={(e) => { e.stopPropagation(); togglePlay(); }}
         title={isPlaying ? "Pause" : "Play"}

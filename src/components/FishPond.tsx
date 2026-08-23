@@ -701,7 +701,7 @@ export default function FishPond() {
   }, []);
 
   return (
-    <section className="relative w-full bg-[#080808] overflow-hidden flex justify-center items-center p-4 md:p-12">
+    <section className="relative w-full bg-[var(--background)] overflow-hidden flex justify-center items-center p-4 md:p-12">
       <style dangerouslySetInnerHTML={{ __html: KOI_POND_CSS }} />
       <div 
         className="w-full relative shadow-[0_20px_60px_rgba(0,0,0,0.8)] rounded-[20px] p-4 md:p-6"
