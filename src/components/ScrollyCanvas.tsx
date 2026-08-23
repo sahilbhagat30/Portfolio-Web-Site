@@ -109,10 +109,6 @@ export default function ScrollyCanvas() {
           <canvas
             ref={canvasRef}
             className="w-full h-full block object-cover"
-            style={{
-              maskImage: "radial-gradient(ellipse at center, black 70%, transparent 100%)",
-              WebkitMaskImage: "radial-gradient(ellipse at center, black 70%, transparent 100%)"
-            }}
           />
         </div>
       </div>
