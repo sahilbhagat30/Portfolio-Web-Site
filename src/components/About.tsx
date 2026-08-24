@@ -95,7 +95,7 @@ function CurrentlyBlock() {
         <div className="flex items-center gap-2">
           <div className="w-1.5 h-1.5 rounded-full bg-white/40 mt-1.5" />
           <div>
-            <p className="text-white/80 text-sm font-medium">New York City</p>
+            <p className="text-white/80 text-sm font-medium">📍 New York City</p>
             <p className="text-white/30 text-xs">EST · {time}</p>
           </div>
         </div>
