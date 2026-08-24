@@ -17,6 +17,7 @@ const PROJECT_DATA = [
     tags: ["Data Architecture", "Cost Optimization", "Pipeline Design"],
     tagColor: "violet",
     featured: true,
+    link: "https://anywhere.re/",
   },
   {
     number: "02",
@@ -28,6 +29,7 @@ const PROJECT_DATA = [
     tags: ["Data Pipelines", "Semantic Layer", "KPI Strategy"],
     tagColor: "cyan",
     featured: false,
+    link: "https://ischool.syr.edu/iconsult/",
   },
   {
     number: "03",
@@ -39,6 +41,7 @@ const PROJECT_DATA = [
     tags: ["Global Data Infrastructure", "Analytics Engineering", "Strategy"],
     tagColor: "amber",
     featured: false,
+    link: "https://www.un.org/",
   },
   {
     number: "04",
@@ -50,6 +53,7 @@ const PROJECT_DATA = [
     tags: ["Workflow Automation", "Data Integration", "Enterprise Analytics"],
     tagColor: "violet",
     featured: false,
+    link: "https://www.capgemini.com/",
   },
   {
     number: "05",
@@ -61,6 +65,7 @@ const PROJECT_DATA = [
     tags: ["Data Modeling", "Decision Support", "Business Analysis"],
     tagColor: "cyan",
     featured: false,
+    link: "https://www.tcs.com/",
   },
 ];
 
@@ -113,6 +118,7 @@ function TiltProjectCard({ project, index }: { project: typeof PROJECT_DATA[0]; 
       variants={fadeUp}
       onMouseMove={handleMove}
       onMouseLeave={handleLeave}
+      onClick={() => window.open(project.link, '_blank', 'noopener,noreferrer')}
       className="group relative glass-card overflow-hidden cursor-pointer"
       style={{ rotateX: rotX, rotateY: rotY, transformStyle: "preserve-3d" }}
       id={`project-${project.number}`}
@@ -239,6 +245,7 @@ export default function Projects() {
           transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
           onMouseMove={featMove}
           onMouseLeave={featLeave}
+          onClick={() => window.open(featured.link, '_blank', 'noopener,noreferrer')}
           style={{ rotateX: fRotX, rotateY: fRotY, transformStyle: "preserve-3d" }}
           className="group relative glass-card overflow-hidden mb-8 cursor-pointer"
           id={`project-${featured.number}`}
