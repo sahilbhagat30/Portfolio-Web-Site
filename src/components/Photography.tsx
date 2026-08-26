@@ -1,38 +1,152 @@
 "use client";
 
+import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, ZoomIn } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { PhotoData } from "@/utils/getPhotos";
+import gsap from "gsap";
 
 export default function Photography({
   initialPhotos = [],
 }: {
   initialPhotos?: PhotoData[];
 }) {
-  const row = initialPhotos;
+  const containerRef = useRef<HTMLDivElement>(null);
+  const itemsRef = useRef<(HTMLAnchorElement | null)[]>([]);
+
+  // Interaction State
+  const dragState = useRef({
+    isDragging: false,
+    startX: 0,
+    startY: 0,
+    targetYaw: 0,
+    targetPitch: 0,
+    currentYaw: 0,
+    currentPitch: 0,
+  });
+
+  useEffect(() => {
+    if (!containerRef.current || !itemsRef.current || initialPhotos.length === 0) return;
+
+    const N = initialPhotos.length;
+    const R = typeof window !== 'undefined' && window.innerWidth < 768 ? 160 : 320; 
+    
+    // Generate initial Fibonacci sphere points
+    const basePoints: {x: number, y: number, z: number}[] = [];
+    const goldenAngle = Math.PI * (3 - Math.sqrt(5));
+
+    for (let i = 0; i < N; i++) {
+      const y = 1 - (i / (N - 1)) * 2; 
+      const radiusAtY = Math.sqrt(1 - y * y);
+      const theta = goldenAngle * i;
+      const x = Math.cos(theta) * radiusAtY;
+      const z = Math.sin(theta) * radiusAtY;
+      basePoints.push({ x: x * R, y: y * R, z: z * R });
+    }
+
+    // Set initial positions to absolute center
+    itemsRef.current.forEach((el) => {
+      if (el) {
+        gsap.set(el, { xPercent: -50, yPercent: -50, position: "absolute", top: "50%", left: "50%" });
+      }
+    });
+
+    const updateSphere = () => {
+      const state = dragState.current;
+
+      // Auto rotation if not dragging
+      if (!state.isDragging) {
+        state.targetYaw -= 0.003; 
+      }
+
+      state.currentYaw += (state.targetYaw - state.currentYaw) * 0.1;
+      state.currentPitch += (state.targetPitch - state.currentPitch) * 0.1;
+
+      const maxPitch = Math.PI / 3;
+      state.currentPitch = Math.max(-maxPitch, Math.min(maxPitch, state.currentPitch));
+      state.targetPitch = Math.max(-maxPitch, Math.min(maxPitch, state.targetPitch));
+
+      const cy = Math.cos(state.currentYaw);
+      const sy = Math.sin(state.currentYaw);
+      const cp = Math.cos(state.currentPitch);
+      const sp = Math.sin(state.currentPitch);
+
+      basePoints.forEach((p, i) => {
+        const x1 = p.x * cy - p.z * sy;
+        const y1 = p.y;
+        const z1 = p.x * sy + p.z * cy;
+
+        const x2 = x1;
+        const y2 = y1 * cp - z1 * sp;
+        const z2 = y1 * sp + z1 * cp;
+
+        const el = itemsRef.current[i];
+        if (el) {
+          const zProgress = (z2 + R) / (R * 2);
+          const opacity = 0.2 + (zProgress * 0.8);
+          const scale = 0.6 + (zProgress * 0.6);
+
+          gsap.set(el, {
+            x: x2,
+            y: y2,
+            z: z2,
+            opacity: opacity,
+            scale: scale,
+            zIndex: Math.round(z2),
+            pointerEvents: zProgress > 0.4 ? "auto" : "none"
+          });
+        }
+      });
+    };
+
+    gsap.ticker.add(updateSphere);
+
+    const container = containerRef.current;
+    const onDown = (e: MouseEvent | TouchEvent) => {
+      const state = dragState.current;
+      state.isDragging = true;
+      state.startX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+      state.startY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+    };
+
+    const onMove = (e: MouseEvent | TouchEvent) => {
+      const state = dragState.current;
+      if (!state.isDragging) return;
+      
+      const currentX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+      const currentY = 'touches' in e ? e.touches[0].clientY : e.clientY;
+      
+      state.targetYaw += (currentX - state.startX) * 0.005;
+      state.targetPitch += (currentY - state.startY) * 0.005;
+
+      state.startX = currentX;
+      state.startY = currentY;
+    };
+
+    const onUp = () => { dragState.current.isDragging = false; };
+
+    container.addEventListener("mousedown", onDown);
+    container.addEventListener("mousemove", onMove);
+    window.addEventListener("mouseup", onUp);
+    container.addEventListener("touchstart", onDown, { passive: true });
+    container.addEventListener("touchmove", onMove, { passive: true });
+    window.addEventListener("touchend", onUp);
+
+    return () => {
+      gsap.ticker.remove(updateSphere);
+      container.removeEventListener("mousedown", onDown);
+      container.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mouseup", onUp);
+      container.removeEventListener("touchstart", onDown);
+      container.removeEventListener("touchmove", onMove);
+      window.removeEventListener("touchend", onUp);
+    };
+  }, [initialPhotos]);
 
   return (
     <section id="photography" className="relative py-32 overflow-hidden bg-[var(--background)]">
-      {/* Injecting marquee animations */}
-      <style dangerouslySetInnerHTML={{
-        __html: `
-        @keyframes scroll-left {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(calc(-50% - 0.5rem)); }
-        }
-        .marquee-left {
-          /* Slowed down from 40s to 120s for 28 photos */
-          animation: scroll-left 120s linear infinite;
-        }
-        .marquee-left:hover {
-          animation-play-state: paused;
-        }
-        `
-      }} />
-
-      {/* Background organic shape */}
       <div
         aria-hidden
         className="pointer-events-none absolute top-1/2 left-0 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-[0.2] blur-[120px]"
@@ -44,8 +158,7 @@ export default function Photography({
         style={{ background: "radial-gradient(circle, rgba(255,255,255,0.08), transparent 70%)" }}
       />
 
-      <div className="max-w-7xl mx-auto relative z-10 px-6 md:px-16">
-        {/* Header */}
+      <div className="max-w-7xl mx-auto relative z-10 px-6 md:px-16 pointer-events-none">
         <motion.p
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -60,53 +173,65 @@ export default function Photography({
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.1 }}
-          className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12"
+          className="flex flex-col md:flex-row md:items-end justify-between gap-6"
         >
-          <div>
-            <h2
-              className="text-4xl md:text-5xl font-bold tracking-tight"
-              style={{ letterSpacing: "-0.02em" }}
-            >
-              Life out of office
-            </h2>
-            <p className="mt-3 text-white/40 max-w-md text-sm leading-relaxed">
-              When I&apos;m not pushing pixels or writing code, you can find me exploring the world, chasing experiences, and capturing moments through my lens.
-            </p>
-          </div>
-          <Link href="/photography" className="shrink-0 mt-4 md:mt-0 flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold bg-white/5 hover:bg-white/10 border border-white/10 transition-colors">
-            View Full Gallery <ArrowRight size={16} />
-          </Link>
+          <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase text-transparent bg-clip-text"
+              style={{ backgroundImage: "var(--gradient-hero)" }}>
+            Through <br /> My Lens
+          </h2>
+          <p className="text-[var(--foreground)]/70 max-w-sm text-sm md:text-base leading-relaxed pb-2">
+            Capturing moments, light, and geometry. A collection of my favorite shots from around the world.
+          </p>
         </motion.div>
       </div>
 
-      {/* Marquee Slideshows */}
-      <div className="relative w-full flex flex-col gap-4 mt-8 pb-12 z-20 overflow-hidden" data-cursor="Drag">
-        {/* Single Row: Scrolls Left */}
-        {row.length > 0 && (
-          <div className="flex w-max gap-4 marquee-left">
-            {[...row, ...row].map((photo, i) => (
-              <Link
-                href="/photography"
-                key={i}
-                className="w-[225px] h-[400px] md:w-[270px] md:h-[480px] relative overflow-hidden rounded-sm shrink-0 group cursor-pointer block"
-                style={{ background: "rgba(255,255,255,0.04)", border: "4px solid rgba(234,230,225,0.15)", outline: "1px solid rgba(234,230,225,0.4)", outlineOffset: "-4px" }}
-              >
-                <Image
-                  src={photo.src}
-                  alt={photo.alt}
-                  fill
-                  sizes="(max-width: 768px) 225px, 270px"
-                  priority={i < 3}
-                  className="object-cover transition-all duration-700 ease-out group-hover:scale-105"
-                  quality={85}
-                />
-                <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 pointer-events-none">
-                  <ZoomIn size={32} className="text-white drop-shadow-lg" />
-                </div>
-              </Link>
-            ))}
-          </div>
-        )}
+      <div 
+        className="relative w-full h-[60vh] md:h-[80vh] mt-12 z-20 overflow-visible cursor-grab active:cursor-grabbing"
+        ref={containerRef}
+        data-cursor="Drag"
+        style={{ perspective: "1200px" }}
+      >
+        <div className="absolute inset-0 w-full h-full" style={{ transformStyle: "preserve-3d" }}>
+          {initialPhotos.map((photo, i) => (
+            <Link
+              href="/photography"
+              key={i}
+              ref={(el) => { itemsRef.current[i] = el; }}
+              className="w-[140px] h-[200px] md:w-[200px] md:h-[280px] rounded-sm group block shadow-2xl"
+              style={{ 
+                background: "rgba(255,255,255,0.04)", 
+                border: "2px solid rgba(234,230,225,0.15)",
+                transformStyle: "preserve-3d" 
+              }}
+              data-cursor="View"
+            >
+              <Image
+                src={photo.src}
+                alt={photo.alt}
+                fill
+                sizes="(max-width: 768px) 140px, 200px"
+                priority={i < 5}
+                className="object-cover transition-all duration-700 ease-out group-hover:brightness-125"
+                quality={85}
+              />
+              <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 pointer-events-none bg-black/20">
+                <ZoomIn size={32} className="text-white drop-shadow-lg" />
+              </div>
+            </Link>
+          ))}
+        </div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6 md:px-16 mt-12 flex justify-center pointer-events-none">
+        <Link 
+          href="/photography" 
+          className="pointer-events-auto inline-flex items-center gap-3 text-sm font-medium text-[var(--foreground)] hover:text-white transition-colors group"
+        >
+          View Full Gallery
+          <span className="w-8 h-8 rounded-full border border-[var(--border-accent)] flex items-center justify-center group-hover:bg-white group-hover:border-white group-hover:text-black transition-all">
+            <ArrowRight size={14} />
+          </span>
+        </Link>
       </div>
     </section>
   );
