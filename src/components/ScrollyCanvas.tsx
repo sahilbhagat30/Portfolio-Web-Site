@@ -66,6 +66,43 @@ export default function ScrollyCanvas() {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
+
+    // --- Programmatic Background Removal (Chroma Keying) ---
+    // Extract the pixel data from the drawn image area
+    try {
+      const imgData = ctx.getImageData(offsetX, offsetY, drawWidth, drawHeight);
+      const data = imgData.data;
+
+      // The background in the images is a mix of Dark Navy and Fiery Orange.
+      // We will loop through every pixel and make these specific color ranges transparent.
+      for (let i = 0; i < data.length; i += 4) {
+        const r = data[i];
+        const g = data[i + 1];
+        const b = data[i + 2];
+
+        // Background Color 1: Dark Navy / Black (Top and Bottom of image)
+        const isDark = r < 45 && g < 55 && b < 75; 
+        
+        // Background Color 2: Fiery Orange Glow (Middle of image)
+        // High red, moderate green, very low blue
+        const isOrange = r > 120 && g > 40 && g < 150 && b < 60 && r > g * 1.3;
+
+        // Soften the edges (Anti-aliasing / Feathering)
+        if (isDark || isOrange) {
+          // If it perfectly matches the background, make it fully transparent
+          data[i + 3] = 0; 
+        } else if (
+          // Create a slight transition zone for pixels near the orange threshold
+          (r > 90 && g > 30 && b < 80 && r > g * 1.2)
+        ) {
+          data[i + 3] = 100; // Semi-transparent for softer edges
+        }
+      }
+      
+      ctx.putImageData(imgData, offsetX, offsetY);
+    } catch (e) {
+      // Ignore cross-origin canvas errors during local dev
+    }
   };
 
   // rAF loop — polls scrollY every frame so iOS momentum scroll works perfectly
