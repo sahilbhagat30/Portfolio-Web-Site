@@ -87,12 +87,12 @@ const fragmentShader = `
 
   void main() {
     vec2 uv = vUv;
-    // Base colors (Dark Maroon to almost Black)
-    vec3 color1 = vec3(0.047, 0.004, 0.004); // #0C0101
-    vec3 color2 = vec3(0.015, 0.0, 0.0); // Deeper black
+    // Base colors (Dark Navy to almost Black)
+    vec3 color1 = vec3(0.012, 0.039, 0.082); // Very dark blue (#030A15)
+    vec3 color2 = vec3(0.02, 0.02, 0.03); // Deeper black
     
-    // Silver / White highlight color
-    vec3 highlight = vec3(0.42, 0.447, 0.502); // #6B7280
+    // Highlight color (Fiery Orange to match image)
+    vec3 highlight = vec3(0.85, 0.28, 0.05); // Orange/Rust (#D9480D)
 
     // Add noise based on UV and Time to create fluid waves
     float noise1 = cnoise(vec3(uv * 1.5, uTime * 0.15));
@@ -104,9 +104,9 @@ const fragmentShader = `
     // Mix base colors
     vec3 finalColor = mix(color1, color2, finalNoise);
 
-    // Add subtle silver highlight streaks where noise peaks
-    float highlightIntensity = smoothstep(0.65, 1.0, finalNoise);
-    finalColor = mix(finalColor, highlight * 0.2, highlightIntensity);
+    // Add subtle orange highlight streaks where noise peaks
+    float highlightIntensity = smoothstep(0.6, 1.0, finalNoise);
+    finalColor = mix(finalColor, highlight * 0.35, highlightIntensity);
 
     gl_FragColor = vec4(finalColor, 1.0);
   }

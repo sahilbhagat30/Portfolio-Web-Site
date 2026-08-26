@@ -104,11 +104,14 @@ export default function ScrollyCanvas() {
   return (
     <div className="h-full w-full relative">
       <div className="sticky top-0 h-screen w-full flex items-center justify-center overflow-hidden">
-        {/* Frame: Full bleed on mobile, portrait frame on desktop */}
-        <div className="w-full h-full md:w-auto md:max-w-md lg:max-w-lg md:aspect-[9/16] md:h-[85vh] relative md:rounded-[32px] overflow-hidden md:shadow-2xl mix-blend-screen bg-transparent">
+        <div className="w-full h-full md:w-auto md:max-w-md lg:max-w-lg md:aspect-[9/16] md:h-[85vh] relative flex items-center justify-center">
           <canvas 
             ref={canvasRef}
             className="w-full h-full block object-contain"
+            style={{ 
+              maskImage: 'radial-gradient(ellipse at center, black 50%, transparent 100%)',
+              WebkitMaskImage: 'radial-gradient(ellipse at center, black 50%, transparent 100%)'
+            }}
           />
         </div>
       </div>
