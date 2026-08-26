@@ -31,7 +31,11 @@ export default function Photography({
     if (!containerRef.current || !itemsRef.current || initialPhotos.length === 0) return;
 
     const N = initialPhotos.length;
-    const R = typeof window !== 'undefined' && window.innerWidth < 768 ? 160 : 320; 
+    
+    // Calculate radius to perfectly fit the screen height without overlapping text
+    const imgHeight = typeof window !== 'undefined' && window.innerWidth < 768 ? 200 : 280;
+    const maxR = typeof window !== 'undefined' ? (window.innerHeight * 0.5) - (imgHeight / 2) - 100 : 320;
+    const R = Math.max(120, Math.min(window.innerWidth < 768 ? 160 : 300, maxR));
     
     // Generate initial Fibonacci sphere points
     const basePoints: {x: number, y: number, z: number}[] = [];
@@ -186,7 +190,7 @@ export default function Photography({
       </div>
 
       <div 
-        className="relative w-full h-[60vh] md:h-[80vh] mt-12 z-20 overflow-visible cursor-grab active:cursor-grabbing"
+        className="relative w-full h-[60vh] md:h-[80vh] min-h-[600px] md:min-h-[850px] mt-12 z-20 overflow-visible cursor-grab active:cursor-grabbing"
         ref={containerRef}
         data-cursor="Drag"
         style={{ perspective: "1200px" }}
@@ -222,7 +226,7 @@ export default function Photography({
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 md:px-16 mt-12 flex justify-center pointer-events-none">
+      <div className="max-w-7xl mx-auto px-6 md:px-16 mt-20 flex justify-center pointer-events-none">
         <Link 
           href="/photography" 
           className="pointer-events-auto inline-flex items-center gap-3 text-sm font-medium text-[var(--foreground)] hover:text-white transition-colors group"
