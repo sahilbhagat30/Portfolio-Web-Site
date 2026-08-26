@@ -191,10 +191,8 @@ export default function HandMagic() {
   return (
     <section id="interactive" className="relative py-32 overflow-hidden bg-[var(--background)]">
       {/* Inject ML Scripts globally for this section */}
-      <Script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-core@4.10.0/dist/tf-core.min.js" strategy="lazyOnload" />
-      <Script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-converter@4.10.0/dist/tf-converter.min.js" strategy="lazyOnload" />
-      <Script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs-backend-webgl@4.10.0/dist/tf-backend-webgl.min.js" strategy="lazyOnload" />
-      <Script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/hand-pose-detection@2.0.0/dist/hand-pose-detection.min.js" strategy="lazyOnload" />
+      <Script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@4.10.0/dist/tf.min.js" strategy="afterInteractive" />
+      <Script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/hand-pose-detection@2.0.0/dist/hand-pose-detection.min.js" strategy="afterInteractive" />
       {/* Background Gradient */}
       <div
         aria-hidden
