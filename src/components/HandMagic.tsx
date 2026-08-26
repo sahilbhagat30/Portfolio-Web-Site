@@ -280,14 +280,6 @@ export default function HandMagic() {
         {/* Right: Interactive Canvas Container */}
         <div className="w-full md:w-2/3 relative rounded-2xl overflow-hidden shadow-2xl bg-black/50 border border-white/10 aspect-video md:aspect-[4/3] flex items-center justify-center">
           
-          {/* Hidden video element required for TFJS to read from camera */}
-          <video 
-            ref={videoRef} 
-            className="hidden" 
-            playsInline 
-            muted 
-          />
-
           {/* Render Canvas */}
           <canvas 
             ref={canvasRef} 
@@ -312,21 +304,15 @@ export default function HandMagic() {
             )}
           </AnimatePresence>
           
-          {/* Webcam feed (faint) */}
-          {isActive && (
-            <video 
-              autoPlay
-              playsInline
-              muted
-              ref={(el) => {
-                if (el && videoRef.current?.srcObject) {
-                  el.srcObject = videoRef.current.srcObject;
-                }
-              }}
-              className="absolute inset-0 w-full h-full object-cover opacity-20 z-0 grayscale"
-              style={{ transform: "scaleX(-1)" }} 
-            />
-          )}
+          {/* Webcam feed */}
+          <video 
+            ref={videoRef} 
+            autoPlay 
+            playsInline 
+            muted 
+            className={`absolute inset-0 w-full h-full object-cover opacity-30 z-0 grayscale transition-opacity duration-1000 ${isActive ? 'opacity-30' : 'opacity-0'}`}
+            style={{ transform: "scaleX(-1)" }} 
+          />
         </div>
       </div>
     </section>
