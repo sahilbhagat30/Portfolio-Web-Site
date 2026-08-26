@@ -12,7 +12,6 @@ export default function Preloader() {
     document.body.style.overflow = "hidden";
     
     // Simulate loading progress
-    const duration = 2000;
     const interval = 20; 
     let current = 0;
 
@@ -26,7 +25,7 @@ export default function Preloader() {
         setTimeout(() => {
           setIsLoading(false);
           document.body.style.overflow = "";
-        }, 300);
+        }, 400); // slight pause at 100
       }
       setProgress(Math.floor(current));
     }, interval);
@@ -45,42 +44,35 @@ export default function Preloader() {
           className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[var(--background)] origin-top"
           initial={{ y: 0 }}
           exit={{ y: "-100%" }}
-          transition={{ duration: 1, ease: [0.76, 0, 0.24, 1] }}
+          transition={{ duration: 1.2, ease: [0.76, 0, 0.24, 1] }}
         >
-          {/* Background grid texture (subtle) */}
-          <div className="absolute inset-0 noise-overlay opacity-50" />
+          {/* Subtle noise overlay */}
+          <div className="absolute inset-0 noise-overlay opacity-30" />
           
-          <div className="relative z-10 flex flex-col items-center max-w-sm w-full px-12">
-            <motion.div 
-              className="text-6xl md:text-8xl font-black text-transparent bg-clip-text font-mono mb-6 tracking-tighter"
-              style={{
-                backgroundImage: "var(--gradient-hero)",
-                backgroundSize: "200% auto",
-              }}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.4 }}
-            >
-              {progress}
-            </motion.div>
-            
-            {/* Progress bar track */}
-            <div className="w-full h-[1px] bg-white/10 overflow-hidden mb-6 relative">
+          <div className="relative z-10 flex flex-col items-center justify-center w-full h-full">
+            {/* Odometer style massive number */}
+            <div className="overflow-hidden h-[1.2em] flex items-center justify-center">
               <motion.div 
-                className="absolute top-0 left-0 h-full"
+                className="text-[15vw] leading-none font-black text-transparent bg-clip-text"
                 style={{
-                  background: "var(--gradient-hero)",
-                  filter: "blur(8px)",
-                  width: `${progress}%`
+                  backgroundImage: "linear-gradient(180deg, #FFFFFF 0%, #6B7280 100%)",
                 }}
-              />
+                initial={{ y: "100%" }}
+                animate={{ y: 0 }}
+                transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
+              >
+                {progress}
+              </motion.div>
             </div>
             
-            {/* Loading text details */}
-            <div className="w-full flex justify-between text-[10px] uppercase tracking-[0.25em] font-semibold text-white/40">
-              <span className="text-white/60">System.Boot()</span>
-              <span>{progress === 100 ? "Ready_>" : "Loading..."}</span>
-            </div>
+            <motion.div 
+              className="text-white/40 text-sm tracking-[0.3em] uppercase mt-4 font-medium"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4 }}
+            >
+              Loading Experience
+            </motion.div>
           </div>
         </motion.div>
       )}

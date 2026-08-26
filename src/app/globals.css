@@ -49,6 +49,8 @@
 }
 
 html {
+  /* Fluid typography scaling: scales root font size from 14px on mobile to 20px on 4K displays */
+  font-size: clamp(14px, 12.8px + 0.375vw, 20px);
   scroll-behavior: auto; /* Lenis handles smooth scroll */
   overflow-x: clip; /* clip doesn't block touch scroll on iOS */
 }

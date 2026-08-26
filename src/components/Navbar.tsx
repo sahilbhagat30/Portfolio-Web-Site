@@ -1,8 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-
+import { useEffect, useState } from "react";
+import { motion, AnimatePresence, Variants } from "framer-motion";
 
 const NAV_LINKS = [
   { label: "About",       href: "#about" },
@@ -12,97 +11,55 @@ const NAV_LINKS = [
   { label: "Contact",     href: "#contact" },
 ];
 
-/* ── Magnetic nav link ── */
-function MagneticLink({
-  label,
-  href,
-  active,
-  onClick,
-}: {
-  label: string;
-  href: string;
-  active: boolean;
-  onClick: (e: React.MouseEvent<HTMLAnchorElement>, href: string) => void;
-}) {
-  const ref  = useRef<HTMLAnchorElement>(null);
-  const posX = useRef(0);
-  const posY = useRef(0);
+const menuVariants: Variants = {
+  closed: {
+    clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",
+    transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] }
+  },
+  open: {
+    clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+    transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] }
+  }
+};
 
-  const handleMove = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    const el = ref.current;
-    if (!el) return;
-    const rect = el.getBoundingClientRect();
-    posX.current = (e.clientX - rect.left - rect.width  / 2) * 0.25;
-    posY.current = (e.clientY - rect.top  - rect.height / 2) * 0.25;
-    el.style.transform = `translate(${posX.current}px, ${posY.current}px)`;
-  };
+const linkContainerVariants: Variants = {
+  closed: {
+    transition: { staggerChildren: 0.05, staggerDirection: -1 }
+  },
+  open: {
+    transition: { staggerChildren: 0.1, delayChildren: 0.2 }
+  }
+};
 
-  const handleLeave = () => {
-    const el = ref.current;
-    if (!el) return;
-    el.style.transform = "translate(0px, 0px)";
-    el.style.transition = "transform 0.4s cubic-bezier(0.22, 1, 0.36, 1)";
-    setTimeout(() => { if (el) el.style.transition = ""; }, 400);
-  };
-
-  return (
-    <a
-      ref={ref}
-      href={href}
-      onClick={(e) => onClick(e, href)}
-      onMouseMove={handleMove}
-      onMouseLeave={handleLeave}
-      className="relative group text-sm font-medium text-white/60 hover:text-white transition-colors duration-200"
-      style={{ display: "inline-block" }}
-    >
-      {label}
-      {/* Underline */}
-      <div
-        className={`absolute -bottom-0.5 left-0 h-[1px] bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-glow)] transition-all duration-300 ${
-          active ? "w-full" : "w-0 group-hover:w-full"
-        }`}
-      />
-      {/* Glow dot */}
-      {active && (
-        <motion.div
-          layoutId="nav-dot"
-          className="absolute -bottom-2.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-[var(--accent-primary)]"
-        />
-      )}
-    </a>
-  );
-}
+const linkVariants: Variants = {
+  closed: { y: "100%", opacity: 0, rotate: 5, transition: { duration: 0.5, ease: [0.76, 0, 0.24, 1] } },
+  open: { y: "0%", opacity: 1, rotate: 0, transition: { duration: 0.7, ease: [0.76, 0, 0.24, 1] } }
+};
 
 export default function Navbar() {
-  const [scrolled,    setScrolled]    = useState(false);
-  const [menuOpen,    setMenuOpen]    = useState(false);
-  const [activeLink,  setActiveLink]  = useState("");
+  const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [activeLink, setActiveLink] = useState("");
 
-  /* Scroll listener */
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  /* Active section tracking via IntersectionObserver */
   useEffect(() => {
     const sections = NAV_LINKS.map((l) => l.href.replace("#", ""));
     const observers: IntersectionObserver[] = [];
-
     sections.forEach((id) => {
       const el = document.getElementById(id);
       if (!el) return;
       const obs = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) setActiveLink(`#${id}`);
-        },
+        ([entry]) => { if (entry.isIntersecting) setActiveLink(`#${id}`); },
         { threshold: 0.35, rootMargin: "-64px 0px 0px 0px" }
       );
       obs.observe(el);
       observers.push(obs);
     });
-
     return () => observers.forEach((o) => o.disconnect());
   }, []);
 
@@ -110,94 +67,71 @@ export default function Navbar() {
     e.preventDefault();
     setMenuOpen(false);
     setActiveLink(href);
-    const target = document.querySelector(href);
-    if (target) target.scrollIntoView({ behavior: "smooth" });
+    setTimeout(() => {
+      const target = document.querySelector(href);
+      if (target) target.scrollIntoView({ behavior: "smooth" });
+    }, 800); // Wait for menu to close before scrolling
   };
 
   return (
     <>
-      <motion.nav
-        initial={{ y: -80, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-        className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ease-out ${
-          scrolled
-            ? "bg-[var(--background)]/85 backdrop-blur-xl border-b border-[var(--accent-primary)]/10 shadow-[0_4px_32px_rgba(0,0,0,0.5)]"
-            : "bg-transparent"
+      <nav
+        className={`fixed top-0 left-0 w-full z-[100] transition-colors duration-500 ease-out ${
+          scrolled && !menuOpen ? "bg-[var(--background)]/80 backdrop-blur-md" : "bg-transparent"
         }`}
       >
-        <div className="max-w-7xl mx-auto px-6 md:px-10 h-16 flex items-center justify-between">
-          {/* Logo */}
-          <a
-            href="#"
-            onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: "smooth" }); }}
-            className="group flex items-center gap-2 select-none"
-          >
-            <motion.span
-              className="font-bold tracking-tight text-lg"
-              style={{ letterSpacing: "-0.02em" }}
-              animate={{ filter: ["drop-shadow(0 0 8px rgba(212,175,55,0.4))", "drop-shadow(0 0 2px rgba(212,175,55,0.1))", "drop-shadow(0 0 8px rgba(212,175,55,0.4))"] }}
-              transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-            >
-              {/* Logo text 'SB' removed by request */}
-            </motion.span>
-          </a>
-
-          {/* Desktop Links */}
-          <div className="hidden md:flex items-center gap-8">
-            {NAV_LINKS.map((link) => (
-              <MagneticLink
-                key={link.href}
-                label={link.label}
-                href={link.href}
-                active={activeLink === link.href}
-                onClick={handleNav}
-              />
-            ))}
-
-          </div>
-
-          {/* Mobile Hamburger */}
+        <div className="max-w-7xl mx-auto px-6 md:px-10 h-20 flex items-center justify-end">
+          {/* Hamburger Button */}
           <button
-            id="navbar-menu-toggle"
             aria-label="Toggle menu"
             onClick={() => setMenuOpen(!menuOpen)}
-            className="md:hidden flex flex-col gap-1.5 p-2 group"
+            className="flex flex-col gap-1.5 p-4 z-[110] relative group hover:opacity-80 transition-opacity"
+            data-cursor="hover"
           >
-            <span className={`block w-6 h-0.5 bg-white transition-all duration-300 ${menuOpen ? "rotate-45 translate-y-2" : ""}`} />
-            <span className={`block w-4 h-0.5 bg-white transition-all duration-300 ${menuOpen ? "opacity-0" : ""}`} />
-            <span className={`block w-6 h-0.5 bg-white transition-all duration-300 ${menuOpen ? "-rotate-45 -translate-y-2" : ""}`} />
+            <span className={`block w-8 h-0.5 bg-white transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] ${menuOpen ? "rotate-45 translate-y-2" : ""}`} />
+            <span className={`block w-6 h-0.5 bg-white transition-opacity duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] ${menuOpen ? "opacity-0" : ""}`} />
+            <span className={`block w-8 h-0.5 bg-white transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] ${menuOpen ? "-rotate-45 -translate-y-2" : ""}`} />
           </button>
         </div>
-      </motion.nav>
+      </nav>
 
-      {/* Mobile Drawer */}
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div
-            initial={{ opacity: 0, x: "100%" }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: "100%" }}
-            transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed inset-0 z-40 bg-[var(--background)]/95 backdrop-blur-2xl flex flex-col items-center justify-center gap-8 md:hidden"
+      {/* Full Screen Menu */}
+      <motion.div
+        initial="closed"
+        animate={menuOpen ? "open" : "closed"}
+        variants={menuVariants}
+        className="fixed inset-0 z-[90] bg-[var(--background)] flex flex-col justify-center"
+      >
+        <div className="absolute inset-0 noise-overlay opacity-30 pointer-events-none" />
+        
+        <div className="max-w-7xl mx-auto px-6 md:px-20 w-full">
+          <motion.ul 
+            variants={linkContainerVariants}
+            className="flex flex-col gap-4 md:gap-6"
           >
-            {NAV_LINKS.map((link, i) => (
-              <motion.a
-                key={link.href}
-                href={link.href}
-                onClick={(e) => handleNav(e, link.href)}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 + i * 0.07 }}
-                className="text-4xl font-bold text-white/80 hover:text-white transition-colors"
-              >
-                {link.label}
-              </motion.a>
+            {NAV_LINKS.map((link) => (
+              <li key={link.href} className="overflow-hidden">
+                <motion.a
+                  variants={linkVariants}
+                  href={link.href}
+                  onClick={(e) => handleNav(e, link.href)}
+                  className={`inline-block text-5xl md:text-8xl font-black tracking-tighter uppercase transition-colors duration-300 hover:text-white ${
+                    activeLink === link.href ? "text-white" : "text-white/40"
+                  }`}
+                  style={{
+                    backgroundImage: activeLink === link.href ? "var(--gradient-hero)" : "none",
+                    WebkitBackgroundClip: activeLink === link.href ? "text" : "border-box",
+                    WebkitTextFillColor: activeLink === link.href ? "transparent" : "inherit",
+                  }}
+                  data-cursor="View"
+                >
+                  {link.label}
+                </motion.a>
+              </li>
             ))}
-
-          </motion.div>
-        )}
-      </AnimatePresence>
+          </motion.ul>
+        </div>
+      </motion.div>
     </>
   );
 }

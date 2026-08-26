@@ -21,15 +21,15 @@ export default function Home() {
       <Navbar />
 
       {/* Scrollytelling Hero */}
-      <div className="relative h-[500vh] w-full" id="hero">
-        {/* Canvas (Full width, centered) */}
-        <div className="absolute inset-0 w-full h-full z-10 pointer-events-none">
-          <ScrollyCanvas />
+      <div className="relative h-[500vh] flex md:flex-row" id="hero">
+        {/* Left: Overlay (Full width on mobile, half on desktop) */}
+        <div className="absolute md:relative w-full md:w-1/2 h-full z-20 pointer-events-none md:pointer-events-auto">
+          <Overlay />
         </div>
 
-        {/* Overlay Text (On top) */}
-        <div className="absolute inset-0 w-full h-full z-20 pointer-events-none md:pointer-events-auto">
-          <Overlay />
+        {/* Right: Canvas (Full width on mobile, half on desktop) */}
+        <div className="absolute md:relative top-0 right-0 w-full md:w-1/2 h-full z-10">
+          <ScrollyCanvas />
         </div>
       </div>
 

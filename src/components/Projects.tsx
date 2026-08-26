@@ -122,6 +122,7 @@ function TiltProjectCard({ project, index }: { project: typeof PROJECT_DATA[0]; 
       className="group relative glass-card overflow-hidden cursor-pointer"
       style={{ rotateX: rotX, rotateY: rotY, transformStyle: "preserve-3d" }}
       id={`project-${project.number}`}
+      data-cursor="View"
     >
       {/* Cursor glow */}
       <motion.div

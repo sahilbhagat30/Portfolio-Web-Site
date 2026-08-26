@@ -80,7 +80,7 @@ export default function Photography({
       </div>
 
       {/* Marquee Slideshows */}
-      <div className="relative w-full flex flex-col gap-4 mt-8 pb-12 z-20 overflow-hidden">
+      <div className="relative w-full flex flex-col gap-4 mt-8 pb-12 z-20 overflow-hidden" data-cursor="Drag">
         {/* Single Row: Scrolls Left */}
         {row.length > 0 && (
           <div className="flex w-max gap-4 marquee-left">
