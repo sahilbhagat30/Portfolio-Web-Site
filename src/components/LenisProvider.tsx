@@ -2,6 +2,8 @@
 
 import { ReactNode, useEffect } from "react";
 import Lenis from "lenis";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 export default function LenisProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
@@ -9,6 +11,8 @@ export default function LenisProvider({ children }: { children: ReactNode }) {
     // and Lenis can conflict with iOS Safari's touch handling and break sticky scroll
     const isTouch = window.matchMedia("(pointer: coarse)").matches;
     if (isTouch) return;
+
+    gsap.registerPlugin(ScrollTrigger);
 
     const lenis = new Lenis({
       duration: 1.2,
@@ -19,14 +23,19 @@ export default function LenisProvider({ children }: { children: ReactNode }) {
       wheelMultiplier: 1,
     });
 
+    // Sync Lenis with GSAP ScrollTrigger
+    lenis.on('scroll', ScrollTrigger.update);
+
     function raf(time: number) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
+      lenis.raf(time * 1000); // GSAP passes time in seconds, Lenis expects ms
     }
 
-    requestAnimationFrame(raf);
+    gsap.ticker.add(raf);
+    // Disable GSAP's lag smoothing to avoid conflicts with Lenis
+    gsap.ticker.lagSmoothing(0);
 
     return () => {
+      gsap.ticker.remove(raf);
       lenis.destroy();
     };
   }, []);
