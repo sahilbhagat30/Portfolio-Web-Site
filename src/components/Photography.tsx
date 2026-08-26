@@ -2,7 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import { ArrowRight, ZoomIn } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { PhotoData } from "@/utils/getPhotos";
@@ -218,9 +218,6 @@ export default function Photography({
                 className="object-cover transition-all duration-700 ease-out group-hover:brightness-125"
                 quality={85}
               />
-              <div className="absolute inset-0 flex flex-col items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 pointer-events-none bg-black/20">
-                <ZoomIn size={32} className="text-white drop-shadow-lg" />
-              </div>
             </Link>
           ))}
         </div>
