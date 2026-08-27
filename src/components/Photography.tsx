@@ -235,6 +235,9 @@ export default function Photography({
           </div>
         </div>
       </div>
+
+      {/* Spacer to prevent sphere from being cropped by overflow-hidden */}
+      <div className="h-20 w-full md:h-32" aria-hidden />
     </section>
   );
 }
