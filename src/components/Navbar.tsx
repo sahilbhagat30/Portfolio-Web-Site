@@ -96,42 +96,54 @@ export default function Navbar() {
       </nav>
 
       {/* Full Screen Menu */}
-      <motion.div
-        initial="closed"
-        animate={menuOpen ? "open" : "closed"}
-        variants={menuVariants}
-        className="fixed inset-0 z-[90] apple-material-thick liquid-glass flex flex-col justify-center border-none rounded-none"
-      >
-        <div className="absolute inset-0 noise-overlay opacity-30 pointer-events-none" />
-        
-        <div className="max-w-7xl mx-auto px-6 md:px-20 w-full">
-          <motion.ul 
-            variants={linkContainerVariants}
-            className="flex flex-col gap-4 md:gap-6"
+      <AnimatePresence>
+        {menuOpen && (
+          <motion.div
+            initial="closed"
+            animate="open"
+            exit="closed"
+            variants={menuVariants}
+            className="fixed inset-0 z-[90] apple-material-thick liquid-glass flex flex-col justify-center border-none rounded-none"
           >
-            {NAV_LINKS.map((link) => (
-              <li key={link.href} className="overflow-hidden">
-                <motion.a
-                  variants={linkVariants}
-                  href={link.href}
-                  onClick={(e) => handleNav(e, link.href)}
-                  className={`inline-block text-5xl md:text-8xl font-black tracking-tighter uppercase transition-colors duration-300 hover:text-white ${
-                    activeLink === link.href ? "text-white" : "text-white/40"
-                  }`}
-                  style={{
-                    backgroundImage: activeLink === link.href ? "var(--gradient-hero)" : "none",
-                    WebkitBackgroundClip: activeLink === link.href ? "text" : "border-box",
-                    WebkitTextFillColor: activeLink === link.href ? "transparent" : "inherit",
-                  }}
-                  data-cursor="View"
-                >
-                  {link.label}
-                </motion.a>
-              </li>
-            ))}
-          </motion.ul>
-        </div>
-      </motion.div>
+            <div className="absolute inset-0 noise-overlay opacity-30 pointer-events-none" />
+            
+            <button
+              onClick={() => setMenuOpen(false)}
+              className="absolute top-8 right-8 z-[100] text-white p-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors focus:outline-none"
+            >
+              <X size={28} />
+            </button>
+            
+            <div className="max-w-7xl mx-auto px-6 md:px-20 w-full">
+              <motion.ul 
+                variants={linkContainerVariants}
+                className="flex flex-col gap-4 md:gap-6"
+              >
+                {NAV_LINKS.map((link) => (
+                  <li key={link.href} className="overflow-hidden">
+                    <motion.a
+                      variants={linkVariants}
+                      href={link.href}
+                      onClick={(e) => handleNav(e, link.href)}
+                      className={`inline-block text-5xl md:text-8xl font-black tracking-tighter uppercase transition-colors duration-300 hover:text-white ${
+                        activeLink === link.href ? "text-white" : "text-white/40"
+                      }`}
+                      style={{
+                        backgroundImage: activeLink === link.href ? "var(--gradient-hero)" : "none",
+                        WebkitBackgroundClip: activeLink === link.href ? "text" : "border-box",
+                        WebkitTextFillColor: activeLink === link.href ? "transparent" : "inherit",
+                      }}
+                      data-cursor="View"
+                    >
+                      {link.label}
+                    </motion.a>
+                  </li>
+                ))}
+              </motion.ul>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }
