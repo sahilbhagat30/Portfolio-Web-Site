@@ -79,9 +79,9 @@ export default function Navbar() {
   };
 
   return (
-    <>
-      <nav className="fixed top-0 right-0 z-[100] p-6 md:p-8 lg:p-10 pointer-events-none">
-        {/* Hamburger Button */}
+    <nav className="fixed inset-0 z-[100] pointer-events-none">
+      {/* Hamburger Button Container */}
+      <div className="absolute top-0 right-0 p-6 md:p-8 lg:p-10">
         <button
           aria-label="Toggle menu"
           onClick={() => setMenuOpen(!menuOpen)}
@@ -94,9 +94,9 @@ export default function Navbar() {
           <span className={`block w-6 h-0.5 bg-white transition-opacity duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] ${menuOpen ? "opacity-0" : ""}`} />
           <span className={`block w-6 h-0.5 bg-white transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] ${menuOpen ? "-rotate-45 absolute" : ""}`} />
         </button>
-      </nav>
+      </div>
 
-      {/* Full Screen Menu */}
+      {/* Popover Menu Container */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
@@ -105,7 +105,7 @@ export default function Navbar() {
             animate="open"
             exit="closed"
             variants={menuVariants}
-            className="fixed top-24 right-6 md:right-8 lg:right-10 w-64 p-6 z-[90] apple-material-thick liquid-glass rounded-3xl border border-white/10 shadow-2xl origin-top-right flex flex-col"
+            className="absolute top-24 right-6 md:right-8 lg:right-10 w-64 p-6 z-[90] pointer-events-auto apple-material-thick liquid-glass rounded-3xl border border-white/10 shadow-2xl origin-top-right flex flex-col"
           >
             <motion.ul 
               variants={linkContainerVariants}
@@ -135,6 +135,6 @@ export default function Navbar() {
           </motion.div>
         )}
       </AnimatePresence>
-    </>
+    </nav>
   );
 }
