@@ -9,7 +9,7 @@ const About = dynamic(() => import("@/components/About"));
 const Projects = dynamic(() => import("@/components/Projects"));
 const PersonalProjects = dynamic(() => import("@/components/PersonalProjects"));
 const Photography = dynamic(() => import("@/components/Photography"));
-const HandMagic = dynamic(() => import("@/components/HandMagic"));
+const DigitalMagicHero = dynamic(() => import("@/components/DigitalMagicHero"));
 const TheEnd = dynamic(() => import("@/components/TheEnd"));
 const VinylPlayer = dynamic(() => import("@/components/VinylPlayer"));
 
@@ -44,7 +44,7 @@ export default function Home() {
       <PersonalProjects />
 
       {/* AI Hand Tracking Magic */}
-      <HandMagic />
+      <DigitalMagicHero />
 
       {/* Photography */}
       <Photography initialPhotos={photos} />
