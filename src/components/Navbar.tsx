@@ -14,12 +14,12 @@ const NAV_LINKS = [
 
 const menuVariants: Variants = {
   closed: {
-    clipPath: "circle(0% at 100% 0%)",
-    transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] }
+    opacity: 0,
+    transition: { duration: 0.4, ease: "easeOut" }
   },
   open: {
-    clipPath: "circle(150% at 100% 0%)",
-    transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] }
+    opacity: 1,
+    transition: { duration: 0.5, ease: "easeOut" }
   }
 };
 
