@@ -1,8 +1,6 @@
-"use client";
-
-import { motion, useSpring, useMotionValue } from "framer-motion";
-import { useRef } from "react";
+import { useState, useRef } from "react";
 import { ArrowUpRight } from "lucide-react";
+import ProjectModal from "./ProjectModal";
 
 const BASE = process.env.NODE_ENV === "production" ? "/Portfolio-Web-Site" : "";
 
@@ -18,6 +16,11 @@ const PROJECT_DATA = [
     tagColor: "violet",
     featured: true,
     link: "https://anywhere.re/",
+    caseStudy: {
+      problem: "Vendor performance metrics were fragmented across multiple disconnected systems, making it nearly impossible for leadership to identify inefficiencies or allocate resources effectively.",
+      solution: "I built a unified vendor performance model by connecting existing, previously siloed data points. I engineered automated pipelines to feed this model, establishing a single source of truth.",
+      outcome: "The new reporting framework provided immediate visibility into operational bottlenecks, surfacing $400K in actionable cost avoidance and saving hours of manual reporting each week."
+    }
   },
   {
     number: "02",
@@ -30,6 +33,11 @@ const PROJECT_DATA = [
     tagColor: "cyan",
     featured: false,
     link: "https://ischool.syr.edu/iconsult/",
+    caseStudy: {
+      problem: "Healthcare workforce planners lacked clear visibility into provider efficiency due to disparate operational data spread across multiple incompatible formats.",
+      solution: "I engineered end-to-end data pipelines to ingest and standardize this data, building a robust semantic layer to serve as the foundation for a new performance measurement framework.",
+      outcome: "Executive leadership gained crystal-clear visibility into KPI metrics, allowing for data-driven decisions in workforce allocation."
+    }
   },
   {
     number: "03",
@@ -42,6 +50,11 @@ const PROJECT_DATA = [
     tagColor: "amber",
     featured: false,
     link: "https://www.un.org/",
+    caseStudy: {
+      problem: "Data across 150+ global healthcare facilities was wildly inconsistent, with no standardized reporting structures, making international compliance tracking a massive manual burden.",
+      solution: "I unified clinical, financial, and operational data architectures across these facilities, implementing a standardized analytics engineering framework that forced consistency.",
+      outcome: "Leadership can now reliably track international compliance and resource allocation across all global facilities in real-time."
+    }
   },
   {
     number: "04",
@@ -54,6 +67,11 @@ const PROJECT_DATA = [
     tagColor: "violet",
     featured: false,
     link: "https://www.capgemini.com/",
+    caseStudy: {
+      problem: "Enterprise analytics were severely bottlenecked by manual workflows and fragmented data across 8 different financial, sales, and HR systems.",
+      solution: "I integrated the messy data across all 8 enterprise systems, replacing manual Excel workflows with a scalable, automated data infrastructure.",
+      outcome: "The automated pipelines save the analytics team approximately 40 hours per month and eliminate human error from the reporting cycle."
+    }
   },
   {
     number: "05",
@@ -66,6 +84,11 @@ const PROJECT_DATA = [
     tagColor: "cyan",
     featured: false,
     link: "https://www.tcs.com/",
+    caseStudy: {
+      problem: "Cross-functional teams were operating on different definitions of key metrics due to unstandardized analytics methodologies.",
+      solution: "I partnered directly with enterprise stakeholders to redesign the data architecture and enforce strict data modeling standards across departments.",
+      outcome: "The standardized models aligned cross-functional operations, ensuring all teams base strategic decisions on the exact same numbers."
+    }
   },
 ];
 
@@ -86,7 +109,15 @@ const fadeUp: any = {
 };
 
 /* ── 3-D tilt card ── */
-function TiltProjectCard({ project, index }: { project: typeof PROJECT_DATA[0]; index: number }) {
+function TiltProjectCard({ 
+  project, 
+  index, 
+  onClick 
+}: { 
+  project: typeof PROJECT_DATA[0]; 
+  index: number;
+  onClick: () => void;
+}) {
   const colors = TAG_COLORS[project.tagColor] ?? TAG_COLORS.violet;
   const ref    = useRef<HTMLElement>(null);
   const rotX   = useSpring(0, { stiffness: 200, damping: 22 });
@@ -118,7 +149,7 @@ function TiltProjectCard({ project, index }: { project: typeof PROJECT_DATA[0]; 
       variants={fadeUp}
       onMouseMove={handleMove}
       onMouseLeave={handleLeave}
-      onClick={() => window.open(project.link, '_blank', 'noopener,noreferrer')}
+      onClick={onClick}
       className="group relative glass-card overflow-hidden cursor-pointer"
       style={{ rotateX: rotX, rotateY: rotY, transformStyle: "preserve-3d" }}
       id={`project-${project.number}`}
@@ -185,6 +216,7 @@ function TiltProjectCard({ project, index }: { project: typeof PROJECT_DATA[0]; 
 export default function Projects() {
   const [featured, ...rest] = PROJECT_DATA;
   const featuredColors = TAG_COLORS.violet;
+  const [selectedProject, setSelectedProject] = useState<typeof PROJECT_DATA[0] | null>(null);
 
   /* Featured card tilt */
   const featRef  = useRef<HTMLElement>(null);
@@ -246,10 +278,11 @@ export default function Projects() {
           transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
           onMouseMove={featMove}
           onMouseLeave={featLeave}
-          onClick={() => window.open(featured.link, '_blank', 'noopener,noreferrer')}
+          onClick={() => setSelectedProject(featured)}
           style={{ rotateX: fRotX, rotateY: fRotY, transformStyle: "preserve-3d" }}
           className="group relative glass-card overflow-hidden mb-8 cursor-pointer"
           id={`project-${featured.number}`}
+          data-cursor="View"
         >
           {/* Cursor glow inside featured card */}
           <motion.div
@@ -299,10 +332,21 @@ export default function Projects() {
         {/* Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {rest.map((project, i) => (
-            <TiltProjectCard key={project.number} project={project} index={i} />
+            <TiltProjectCard 
+              key={project.number} 
+              project={project} 
+              index={i} 
+              onClick={() => setSelectedProject(project)}
+            />
           ))}
         </div>
       </div>
+
+      <ProjectModal 
+        project={selectedProject} 
+        isOpen={!!selectedProject} 
+        onClose={() => setSelectedProject(null)} 
+      />
     </section>
   );
 }

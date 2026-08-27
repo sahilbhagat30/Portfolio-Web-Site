@@ -282,9 +282,9 @@ export default function TheEnd() {
           </p>
         </motion.div>
 
-        {/* RIGHT: SAY HEY + social */}
+        {/* RIGHT: SAY HEY + Contact Form */}
         <motion.div
-          className="shrink-0 lg:w-[240px] text-left"
+          className="shrink-0 lg:w-[280px] text-left flex flex-col"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
@@ -292,50 +292,82 @@ export default function TheEnd() {
         >
           <h2
             className="font-extrabold leading-[0.9] text-white"
-            style={{ fontSize: "clamp(3rem, 4.5vw, 5rem)", letterSpacing: "-0.03em" }}
+            style={{ fontSize: "clamp(2.5rem, 3.5vw, 4rem)", letterSpacing: "-0.03em" }}
           >
-            SAY<br />HEY
+            SAY HEY
           </h2>
-          <p className="mt-4 mb-6 font-light text-sm leading-relaxed" style={{ color: "rgba(234,230,225,0.55)" }}>
-            Available for projects, chats<br />or data engineering debates.
+          <p className="mt-3 mb-6 font-light text-sm leading-relaxed" style={{ color: "rgba(234,230,225,0.55)" }}>
+            Let's build something together.
           </p>
 
-          <div className="flex flex-col gap-[6px]">
-            {SOCIAL_LINKS.map(({ id, label, handle, href, Icon }, idx) => (
+          <form 
+            className="flex flex-col gap-3 mb-6"
+            onSubmit={(e) => {
+              e.preventDefault();
+              const btn = e.currentTarget.querySelector('button');
+              if (btn) {
+                const original = btn.innerText;
+                btn.innerText = "Sent!";
+                btn.style.background = "rgba(255,255,255,0.1)";
+                setTimeout(() => {
+                  btn.innerText = original;
+                  btn.style.background = "";
+                  (e.target as HTMLFormElement).reset();
+                }, 2000);
+              }
+            }}
+          >
+            <input 
+              type="text" 
+              placeholder="Name" 
+              required
+              className="bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-white/30 focus:bg-white/10 transition-colors"
+            />
+            <input 
+              type="email" 
+              placeholder="Email" 
+              required
+              className="bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-white/30 focus:bg-white/10 transition-colors"
+            />
+            <textarea 
+              placeholder="Message" 
+              required
+              rows={3}
+              className="bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-white/30 focus:bg-white/10 transition-colors resize-none"
+            />
+            <button 
+              type="submit"
+              className="bg-white text-black font-semibold text-sm rounded-lg py-2.5 mt-1 hover:bg-[#EAE6E1] transition-colors"
+            >
+              Send Message
+            </button>
+          </form>
+
+          {/* Social Links Row */}
+          <div className="flex items-center gap-2">
+            {SOCIAL_LINKS.map(({ id, href, Icon }) => (
               <motion.a
                 key={id}
                 href={href}
                 target="_blank"
                 rel="noopener noreferrer"
-                initial={{ opacity: 0, y: 8 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.35, delay: 0.2 + idx * 0.07 }}
-                whileHover={{ x: 4 }}
-                className="group flex items-center gap-3 px-3 py-[10px] rounded-xl cursor-pointer transition-all duration-200"
-                style={{ background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.06)" }}
+                whileHover={{ scale: 1.1, y: -2 }}
+                className="w-10 h-10 rounded-full flex items-center justify-center transition-colors group"
+                style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}
                 onMouseEnter={(e) => {
                   const el = e.currentTarget as HTMLElement;
-                  el.style.background = "rgba(234,230,225,0.07)";
+                  el.style.background = "rgba(234,230,225,0.08)";
                   el.style.borderColor = "rgba(234,230,225,0.3)";
                 }}
                 onMouseLeave={(e) => {
                   const el = e.currentTarget as HTMLElement;
-                  el.style.background = "rgba(255,255,255,0.02)";
+                  el.style.background = "rgba(255,255,255,0.03)";
                   el.style.borderColor = "rgba(255,255,255,0.06)";
                 }}
               >
-                <span className="text-white/25 group-hover:text-[var(--accent-primary)] transition-colors shrink-0">
-                  <Icon size={14} />
+                <span className="text-white/40 group-hover:text-white transition-colors">
+                  <Icon size={16} />
                 </span>
-                <div className="min-w-0">
-                  <p className="uppercase leading-none mb-[3px]" style={{ fontSize: "7px", letterSpacing: "0.12em", color: "rgba(255,255,255,0.2)" }}>
-                    {label}
-                  </p>
-                  <p className="text-[11px] font-medium truncate text-white/50 group-hover:text-white transition-colors">
-                    {handle}
-                  </p>
-                </div>
               </motion.a>
             ))}
           </div>

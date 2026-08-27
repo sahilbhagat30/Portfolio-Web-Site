@@ -173,8 +173,8 @@ export default function About() {
               className="text-3xl md:text-5xl font-bold leading-tight tracking-tight mb-6 md:mb-8"
               style={{ letterSpacing: "-0.02em" }}
             >
-              I build data foundations that scale and insights that{" "}
-              <span className="gradient-text">land.</span>
+              The real problem is never the data. It&apos;s that nobody can see it{" "}
+              <span className="gradient-text">clearly.</span>
             </motion.h2>
 
             <motion.p
@@ -185,7 +185,7 @@ export default function About() {
               variants={fadeUp}
               className="text-white/70 leading-relaxed mb-4 md:mb-5 font-medium text-base md:text-lg"
             >
-              As a Data Analytics Engineer with a strong trajectory in Data Engineering, I specialize in bridging the gap between raw data and executive-level clarity.
+              That&apos;s the gap I close. I've sat in enough stakeholder meetings to know that the best analysis means nothing if it doesn't land with the people who need to act on it.
             </motion.p>
 
             <motion.p
@@ -196,7 +196,7 @@ export default function About() {
               variants={fadeUp}
               className="text-white/60 leading-relaxed mb-4 md:mb-5 text-sm md:text-base"
             >
-              Over the last 5+ years, I've engineered resilient data pipelines, designed scalable cloud architectures, and built semantic layers using Snowflake, dbt, and Python. I don't just build reports—I architect the entire data ecosystem that powers them.
+              Over the past 5+ years across consulting, enterprise, and global organizations, I&apos;ve gotten good at both sides: building the pipelines that make data reliable, and shaping the dashboards and frameworks that make it digestible.
             </motion.p>
 
             <motion.p
@@ -207,7 +207,7 @@ export default function About() {
               variants={fadeUp}
               className="text-white/50 leading-relaxed mb-4 md:mb-5 text-sm md:text-base"
             >
-              At Anywhere Real Estate, I surfaced $400K in cost avoidance by connecting data points that had always existed but never been tied together. At the United Nations, I standardized reporting across 150+ global healthcare facilities. At Capgemini, I integrated data across 8 enterprise systems.
+              At Anywhere Real Estate, I built a vendor performance model that surfaced $400K in cost avoidance—just by connecting data points that were already there. At the United Nations, I helped standardize data across 150+ global healthcare facilities. At Capgemini, I integrated messy data across 8 enterprise systems, learning that clean, reliable data isn&apos;t a nice-to-have... it&apos;s everything.
             </motion.p>
 
             {/* Stats — count-up */}

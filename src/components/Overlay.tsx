@@ -242,14 +242,14 @@ export default function Overlay() {
             <p className="text-[0.65rem] tracking-[0.2em] uppercase text-white/40 mb-6 font-medium">What I do</p>
             <h2
               className="text-white font-bold leading-[1.05] tracking-tight m-0"
-              style={{ fontSize: "clamp(2rem, 6vw, 4.2rem)" }}
+              style={{ fontSize: "clamp(2rem, 5vw, 4.2rem)" }}
             >
-              I architect <span className="text-[#EAE6E1]">data</span>
+              The problem is rarely the <span className="text-[#EAE6E1]">data.</span>
               <br />
-              for scale & impact.
+              It&apos;s that nobody can see it clearly.
             </h2>
             <p className="mt-8 text-white/50 max-w-sm leading-relaxed" style={{ fontSize: "clamp(0.9rem, 1.2vw, 1.1rem)" }}>
-              Designing cloud data warehouses, building resilient orchestration pipelines, and creating intuitive BI reporting frameworks that drive multi-million dollar decisions.
+              I close that gap. Over the past 5+ years, I&apos;ve built the pipelines that make data reliable, and shaped the frameworks that make it digestible.
             </p>
           </div>
         </motion.div>
@@ -271,9 +271,9 @@ export default function Overlay() {
             
             <div className="mt-10 space-y-6 max-w-sm">
               {[
-                { label: "Every metric deliberate", sub: "No vanity numbers allowed." },
-                { label: "Every pipeline resilient", sub: "Engineered to outlast its builder." },
-                { label: "Every dashboard intuitive", sub: "Built to be understood, not just looked at." },
+                { label: "Reliable Pipelines", sub: "Clean data isn't a nice-to-have, it's everything." },
+                { label: "Clear Frameworks", sub: "Connecting the dots so leadership can act." },
+                { label: "Tools are just tools", sub: "SQL, Python, Snowflake, dbt... the real goal is clarity." },
               ].map((item, i) => (
                 <div key={i} className="flex gap-4 items-start">
                   <div className="mt-1.5 w-1.5 h-1.5 bg-[#EAE6E1] rounded-full opacity-60" />
