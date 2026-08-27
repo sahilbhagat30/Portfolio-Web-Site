@@ -251,3 +251,56 @@ body::after {
 .perspective-container {
   perspective: 1000px;
 }
+
+/* ─── Apple Design: Instant tactile feedback ─────────────────────── */
+.apple-active:active {
+  transform: scale(0.97) !important;
+  transition: transform 0.1s cubic-bezier(0.2, 0, 0, 1) !important; /* Fast, interruptible curve */
+}
+.apple-active {
+  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* ─── Apple Design: Optical Sizing & Tracking ────────────────────── */
+.apple-heading-massive {
+  letter-spacing: -0.04em;
+  line-height: 0.9;
+}
+.apple-heading-large {
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+.apple-text-small {
+  letter-spacing: 0.02em;
+  line-height: 1.4;
+}
+.apple-text-micro {
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  line-height: 1.5;
+}
+
+/* ─── Apple Design: Translucent Materials ────────────────────────── */
+.apple-material-thick {
+  background: rgba(15, 15, 15, 0.75);
+  backdrop-filter: blur(40px) saturate(150%);
+  -webkit-backdrop-filter: blur(40px) saturate(150%);
+  border: 1px solid rgba(255,255,255,0.1);
+}
+.apple-material-thin {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px) saturate(120%);
+  -webkit-backdrop-filter: blur(20px) saturate(120%);
+  border: 1px solid rgba(255,255,255,0.05);
+}
+
+/* ─── Apple Design: Reduced Motion Fallbacks ─────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+

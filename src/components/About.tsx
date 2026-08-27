@@ -23,7 +23,12 @@ const fadeUp: any = {
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { delay: i * 0.08, duration: 0.6, ease: "easeOut" },
+    transition: { 
+      delay: i * 0.08, 
+      type: "spring", 
+      bounce: 0, 
+      duration: 0.6 
+    },
   }),
 };
 
@@ -170,8 +175,7 @@ export default function About() {
               viewport={{ once: true, amount: 0.4 }}
               custom={1}
               variants={fadeUp}
-              className="text-3xl md:text-5xl font-bold leading-tight tracking-tight mb-6 md:mb-8"
-              style={{ letterSpacing: "-0.02em" }}
+              className="apple-heading-large text-3xl md:text-5xl font-bold mb-6 md:mb-8 text-white"
             >
               The real problem is never the data. It&apos;s that nobody can see it{" "}
               <span className="gradient-text">clearly.</span>
@@ -261,7 +265,8 @@ export default function About() {
                         viewport={{ once: true }}
                         transition={{ delay: si * 0.05 + ci * 0.1, duration: 0.4 }}
                         whileHover={{ scale: 1.1, y: -3 }}
-                        className="px-3.5 py-1.5 rounded-full text-sm font-medium cursor-default transition-colors"
+                        whileTap={{ scale: 0.97 }}
+                        className="apple-active px-3.5 py-1.5 rounded-full text-sm font-medium cursor-default transition-colors"
                         style={{
                           background: SKILL_COLORS[category].bg,
                           border: `1px solid ${SKILL_COLORS[category].border}`,

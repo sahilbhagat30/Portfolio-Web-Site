@@ -160,7 +160,7 @@ export default function Overlay() {
           <motion.div
             initial={{ scaleY: 0, opacity: 0 }}
             animate={{ scaleY: 1, opacity: 1 }}
-            transition={{ delay: 0.3, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ delay: 0.3, type: "spring", bounce: 0, duration: 0.8 }}
             className="hidden md:block absolute left-10 md:left-14 top-[28%] h-[44%] w-[2px] origin-top"
             style={{ background: "linear-gradient(to bottom, transparent, rgba(234,230,225,0.4) 30%, rgba(163,163,163,0.4) 70%, transparent)" }}
           />
@@ -174,9 +174,9 @@ export default function Overlay() {
                 <motion.h1
                   initial={{ y: "100%", opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.55, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-                  className="font-black uppercase leading-none tracking-tight gradient-text m-0"
-                  style={{ fontSize: "clamp(2.3rem, 10vw, 6rem)", letterSpacing: "-0.03em" }}
+                  transition={{ delay: 0.55, type: "spring", bounce: 0, duration: 0.9 }}
+                  className="apple-heading-massive font-black uppercase gradient-text m-0"
+                  style={{ fontSize: "clamp(2.3rem, 10vw, 6rem)" }}
                 >
                   Sahil
                 </motion.h1>
@@ -185,9 +185,9 @@ export default function Overlay() {
                 <motion.h1
                   initial={{ y: "100%", opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
-                  transition={{ delay: 0.68, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-                  className="font-black uppercase leading-none tracking-tight gradient-text m-0"
-                  style={{ fontSize: "clamp(2.3rem, 10vw, 6rem)", letterSpacing: "-0.03em" }}
+                  transition={{ delay: 0.68, type: "spring", bounce: 0, duration: 0.9 }}
+                  className="apple-heading-massive font-black uppercase gradient-text m-0"
+                  style={{ fontSize: "clamp(2.3rem, 10vw, 6rem)" }}
                 >
                   Bhagat
                 </motion.h1>
@@ -241,7 +241,7 @@ export default function Overlay() {
           <div className="pl-4 md:pl-12 border-l border-white/20">
             <p className="text-[0.65rem] tracking-[0.2em] uppercase text-white/40 mb-6 font-medium">What I do</p>
             <h2
-              className="text-white font-bold leading-[1.05] tracking-tight m-0"
+              className="apple-heading-large text-white font-bold m-0"
               style={{ fontSize: "clamp(2rem, 5vw, 4.2rem)" }}
             >
               The problem is rarely the <span className="text-[#EAE6E1]">data.</span>
@@ -262,7 +262,7 @@ export default function Overlay() {
           <div className="pl-4 md:pl-12">
             <p className="text-[0.65rem] tracking-[0.2em] uppercase text-white/40 mb-6 font-medium">Philosophy</p>
             <h2
-              className="text-white font-bold leading-[1.05] tracking-tight m-0"
+              className="apple-heading-large text-white font-bold m-0"
               style={{ fontSize: "clamp(1.8rem, 5.5vw, 4rem)" }}
             >
               The best analysis means<br />nothing if it doesn&apos;t<br />

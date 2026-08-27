@@ -100,7 +100,7 @@ export default function Navbar() {
         initial="closed"
         animate={menuOpen ? "open" : "closed"}
         variants={menuVariants}
-        className="fixed inset-0 z-[90] bg-[var(--background)] flex flex-col justify-center"
+        className="fixed inset-0 z-[90] apple-material-thick flex flex-col justify-center border-none rounded-none"
       >
         <div className="absolute inset-0 noise-overlay opacity-30 pointer-events-none" />
         

@@ -82,22 +82,18 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
             initial={{ opacity: 0, y: 40, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            transition={{ type: "spring", damping: 25, stiffness: 300 }}
-            className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-3xl shadow-2xl flex flex-col md:flex-row"
-            style={{
-              background: "rgba(15, 15, 15, 0.8)",
-              backdropFilter: "blur(40px) saturate(150%)",
-              border: "1px solid rgba(255,255,255,0.1)",
-            }}
+            transition={{ type: "spring", bounce: 0, duration: 0.3 }}
+            className="apple-material-thick relative w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-3xl shadow-2xl flex flex-col md:flex-row"
             onClick={(e) => e.stopPropagation()}
           >
             {/* Close Button */}
-            <button
+            <motion.button
               onClick={onClose}
-              className="absolute top-6 right-6 z-20 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors border border-white/5"
+              whileTap={{ scale: 0.97 }}
+              className="apple-active absolute top-6 right-6 z-20 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors border border-white/5"
             >
               <X size={16} className="text-white/70" />
-            </button>
+            </motion.button>
 
             {/* Left Side: Image / Hero */}
             <div className="w-full md:w-[45%] bg-white/5 flex flex-col items-center justify-center p-12 relative border-r border-white/5 min-h-[300px]">

@@ -335,12 +335,13 @@ export default function TheEnd() {
               rows={3}
               className="bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-white/30 focus:bg-white/10 transition-colors resize-none"
             />
-            <button 
+            <motion.button 
               type="submit"
-              className="bg-white text-black font-semibold text-sm rounded-lg py-2.5 mt-1 hover:bg-[#EAE6E1] transition-colors"
+              whileTap={{ scale: 0.97 }}
+              className="apple-active bg-white text-black font-semibold text-sm rounded-lg py-2.5 mt-1 hover:bg-[#EAE6E1] transition-colors"
             >
               Send Message
-            </button>
+            </motion.button>
           </form>
 
           {/* Social Links Row */}
@@ -352,7 +353,8 @@ export default function TheEnd() {
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.1, y: -2 }}
-                className="w-10 h-10 rounded-full flex items-center justify-center transition-colors group"
+                whileTap={{ scale: 0.97 }}
+                className="apple-active w-10 h-10 rounded-full flex items-center justify-center transition-colors group"
                 style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}
                 onMouseEnter={(e) => {
                   const el = e.currentTarget as HTMLElement;

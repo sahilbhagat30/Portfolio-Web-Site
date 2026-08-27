@@ -107,7 +107,12 @@ const fadeUp: any = {
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { delay: i * 0.1, duration: 0.65, ease: "easeOut" },
+    transition: { 
+      delay: i * 0.1, 
+      type: "spring", 
+      bounce: 0, 
+      duration: 0.6 
+    },
   }),
 };
 
@@ -153,7 +158,8 @@ function TiltProjectCard({
       onMouseMove={handleMove}
       onMouseLeave={handleLeave}
       onClick={onClick}
-      className="group relative glass-card overflow-hidden cursor-pointer"
+      whileTap={{ scale: 0.97 }}
+      className="apple-active group relative glass-card overflow-hidden cursor-pointer"
       style={{ rotateX: rotX, rotateY: rotY, transformStyle: "preserve-3d" }}
       id={`project-${project.number}`}
       data-cursor="View"
@@ -282,8 +288,9 @@ export default function Projects() {
           onMouseMove={featMove}
           onMouseLeave={featLeave}
           onClick={() => setSelectedProject(featured)}
+          whileTap={{ scale: 0.97 }}
           style={{ rotateX: fRotX, rotateY: fRotY, transformStyle: "preserve-3d" }}
-          className="group relative glass-card overflow-hidden mb-8 cursor-pointer"
+          className="apple-active group relative glass-card overflow-hidden mb-8 cursor-pointer"
           id={`project-${featured.number}`}
           data-cursor="View"
         >
