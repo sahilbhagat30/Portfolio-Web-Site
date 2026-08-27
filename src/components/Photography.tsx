@@ -238,7 +238,6 @@ export default function Photography({
           </div>
         </div>
       </div>
-      </div>
     </section>
   );
 }
