@@ -162,64 +162,68 @@ export default function Photography({
         style={{ background: "radial-gradient(circle, rgba(255,255,255,0.08), transparent 70%)" }}
       />
 
-      <div className="max-w-7xl mx-auto relative z-10 px-6 md:px-16 pointer-events-none">
-        <motion.p
-          initial={{ opacity: 0, y: 16 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className="section-label mb-4"
-        >
-          Beyond the screen
-        </motion.p>
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="flex flex-col md:flex-row md:items-end justify-between gap-6"
-        >
-          <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase text-transparent bg-clip-text"
-              style={{ backgroundImage: "var(--gradient-hero)" }}>
-            Through <br /> My Lens
-          </h2>
-          <p className="text-[var(--foreground)]/70 max-w-sm text-sm md:text-base leading-relaxed pb-2">
-            Capturing moments, light, and geometry. A collection of my favorite shots from around the world.
-          </p>
-        </motion.div>
-      </div>
+      <div className="max-w-7xl mx-auto relative z-10 px-6 md:px-16 flex flex-col md:flex-row items-center gap-12 pointer-events-none">
+        
+        {/* Left Side: Header Text */}
+        <div className="w-full md:w-1/3">
+          <motion.p
+            initial={{ opacity: 0, y: 16 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="section-label mb-4"
+          >
+            Beyond the screen
+          </motion.p>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.1 }}
+          >
+            <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase text-transparent bg-clip-text mb-6"
+                style={{ backgroundImage: "var(--gradient-hero)" }}>
+              Through <br /> My Lens
+            </h2>
+            <p className="text-[var(--foreground)]/70 text-sm md:text-base leading-relaxed pb-2">
+              Capturing moments, light, and geometry. A collection of my favorite shots from around the world.
+            </p>
+          </motion.div>
+        </div>
 
-      <div 
-        className="relative w-full md:w-[60%] md:ml-auto h-[60vh] md:h-[80vh] min-h-[600px] md:min-h-[850px] mt-12 z-20 overflow-visible cursor-grab active:cursor-grabbing"
-        ref={containerRef}
-        data-cursor="Drag"
-        style={{ perspective: "1200px" }}
-      >
-        <div className="absolute inset-0 w-full h-full" style={{ transformStyle: "preserve-3d" }}>
-          {initialPhotos.map((photo, i) => (
-            <Link
-              href="/photography"
-              key={i}
-              ref={(el) => { itemsRef.current[i] = el; }}
-              className="w-[140px] h-[200px] md:w-[200px] md:h-[280px] rounded-sm group block shadow-2xl"
-              style={{ 
-                background: "rgba(255,255,255,0.04)", 
-                border: "2px solid rgba(234,230,225,0.15)",
-                transformStyle: "preserve-3d" 
-              }}
-              data-cursor="View"
-            >
-              <Image
-                src={photo.src}
-                alt={photo.alt}
-                fill
-                sizes="(max-width: 768px) 140px, 200px"
-                priority={i < 5}
-                className="object-cover transition-all duration-700 ease-out group-hover:brightness-125"
-                quality={85}
-              />
-            </Link>
-          ))}
+        {/* Right Side: 3D Sphere */}
+        <div 
+          className="relative w-full md:w-2/3 h-[60vh] md:h-[80vh] min-h-[600px] md:min-h-[850px] z-20 overflow-visible cursor-grab active:cursor-grabbing pointer-events-auto"
+          ref={containerRef}
+          data-cursor="Drag"
+          style={{ perspective: "1200px" }}
+        >
+          <div className="absolute inset-0 w-full h-full" style={{ transformStyle: "preserve-3d" }}>
+            {initialPhotos.map((photo, i) => (
+              <Link
+                href="/photography"
+                key={i}
+                ref={(el) => { itemsRef.current[i] = el; }}
+                className="w-[140px] h-[200px] md:w-[200px] md:h-[280px] rounded-sm group block shadow-2xl"
+                style={{ 
+                  background: "rgba(255,255,255,0.04)", 
+                  border: "2px solid rgba(234,230,225,0.15)",
+                  transformStyle: "preserve-3d" 
+                }}
+                data-cursor="View"
+              >
+                <Image
+                  src={photo.src}
+                  alt={photo.alt}
+                  fill
+                  sizes="(max-width: 768px) 140px, 200px"
+                  priority={i < 5}
+                  className="object-cover transition-all duration-700 ease-out group-hover:brightness-125"
+                  quality={85}
+                />
+              </Link>
+            ))}
+          </div>
         </div>
       </div>
 
