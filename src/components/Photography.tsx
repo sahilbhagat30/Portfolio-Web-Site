@@ -190,7 +190,7 @@ export default function Photography({
       </div>
 
       <div 
-        className="relative w-full h-[60vh] md:h-[80vh] min-h-[600px] md:min-h-[850px] mt-12 z-20 overflow-visible cursor-grab active:cursor-grabbing"
+        className="relative w-full md:w-[60%] md:ml-auto h-[60vh] md:h-[80vh] min-h-[600px] md:min-h-[850px] mt-12 z-20 overflow-visible cursor-grab active:cursor-grabbing"
         ref={containerRef}
         data-cursor="Drag"
         style={{ perspective: "1200px" }}
