@@ -76,23 +76,54 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="fixed top-0 right-0 z-[100] p-6 md:p-8 lg:p-10 pointer-events-none">
-        {/* Hamburger Button */}
-        <button
-          aria-label="Toggle menu"
-          onClick={() => setMenuOpen(!menuOpen)}
-          className={`pointer-events-auto flex flex-col items-center justify-center gap-1.5 w-14 h-14 z-[110] relative group transition-all duration-500 ease-out rounded-full ${
-            scrolled && !menuOpen ? "apple-material-thick liquid-glass shadow-lg border border-white/10" : "hover:bg-white/10"
-          }`}
-          data-cursor="hover"
-        >
-          <span className={`block w-6 h-0.5 bg-white transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] ${menuOpen ? "rotate-45 translate-y-2 absolute" : ""}`} />
-          <span className={`block w-6 h-0.5 bg-white transition-opacity duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] ${menuOpen ? "opacity-0" : ""}`} />
-          <span className={`block w-6 h-0.5 bg-white transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] ${menuOpen ? "-rotate-45 absolute" : ""}`} />
-        </button>
+      <nav
+        className={`fixed top-0 left-0 w-full z-[100] transition-all duration-500 ease-out ${
+          scrolled && !menuOpen
+            ? "apple-material-thick liquid-glass border-b border-white/5 py-4"
+            : "bg-transparent py-6"
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-6 md:px-10 flex items-center justify-between">
+          
+          {/* Logo / Brand (Optional, but keeps flex-between balanced) */}
+          <div className="flex-1">
+            <a href="#" className="text-xl font-bold tracking-tight text-white/80 hover:text-white transition-colors">
+              SB.
+            </a>
+          </div>
+
+          {/* Desktop Navigation Links */}
+          <div className="hidden md:flex items-center justify-center gap-8 flex-1">
+            {NAV_LINKS.map((link) => (
+              <a
+                key={link.href}
+                href={link.href}
+                onClick={(e) => handleNav(e, link.href)}
+                className={`text-sm font-semibold tracking-wide uppercase transition-colors duration-300 ${
+                  activeLink === link.href ? "text-white" : "text-white/40 hover:text-white/80"
+                }`}
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+
+          <div className="flex-1 flex justify-end">
+            {/* Mobile Hamburger Button */}
+            <button
+              aria-label="Toggle menu"
+              onClick={() => setMenuOpen(!menuOpen)}
+              className="md:hidden flex flex-col items-center justify-center gap-1.5 w-12 h-12 relative group rounded-full bg-white/5 border border-white/10"
+            >
+              <span className={`block w-5 h-0.5 bg-white transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] ${menuOpen ? "rotate-45 translate-y-2 absolute" : ""}`} />
+              <span className={`block w-5 h-0.5 bg-white transition-opacity duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] ${menuOpen ? "opacity-0" : ""}`} />
+              <span className={`block w-5 h-0.5 bg-white transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] ${menuOpen ? "-rotate-45 absolute" : ""}`} />
+            </button>
+          </div>
+        </div>
       </nav>
 
-      {/* Full Screen Menu */}
+      {/* Full Screen Menu (Mobile Only) */}
       <AnimatePresence>
         {menuOpen && (
           <motion.div
@@ -101,14 +132,14 @@ export default function Navbar() {
             animate="open"
             exit="closed"
             variants={menuVariants}
-            className="fixed inset-0 z-[90] apple-material-thick liquid-glass flex flex-col justify-center border-none rounded-none"
+            className="fixed inset-0 z-[90] apple-material-thick liquid-glass flex flex-col justify-center border-none rounded-none md:hidden"
           >
             <div className="absolute inset-0 noise-overlay opacity-30 pointer-events-none" />
             
-            <div className="max-w-7xl mx-auto px-6 md:px-20 w-full">
+            <div className="max-w-7xl mx-auto px-6 w-full">
               <motion.ul 
                 variants={linkContainerVariants}
-                className="flex flex-col gap-4 md:gap-6"
+                className="flex flex-col gap-6"
               >
                 {NAV_LINKS.map((link) => (
                   <li key={link.href} className="overflow-hidden">
@@ -116,7 +147,7 @@ export default function Navbar() {
                       variants={linkVariants}
                       href={link.href}
                       onClick={(e) => handleNav(e, link.href)}
-                      className={`inline-block text-5xl md:text-8xl font-black tracking-tighter uppercase transition-colors duration-300 hover:text-white ${
+                      className={`inline-block text-5xl font-black tracking-tighter uppercase transition-colors duration-300 hover:text-white ${
                         activeLink === link.href ? "text-white" : "text-white/40"
                       }`}
                       style={{
@@ -124,7 +155,6 @@ export default function Navbar() {
                         WebkitBackgroundClip: activeLink === link.href ? "text" : "border-box",
                         WebkitTextFillColor: activeLink === link.href ? "transparent" : "inherit",
                       }}
-                      data-cursor="View"
                     >
                       {link.label}
                     </motion.a>
