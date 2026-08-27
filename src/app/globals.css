@@ -187,21 +187,12 @@ body::after {
   inset: -1px;
   border-radius: inherit;
   padding: 1px; /* the border width */
-  background: conic-gradient(
-    from 0deg,
-    rgba(255,255,255,0.05) 0%,
-    rgba(255,255,255,0.4) 25%,
-    rgba(255,255,255,0.05) 50%,
-    rgba(255,255,255,0.4) 75%,
-    rgba(255,255,255,0.05) 100%
-  );
+  background: rgba(255, 255, 255, 0.15); /* Static premium apple border */
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
           mask-composite: exclude;
-  animation: liquid-refraction 8s linear infinite;
   pointer-events: none;
   z-index: 10;
-  opacity: 0.7;
 }
 
 /* The ambient volume refraction */
