@@ -150,7 +150,7 @@ export default function Photography({
   }, [initialPhotos]);
 
   return (
-    <section id="photography" className="relative min-h-screen py-16 flex flex-col justify-center overflow-hidden bg-[var(--background)]">
+    <section id="photography" className="relative py-32 overflow-hidden bg-[var(--background)]">
       <div
         aria-hidden
         className="pointer-events-none absolute top-1/2 left-0 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-[0.2] blur-[120px]"
@@ -185,27 +185,24 @@ export default function Photography({
                 style={{ backgroundImage: "var(--gradient-hero)" }}>
               Through <br /> My Lens
             </h2>
-            <p className="text-[var(--foreground)]/70 text-sm md:text-base leading-relaxed pb-2">
+            <p className="text-[var(--foreground)]/70 text-sm md:text-base leading-relaxed pb-6">
               Capturing moments, light, and geometry. A collection of my favorite shots from around the world.
             </p>
-            
-            <div className="mt-10 pointer-events-auto">
-              <Link 
-                href="/photography" 
-                className="inline-flex items-center gap-3 text-sm font-medium text-[var(--foreground)] hover:text-white transition-colors group"
-              >
-                View Full Gallery
-                <span className="w-8 h-8 rounded-full border border-[var(--border-accent)] flex items-center justify-center group-hover:bg-white group-hover:border-white group-hover:text-black transition-all">
-                  <ArrowRight size={14} />
-                </span>
-              </Link>
-            </div>
+            <Link 
+              href="/photography" 
+              className="pointer-events-auto inline-flex items-center gap-3 text-sm font-medium text-[var(--foreground)] hover:text-white transition-colors group"
+            >
+              View Full Gallery
+              <span className="w-8 h-8 rounded-full border border-[var(--border-accent)] flex items-center justify-center group-hover:bg-white group-hover:border-white group-hover:text-black transition-all">
+                <ArrowRight size={14} />
+              </span>
+            </Link>
           </motion.div>
         </div>
 
         {/* Right Side: 3D Sphere */}
         <div 
-          className="relative w-full md:w-2/3 h-[50vh] md:h-[70vh] min-h-[450px] md:min-h-[600px] z-20 overflow-visible cursor-grab active:cursor-grabbing pointer-events-auto"
+          className="relative w-full md:w-2/3 h-[60vh] md:h-[80vh] min-h-[600px] md:min-h-[850px] z-20 overflow-visible cursor-grab active:cursor-grabbing pointer-events-auto"
           ref={containerRef}
           data-cursor="Drag"
           style={{ perspective: "1200px" }}
