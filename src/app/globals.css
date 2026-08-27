@@ -187,12 +187,13 @@ body::after {
   inset: -1px;
   border-radius: inherit;
   padding: 1px; /* the border width */
-  background: rgba(255, 255, 255, 0.15); /* Static premium apple border */
+  background: rgba(255, 255, 255, 0.2); /* Static premium apple border */
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
           mask-composite: exclude;
   pointer-events: none;
   z-index: 10;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), inset 0 0 20px rgba(255, 255, 255, 0.05); /* Soft inner glow */
 }
 
 /* The ambient volume refraction */
@@ -232,10 +233,10 @@ body::after {
 
 /* ─── Apple Design: Translucent Materials ────────────────────────── */
 .apple-material-thick {
-  background: rgba(12, 1, 1, 0.6); 
+  background: rgba(12, 1, 1, 0.4); 
   backdrop-filter: blur(80px) saturate(200%);
   -webkit-backdrop-filter: blur(80px) saturate(200%);
-  box-shadow: 0 24px 64px rgba(0,0,0,0.8);
+  box-shadow: 0 24px 64px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 .apple-material-thin {
   background: rgba(255, 255, 255, 0.02);

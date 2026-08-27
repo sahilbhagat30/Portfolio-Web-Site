@@ -104,7 +104,7 @@ export default function Navbar() {
             className="absolute inset-0 z-[90] pointer-events-auto flex flex-col justify-center border-none rounded-none"
           >
             {/* Background layer isolated to prevent Webkit backdrop-filter bugs with Framer Motion */}
-            <div className="absolute inset-0 bg-[var(--background)]/95 backdrop-blur-3xl -z-10 pointer-events-none" />
+            <div className="absolute inset-0 apple-material-thick liquid-glass border-none -z-10 pointer-events-none" />
             <div className="absolute inset-0 noise-overlay opacity-50 pointer-events-none -z-10" />
             
             <div className="max-w-7xl mx-auto px-6 md:px-20 w-full relative z-10">
@@ -119,7 +119,7 @@ export default function Navbar() {
                       href={link.href}
                       onClick={(e) => handleNav(e, link.href)}
                       className={`block text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter uppercase leading-[0.9] transition-colors duration-300 hover:text-white ${
-                        activeLink === link.href ? "text-white" : "text-white/40"
+                        activeLink === link.href ? "text-white" : "text-neutral-400"
                       }`}
                       style={{
                         backgroundImage: activeLink === link.href ? "var(--gradient-hero)" : "none",
