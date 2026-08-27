@@ -167,134 +167,89 @@ body::after {
   background-clip: text;
 }
 
+/* ─── Apple Liquid Glass UI ──────────────────────────────────────── */
+@keyframes liquid-refraction {
+  0% { transform: rotate(0deg) scale(1.5); }
+  100% { transform: rotate(360deg) scale(1.5); }
+}
+
+/* Base liquid glass container */
+.liquid-glass {
+  position: relative;
+  border-radius: inherit;
+  isolation: isolate;
+}
+
+/* The dynamic shifting inner light/refraction */
+.liquid-glass::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px; /* the border width */
+  background: conic-gradient(
+    from 0deg,
+    rgba(255,255,255,0.05) 0%,
+    rgba(255,255,255,0.4) 25%,
+    rgba(255,255,255,0.05) 50%,
+    rgba(255,255,255,0.4) 75%,
+    rgba(255,255,255,0.05) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  animation: liquid-refraction 8s linear infinite;
+  pointer-events: none;
+  z-index: 10;
+  opacity: 0.7;
+}
+
+/* The ambient volume refraction */
+.liquid-glass::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(
+    circle at var(--mouse-x, 50%) var(--mouse-y, 50%), 
+    rgba(255,255,255,0.1) 0%, 
+    transparent 60%
+  );
+  pointer-events: none;
+  z-index: 9;
+  transition: opacity 0.3s ease;
+  opacity: 0;
+}
+
+.liquid-glass:hover::after {
+  opacity: 1;
+}
+
 /* ─── Utility: Glass Card ────────────────────────────────────────── */
 .glass-card {
   background: rgba(255, 255, 255, 0.02);
   backdrop-filter: blur(60px) saturate(200%);
   -webkit-backdrop-filter: blur(60px) saturate(200%);
-  border: 1px solid rgba(255,255,255,0.05);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1), 0 8px 32px rgba(0,0,0,0.4);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
   border-radius: 20px;
-  transition: background 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
 }
 .glass-card:hover {
-  background: rgba(255, 255, 255, 0.05);
-  border-color: rgba(255,255,255,0.1);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 12px 48px rgba(0,0,0,0.6), var(--shadow-glow);
-}
-
-/* ─── Utility: Status Badge ─────────────────────────────────────── */
-.status-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 14px;
-  background: rgba(34,197,94,0.12);
-  border: 1px solid rgba(34,197,94,0.25);
-  border-radius: 999px;
-  font-size: 0.75rem;
-  font-weight: 500;
-  letter-spacing: 0.05em;
-  color: #4ade80;
-}
-.status-badge::before {
-  content: '';
-  width: 7px;
-  height: 7px;
-  background: #4ade80;
-  border-radius: 50%;
-  animation: status-blink 2s ease-in-out infinite;
-}
-
-/* ─── Utility: Section Label ─────────────────────────────────────── */
-.section-label {
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--accent-primary);
-}
-
-/* ─── Utility: Noise Texture Overlay ────────────────────────────── */
-.noise-overlay::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* ─── Utility: Magnetic button ───────────────────────────────────── */
-.magnetic {
-  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-  display: inline-block;
-}
-
-/* ─── Shimmer border card ────────────────────────────────────────── */
-.shimmer-border {
-  position: relative;
-  overflow: hidden;
-}
-.shimmer-border::before {
-  content: '';
-  position: absolute;
-  top: 0; left: -100%;
-  width: 60%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
-  animation: shimmer-sweep 3s ease-in-out infinite;
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* ─── Perspective wrapper for 3D cards ──────────────────────────── */
-.perspective-container {
-  perspective: 1000px;
-}
-
-/* ─── Apple Design: Instant tactile feedback ─────────────────────── */
-.apple-active:active {
-  transform: scale(0.97) !important;
-  transition: transform 0.1s cubic-bezier(0.2, 0, 0, 1) !important; /* Fast, interruptible curve */
-}
-.apple-active {
-  transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1);
-}
-
-/* ─── Apple Design: Optical Sizing & Tracking ────────────────────── */
-.apple-heading-massive {
-  letter-spacing: -0.04em;
-  line-height: 0.9;
-}
-.apple-heading-large {
-  letter-spacing: -0.02em;
-  line-height: 1.1;
-}
-.apple-text-small {
-  letter-spacing: 0.02em;
-  line-height: 1.4;
-}
-.apple-text-micro {
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  line-height: 1.5;
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: 0 12px 48px rgba(0,0,0,0.6), var(--shadow-glow);
 }
 
 /* ─── Apple Design: Translucent Materials ────────────────────────── */
 .apple-material-thick {
-  background: rgba(12, 1, 1, 0.6); /* Tinted with background color */
+  background: rgba(12, 1, 1, 0.6); 
   backdrop-filter: blur(80px) saturate(200%);
   -webkit-backdrop-filter: blur(80px) saturate(200%);
-  border: 1px solid rgba(255,255,255,0.08);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15), 0 24px 64px rgba(0,0,0,0.8);
+  box-shadow: 0 24px 64px rgba(0,0,0,0.8);
 }
 .apple-material-thin {
   background: rgba(255, 255, 255, 0.02);
   backdrop-filter: blur(40px) saturate(150%);
   -webkit-backdrop-filter: blur(40px) saturate(150%);
-  border: 1px solid rgba(255,255,255,0.05);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 /* ─── Apple Design: Reduced Motion Fallbacks ─────────────────────── */

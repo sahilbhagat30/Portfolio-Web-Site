@@ -143,6 +143,8 @@ function TiltProjectCard({
     rotY.set((x - 0.5) * 8);
     glowX.set(x * 100);
     glowY.set(y * 100);
+    el.style.setProperty("--mouse-x", `${x * 100}%`);
+    el.style.setProperty("--mouse-y", `${y * 100}%`);
   };
 
   const handleLeave = () => { rotX.set(0); rotY.set(0); };
@@ -159,7 +161,7 @@ function TiltProjectCard({
       onMouseLeave={handleLeave}
       onClick={onClick}
       whileTap={{ scale: 0.97 }}
-      className="apple-active group relative glass-card overflow-hidden cursor-pointer"
+      className="apple-active liquid-glass group relative glass-card overflow-hidden cursor-pointer"
       style={{ rotateX: rotX, rotateY: rotY, transformStyle: "preserve-3d" }}
       id={`project-${project.number}`}
       data-cursor="View"
@@ -244,6 +246,8 @@ export default function Projects() {
     fRotY.set((x - 0.5) * 5);
     fGlowX.set(x * 100);
     fGlowY.set(y * 100);
+    el.style.setProperty("--mouse-x", `${x * 100}%`);
+    el.style.setProperty("--mouse-y", `${y * 100}%`);
   };
   const featLeave = () => { fRotX.set(0); fRotY.set(0); };
 
@@ -290,7 +294,7 @@ export default function Projects() {
           onClick={() => setSelectedProject(featured)}
           whileTap={{ scale: 0.97 }}
           style={{ rotateX: fRotX, rotateY: fRotY, transformStyle: "preserve-3d" }}
-          className="apple-active group relative glass-card overflow-hidden mb-8 cursor-pointer"
+          className="apple-active liquid-glass group relative glass-card overflow-hidden mb-8 cursor-pointer"
           id={`project-${featured.number}`}
           data-cursor="View"
         >
