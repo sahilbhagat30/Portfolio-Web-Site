@@ -14,11 +14,11 @@ const NAV_LINKS = [
 
 const menuVariants: Variants = {
   closed: {
-    clipPath: "polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%)",
+    clipPath: "circle(0% at 100% 0%)",
     transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] }
   },
   open: {
-    clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+    clipPath: "circle(150% at 100% 0%)",
     transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] }
   }
 };
@@ -76,24 +76,20 @@ export default function Navbar() {
 
   return (
     <>
-      <nav
-        className={`fixed top-0 left-0 w-full z-[100] transition-colors duration-500 ease-out ${
-          scrolled && !menuOpen ? "bg-[var(--background)]/80 backdrop-blur-md" : "bg-transparent"
-        }`}
-      >
-        <div className="max-w-7xl mx-auto px-6 md:px-10 h-20 flex items-center justify-end">
-          {/* Hamburger Button */}
-          <button
-            aria-label="Toggle menu"
-            onClick={() => setMenuOpen(!menuOpen)}
-            className="flex flex-col gap-1.5 p-4 z-[110] relative group hover:opacity-80 transition-opacity"
-            data-cursor="hover"
-          >
-            <span className={`block w-8 h-0.5 bg-white transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] ${menuOpen ? "rotate-45 translate-y-2" : ""}`} />
-            <span className={`block w-6 h-0.5 bg-white transition-opacity duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] ${menuOpen ? "opacity-0" : ""}`} />
-            <span className={`block w-8 h-0.5 bg-white transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] ${menuOpen ? "-rotate-45 -translate-y-2" : ""}`} />
-          </button>
-        </div>
+      <nav className="fixed top-0 right-0 z-[100] p-6 md:p-8 lg:p-10 pointer-events-none">
+        {/* Hamburger Button */}
+        <button
+          aria-label="Toggle menu"
+          onClick={() => setMenuOpen(!menuOpen)}
+          className={`pointer-events-auto flex flex-col items-center justify-center gap-1.5 w-14 h-14 z-[110] relative group transition-all duration-500 ease-out rounded-full ${
+            scrolled && !menuOpen ? "apple-material-thick liquid-glass shadow-lg border border-white/10" : "hover:bg-white/10"
+          }`}
+          data-cursor="hover"
+        >
+          <span className={`block w-6 h-0.5 bg-white transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] ${menuOpen ? "rotate-45 translate-y-2 absolute" : ""}`} />
+          <span className={`block w-6 h-0.5 bg-white transition-opacity duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] ${menuOpen ? "opacity-0" : ""}`} />
+          <span className={`block w-6 h-0.5 bg-white transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] ${menuOpen ? "-rotate-45 absolute" : ""}`} />
+        </button>
       </nav>
 
       {/* Full Screen Menu */}
@@ -108,13 +104,6 @@ export default function Navbar() {
             className="fixed inset-0 z-[90] apple-material-thick liquid-glass flex flex-col justify-center border-none rounded-none"
           >
             <div className="absolute inset-0 noise-overlay opacity-30 pointer-events-none" />
-            
-            <button
-              onClick={() => setMenuOpen(false)}
-              className="absolute top-8 right-8 z-[100] text-white p-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors focus:outline-none"
-            >
-              <X size={28} />
-            </button>
             
             <div className="max-w-7xl mx-auto px-6 md:px-20 w-full">
               <motion.ul 
