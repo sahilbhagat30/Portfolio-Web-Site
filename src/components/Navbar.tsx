@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence, Variants } from "framer-motion";
+import { X } from "lucide-react";
 
 const NAV_LINKS = [
   { label: "About",       href: "#about" },
