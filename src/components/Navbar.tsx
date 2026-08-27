@@ -101,22 +101,24 @@ export default function Navbar() {
             animate="open"
             exit="closed"
             variants={menuVariants}
-            className="absolute inset-0 z-[90] pointer-events-auto apple-material-thick liquid-glass flex flex-col justify-center border-none rounded-none"
+            className="absolute inset-0 z-[90] pointer-events-auto flex flex-col justify-center border-none rounded-none"
           >
-            <div className="absolute inset-0 noise-overlay opacity-30 pointer-events-none" />
+            {/* Background layer isolated to prevent Webkit backdrop-filter bugs with Framer Motion */}
+            <div className="absolute inset-0 apple-material-thick liquid-glass -z-10 pointer-events-none" />
+            <div className="absolute inset-0 noise-overlay opacity-30 pointer-events-none -z-10" />
             
-            <div className="max-w-7xl mx-auto px-6 md:px-20 w-full">
+            <div className="max-w-7xl mx-auto px-6 md:px-20 w-full relative z-10">
               <motion.ul 
                 variants={linkContainerVariants}
-                className="flex flex-col gap-4 md:gap-6"
+                className="flex flex-col gap-2 md:gap-4"
               >
                 {NAV_LINKS.map((link) => (
-                  <li key={link.href} className="overflow-hidden">
+                  <li key={link.href} className="overflow-hidden py-2">
                     <motion.a
                       variants={linkVariants}
                       href={link.href}
                       onClick={(e) => handleNav(e, link.href)}
-                      className={`inline-block text-5xl md:text-8xl font-black tracking-tighter uppercase transition-colors duration-300 hover:text-white ${
+                      className={`block text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter uppercase leading-[0.9] transition-colors duration-300 hover:text-white ${
                         activeLink === link.href ? "text-white" : "text-white/40"
                       }`}
                       style={{
