@@ -22,14 +22,15 @@ function useBasePath() {
 
 /* ── Electric spark burst on connection ── */
 function SparkBurst() {
-  const sparks = Array.from({ length: 8 }, (_, i) => {
+  const [sparks] = useState(() => Array.from({ length: 8 }, (_, i) => {
     const angle = (i / 8) * Math.PI * 2;
     return {
       id: i,
       endX: Math.cos(angle) * (30 + Math.random() * 20),
       endY: Math.sin(angle) * (20 + Math.random() * 15),
+      duration: 0.6 + Math.random() * 0.3
     };
-  });
+  }));
 
   return (
     <motion.div
@@ -58,7 +59,7 @@ function SparkBurst() {
             scale: 0,
             opacity: 0,
           }}
-          transition={{ duration: 0.6 + Math.random() * 0.3, ease: "easeOut" }}
+          transition={{ duration: s.duration, ease: "easeOut" }}
         />
       ))}
       {/* Central flash */}

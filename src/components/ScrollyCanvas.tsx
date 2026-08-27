@@ -12,23 +12,6 @@ export default function ScrollyCanvas() {
   const lastFrameRef = useRef<number>(-1);
 
   // Pre-load all frames
-  useEffect(() => {
-    const loadedImages: HTMLImageElement[] = new Array(FRAME_COUNT);
-
-    for (let i = 0; i < FRAME_COUNT; i++) {
-      const img = new Image();
-      const frameNum = i.toString().padStart(3, "0");
-      img.src = `${base}/sequence/frame_${frameNum}_delay-0.067s.webp`;
-      img.onload = () => {
-        loadedImages[i] = img;
-        // Draw the first frame as soon as it loads
-        if (i === 0) drawFrame(0);
-      };
-      loadedImages[i] = img;
-    }
-    imagesRef.current = loadedImages;
-  }, []);
-
   // Draw a specific frame index to the canvas
   const drawFrame = (frameIndex: number) => {
     const canvas = canvasRef.current;
@@ -67,6 +50,23 @@ export default function ScrollyCanvas() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
   };
+
+  useEffect(() => {
+    const loadedImages: HTMLImageElement[] = new Array(FRAME_COUNT);
+
+    for (let i = 0; i < FRAME_COUNT; i++) {
+      const img = new Image();
+      const frameNum = i.toString().padStart(3, "0");
+      img.src = `${base}/sequence/frame_${frameNum}_delay-0.067s.webp`;
+      img.onload = () => {
+        loadedImages[i] = img;
+        // Draw the first frame as soon as it loads
+        if (i === 0) drawFrame(0);
+      };
+      loadedImages[i] = img;
+    }
+    imagesRef.current = loadedImages;
+  }, []);
 
   // rAF loop — polls scrollY every frame so iOS momentum scroll works perfectly
   useEffect(() => {

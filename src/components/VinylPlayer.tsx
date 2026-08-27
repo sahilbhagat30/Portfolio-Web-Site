@@ -82,14 +82,12 @@ export default function VinylPlayer() {
   const [currentTrack, setCurrentTrack] = useState(0);
   const [isVisible] = useState(true);
   const [isMinimized, setIsMinimized] = useState(true);
-  const [tracks, setTracks] = useState<Track[]>(getInitialTracks(getInitialBasePath()));
-
-  // Fix basePath for local testing of production builds without hydration errors
-  useEffect(() => {
-    if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
-      setTracks(getInitialTracks(""));
+  const [tracks, setTracks] = useState<Track[]>(() => {
+    if (typeof window !== "undefined" && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1")) {
+      return getInitialTracks("");
     }
-  }, []);
+    return getInitialTracks(getInitialBasePath());
+  });
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const vinylRotation = useMotionValue(0);
@@ -140,7 +138,7 @@ export default function VinylPlayer() {
   }, [isPlaying]);
 
   // The tiny pill shown when minimized
-  const MinimizedPill = () => (
+  const minimizedPill = (
     <motion.div
       key="minimized"
       initial={{ opacity: 0, scale: 0.8 }}
@@ -180,7 +178,7 @@ export default function VinylPlayer() {
   );
 
   // The full player shown when maximized (matte dark UI as requested)
-  const FullPlayer = () => (
+  const fullPlayer = (
     <motion.div
       key="full"
       initial={{ opacity: 0, y: 20, scale: 0.9 }}
@@ -265,7 +263,7 @@ export default function VinylPlayer() {
 
       <AnimatePresence mode="wait">
         {isVisible && (
-          isMinimized ? <MinimizedPill key="pill" /> : <FullPlayer key="full" />
+          isMinimized ? minimizedPill : fullPlayer
         )}
       </AnimatePresence>
     </>
