@@ -1,3 +1,6 @@
+"use client";
+
+import { motion, useSpring, useMotionValue } from "framer-motion";
 import { useState, useRef } from "react";
 import { ArrowUpRight } from "lucide-react";
 import ProjectModal from "./ProjectModal";
