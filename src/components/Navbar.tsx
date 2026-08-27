@@ -14,16 +14,12 @@ const NAV_LINKS = [
 
 const menuVariants: Variants = {
   closed: {
-    opacity: 0,
-    scale: 0.9,
-    transformOrigin: "top right",
-    transition: { duration: 0.3, ease: [0.76, 0, 0.24, 1] }
+    clipPath: "circle(0% at 100% 0%)",
+    transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] }
   },
   open: {
-    opacity: 1,
-    scale: 1,
-    transformOrigin: "top right",
-    transition: { type: "spring", bounce: 0, duration: 0.5 }
+    clipPath: "circle(150% at 100% 0%)",
+    transition: { duration: 0.8, ease: [0.76, 0, 0.24, 1] }
   }
 };
 
@@ -105,33 +101,37 @@ export default function Navbar() {
             animate="open"
             exit="closed"
             variants={menuVariants}
-            className="absolute top-24 right-6 md:right-8 lg:right-10 w-64 p-6 z-[90] pointer-events-auto apple-material-thick liquid-glass rounded-3xl border border-white/10 shadow-2xl origin-top-right flex flex-col"
+            className="absolute inset-0 z-[90] pointer-events-auto apple-material-thick liquid-glass flex flex-col justify-center border-none rounded-none"
           >
-            <motion.ul 
-              variants={linkContainerVariants}
-              className="flex flex-col gap-4"
-            >
-              {NAV_LINKS.map((link) => (
-                <li key={link.href} className="overflow-hidden">
-                  <motion.a
-                    variants={linkVariants}
-                    href={link.href}
-                    onClick={(e) => handleNav(e, link.href)}
-                    className={`inline-block text-xl font-bold tracking-tight uppercase transition-all duration-300 hover:translate-x-2 ${
-                      activeLink === link.href ? "text-white" : "text-white/50 hover:text-white/90"
-                    }`}
-                    style={{
-                      backgroundImage: activeLink === link.href ? "var(--gradient-hero)" : "none",
-                      WebkitBackgroundClip: activeLink === link.href ? "text" : "border-box",
-                      WebkitTextFillColor: activeLink === link.href ? "transparent" : "inherit",
-                    }}
-                    data-cursor="hover"
-                  >
-                    {link.label}
-                  </motion.a>
-                </li>
-              ))}
-            </motion.ul>
+            <div className="absolute inset-0 noise-overlay opacity-30 pointer-events-none" />
+            
+            <div className="max-w-7xl mx-auto px-6 md:px-20 w-full">
+              <motion.ul 
+                variants={linkContainerVariants}
+                className="flex flex-col gap-4 md:gap-6"
+              >
+                {NAV_LINKS.map((link) => (
+                  <li key={link.href} className="overflow-hidden">
+                    <motion.a
+                      variants={linkVariants}
+                      href={link.href}
+                      onClick={(e) => handleNav(e, link.href)}
+                      className={`inline-block text-5xl md:text-8xl font-black tracking-tighter uppercase transition-colors duration-300 hover:text-white ${
+                        activeLink === link.href ? "text-white" : "text-white/40"
+                      }`}
+                      style={{
+                        backgroundImage: activeLink === link.href ? "var(--gradient-hero)" : "none",
+                        WebkitBackgroundClip: activeLink === link.href ? "text" : "border-box",
+                        WebkitTextFillColor: activeLink === link.href ? "transparent" : "inherit",
+                      }}
+                      data-cursor="View"
+                    >
+                      {link.label}
+                    </motion.a>
+                  </li>
+                ))}
+              </motion.ul>
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
