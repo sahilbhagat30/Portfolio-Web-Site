@@ -99,6 +99,7 @@ export default function Navbar() {
       <AnimatePresence>
         {menuOpen && (
           <motion.div
+            key="mobile-menu"
             initial="closed"
             animate="open"
             exit="closed"
