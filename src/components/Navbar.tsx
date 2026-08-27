@@ -104,8 +104,8 @@ export default function Navbar() {
             className="absolute inset-0 z-[90] pointer-events-auto flex flex-col justify-center border-none rounded-none"
           >
             {/* Background layer isolated to prevent Webkit backdrop-filter bugs with Framer Motion */}
-            <div className="absolute inset-0 apple-material-thick liquid-glass -z-10 pointer-events-none" />
-            <div className="absolute inset-0 noise-overlay opacity-30 pointer-events-none -z-10" />
+            <div className="absolute inset-0 bg-[var(--background)]/95 backdrop-blur-3xl -z-10 pointer-events-none" />
+            <div className="absolute inset-0 noise-overlay opacity-50 pointer-events-none -z-10" />
             
             <div className="max-w-7xl mx-auto px-6 md:px-20 w-full relative z-10">
               <motion.ul 
