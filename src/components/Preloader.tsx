@@ -51,9 +51,9 @@ export default function Preloader() {
           
           <div className="relative z-10 flex flex-col items-center justify-center w-full h-full">
             {/* Odometer style massive number */}
-            <div className="overflow-hidden h-[1.2em] flex items-center justify-center">
+            <div className="overflow-hidden text-[15vw] h-[1.2em] flex items-center justify-center">
               <motion.div 
-                className="text-[15vw] leading-none font-black text-transparent bg-clip-text"
+                className="leading-none font-black text-transparent bg-clip-text"
                 style={{
                   backgroundImage: "linear-gradient(180deg, #FFFFFF 0%, #6B7280 100%)",
                 }}
