@@ -77,87 +77,98 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
             onClick={onClose}
           />
 
-          {/* Modal Sheet */}
-          <motion.div
-            initial={{ opacity: 0, y: 40, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            transition={{ type: "spring", bounce: 0, duration: 0.3 }}
-            className="apple-material-thick liquid-glass relative w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-3xl shadow-2xl flex flex-col md:flex-row"
-            onClick={(e) => e.stopPropagation()}
-          >
-            {/* Close Button */}
-            <motion.button
-              onClick={onClose}
-              whileTap={{ scale: 0.97 }}
-              className="apple-active absolute top-6 right-6 z-20 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors border border-white/5"
+            {/* Modal Sheet */}
+            <motion.div
+              drag="y"
+              dragConstraints={{ top: 0, bottom: 0 }}
+              dragElastic={0.4}
+              onDragEnd={(e, info) => {
+                if (info.offset.y > 100 || info.velocity.y > 400) onClose();
+              }}
+              initial={{ opacity: 0, y: 100, scale: 0.95 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 100, scale: 0.95 }}
+              transition={{ type: "spring", bounce: 0, duration: 0.4 }}
+              className="apple-material-thick liquid-glass relative w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-3xl shadow-2xl flex flex-col md:flex-row"
+              onClick={(e) => e.stopPropagation()}
             >
-              <X size={16} className="text-white/70" />
-            </motion.button>
-
-            {/* Left Side: Image / Hero */}
-            <div className="w-full md:w-[45%] bg-white/5 flex flex-col items-center justify-center p-12 relative border-r border-white/5 min-h-[300px]">
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10 opacity-60" />
-              <img
-                src={project.image}
-                alt={project.title}
-                className="relative z-20 w-3/4 max-w-[200px] object-contain opacity-80"
-                style={{ filter: project.logoFilter }}
-              />
-            </div>
-
-            {/* Right Side: Content */}
-            <div className="w-full md:w-[55%] p-8 md:p-12 flex flex-col">
-              <div className="flex flex-wrap gap-2 mb-6">
-                {project.tags.map((tag) => (
-                  <span
-                    key={tag}
-                    className="px-3 py-1 rounded-full text-[10px] font-semibold uppercase tracking-wider"
-                    style={{ background: colors.bg, border: `1px solid ${colors.border}`, color: colors.text }}
-                  >
-                    {tag}
-                  </span>
-                ))}
+              {/* Mobile Drag Handle */}
+              <div className="w-full flex justify-center pt-4 pb-2 md:hidden absolute top-0 z-30 cursor-grab active:cursor-grabbing">
+                <div className="w-12 h-1.5 rounded-full bg-white/20" />
               </div>
 
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-2 leading-tight tracking-tight">
-                {project.title}
-              </h2>
-              
-              <div className="w-12 h-1 bg-white/20 rounded-full mb-8" />
+              {/* Close Button */}
+              <motion.button
+                onClick={onClose}
+                whileTap={{ scale: 0.97 }}
+                className="apple-active absolute top-6 right-6 z-20 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors border border-white/5"
+              >
+                <X size={16} className="text-white/70" />
+              </motion.button>
 
-              <div className="space-y-8 flex-1">
-                <div>
-                  <h4 className="text-xs uppercase tracking-widest text-white/40 font-semibold mb-2">The Problem</h4>
-                  <p className="text-white/70 text-sm leading-relaxed">{problem}</p>
+              {/* Left Side: Image / Hero */}
+              <div className="w-full md:w-[45%] bg-white/5 flex flex-col items-center justify-center p-12 pt-16 md:pt-12 relative border-r border-white/5 min-h-[300px]">
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent z-10 opacity-60 pointer-events-none" />
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  className="relative z-20 w-3/4 max-w-[200px] object-contain opacity-80 pointer-events-none"
+                  style={{ filter: project.logoFilter }}
+                />
+              </div>
+
+              {/* Right Side: Content */}
+              <div className="w-full md:w-[55%] p-8 md:p-12 flex flex-col">
+                <div className="flex flex-wrap gap-2 mb-6">
+                  {project.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="px-3 py-1 rounded-full text-[10px] font-semibold uppercase tracking-wider"
+                      style={{ background: colors.bg, border: `1px solid ${colors.border}`, color: colors.text }}
+                    >
+                      {tag}
+                    </span>
+                  ))}
                 </div>
+
+                <h2 className="text-3xl md:text-4xl font-bold text-white mb-2 leading-tight tracking-tight">
+                  {project.title}
+                </h2>
                 
-                <div>
-                  <h4 className="text-xs uppercase tracking-widest text-white/40 font-semibold mb-2">The Solution</h4>
-                  <p className="text-white/70 text-sm leading-relaxed">{solution}</p>
+                <div className="w-12 h-1 bg-white/20 rounded-full mb-8" />
+
+                <div className="space-y-8 flex-1">
+                  <div>
+                    <h4 className="text-xs uppercase tracking-widest text-white/40 font-semibold mb-2">The Problem</h4>
+                    <p className="text-white/70 text-sm leading-relaxed">{problem}</p>
+                  </div>
+                  
+                  <div>
+                    <h4 className="text-xs uppercase tracking-widest text-white/40 font-semibold mb-2">The Solution</h4>
+                    <p className="text-white/70 text-sm leading-relaxed">{solution}</p>
+                  </div>
+
+                  <div>
+                    <h4 className="text-xs uppercase tracking-widest text-white/40 font-semibold mb-2">The Outcome</h4>
+                    <p className="text-white/90 font-medium text-sm leading-relaxed">{outcome}</p>
+                  </div>
                 </div>
 
-                <div>
-                  <h4 className="text-xs uppercase tracking-widest text-white/40 font-semibold mb-2">The Outcome</h4>
-                  <p className="text-white/90 font-medium text-sm leading-relaxed">{outcome}</p>
+                <div className="mt-10 pt-6 border-t border-white/10">
+                  <a
+                    href={project.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 text-sm font-semibold text-white/80 hover:text-white group transition-colors"
+                  >
+                    Visit Company Site
+                    <ArrowUpRight size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+                  </a>
                 </div>
               </div>
-
-              <div className="mt-10 pt-6 border-t border-white/10">
-                <a
-                  href={project.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-sm font-semibold text-white/80 hover:text-white group transition-colors"
-                >
-                  Visit Company Site
-                  <ArrowUpRight size={16} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-                </a>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      )}
-    </AnimatePresence>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
   );
 }
