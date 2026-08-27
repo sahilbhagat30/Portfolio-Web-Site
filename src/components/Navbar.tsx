@@ -81,8 +81,8 @@ export default function Navbar() {
         <button
           aria-label="Toggle menu"
           onClick={() => setMenuOpen(!menuOpen)}
-          className={`pointer-events-auto flex flex-col items-center justify-center gap-1.5 w-14 h-14 z-[110] relative group transition-all duration-500 ease-out rounded-full ${
-            scrolled && !menuOpen ? "apple-material-thick liquid-glass shadow-lg border border-white/10" : "hover:bg-white/10"
+          className={`pointer-events-auto flex flex-col items-center justify-center gap-1.5 w-14 h-14 z-[110] relative group transition-all duration-300 ease-out rounded-full ${
+            scrolled && !menuOpen ? "apple-material-thick liquid-glass shadow-lg hover:bg-[rgba(40,20,20,0.5)]" : "hover:bg-white/10"
           }`}
           data-cursor="hover"
         >

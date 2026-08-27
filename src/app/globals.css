@@ -180,23 +180,13 @@ body::after {
   isolation: isolate;
 }
 
-/* The dynamic shifting inner light/refraction */
+/* The static standard Apple Glass border */
 .liquid-glass::before {
   content: "";
   position: absolute;
-  inset: -1px;
+  inset: 0;
   border-radius: inherit;
-  padding: 1px; /* the border width */
-  background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.45) 0%,
-    rgba(255, 255, 255, 0.1) 40%,
-    rgba(255, 255, 255, 0.05) 60%,
-    rgba(255, 255, 255, 0.25) 100%
-  );
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-          mask-composite: exclude;
+  border: 1px solid rgba(255, 255, 255, 0.15); /* AppKit standard subtle border */
   pointer-events: none;
   z-index: 10;
 }
@@ -238,31 +228,18 @@ body::after {
 
 /* ─── Apple Design: Translucent Materials ────────────────────────── */
 .apple-material-thick {
-  background: linear-gradient(
-    145deg,
-    rgba(40, 40, 40, 0.35) 0%,
-    rgba(15, 15, 15, 0.5) 100%
-  );
-  backdrop-filter: blur(80px) saturate(200%);
-  -webkit-backdrop-filter: blur(80px) saturate(200%);
-  box-shadow: 
-    0 24px 64px rgba(0,0,0,0.6), 
-    inset 0 1px 0 rgba(255, 255, 255, 0.25), /* Specular top highlight */
-    inset 0 -1px 0 rgba(255, 255, 255, 0.05), /* Subtle bottom rim light */
-    inset 0 0 20px rgba(255, 255, 255, 0.05); /* Soft inner glow */
+  background: rgba(20, 10, 10, 0.4); /* Uniform subtle tint as per NSGlassEffectView */
+  backdrop-filter: blur(60px) saturate(180%);
+  -webkit-backdrop-filter: blur(60px) saturate(180%);
+  box-shadow: 0 16px 48px rgba(0,0,0,0.4); /* Standard ambient shadow */
+  transition: background-color 0.2s ease-in-out; /* Enable smooth tint color changes */
 }
 .apple-material-thin {
-  background: linear-gradient(
-    145deg,
-    rgba(60, 60, 60, 0.15) 0%,
-    rgba(25, 25, 25, 0.2) 100%
-  );
-  backdrop-filter: blur(40px) saturate(150%);
-  -webkit-backdrop-filter: blur(40px) saturate(150%);
-  box-shadow: 
-    0 8px 32px rgba(0,0,0,0.3), 
-    inset 0 1px 0 rgba(255, 255, 255, 0.15),
-    inset 0 -1px 0 rgba(255, 255, 255, 0.05);
+  background: rgba(30, 20, 20, 0.2); /* Uniform subtle tint */
+  backdrop-filter: blur(30px) saturate(150%);
+  -webkit-backdrop-filter: blur(30px) saturate(150%);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+  transition: background-color 0.2s ease-in-out;
 }
 
 /* ─── Apple Design: Reduced Motion Fallbacks ─────────────────────── */
