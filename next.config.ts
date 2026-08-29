@@ -12,9 +12,6 @@ const nextConfig: NextConfig = {
     unoptimized: true,
     qualities: [75, 85],
   },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
   typescript: {
     ignoreBuildErrors: true,
   },
