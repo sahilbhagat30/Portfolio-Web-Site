@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence, useDragControls } from "framer-motion";
 import { X, ArrowUpRight } from "lucide-react";
 import { useEffect } from "react";
 
@@ -33,6 +33,7 @@ const TAG_COLORS: Record<string, { border: string; bg: string; text: string }> =
 };
 
 export default function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
+  const dragControls = useDragControls();
   
   // Lock body scroll when open
   useEffect(() => {
@@ -80,6 +81,8 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
             {/* Modal Sheet */}
             <motion.div
               drag="y"
+              dragControls={dragControls}
+              dragListener={false}
               dragConstraints={{ top: 0, bottom: 0 }}
               dragElastic={0.4}
               onDragEnd={(e, info) => {
@@ -93,7 +96,11 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
               onClick={(e) => e.stopPropagation()}
             >
               {/* Mobile Drag Handle */}
-              <div className="w-full flex justify-center pt-4 pb-2 md:hidden absolute top-0 z-30 cursor-grab active:cursor-grabbing">
+              <div 
+                className="w-full flex justify-center pt-4 pb-2 md:hidden absolute top-0 z-30 cursor-grab active:cursor-grabbing"
+                onPointerDown={(e) => dragControls.start(e)}
+                style={{ touchAction: "none" }}
+              >
                 <div className="w-12 h-1.5 rounded-full bg-white/20" />
               </div>
 
