@@ -86,12 +86,19 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
               dragConstraints={{ top: 0, bottom: 0 }}
               dragElastic={0.4}
               onDragEnd={(e, info) => {
-                if (info.offset.y > 100 || info.velocity.y > 400) onClose();
+                // Apple momentum projection (SKILL.md §6)
+                // Project where the drag will rest based on release velocity
+                const projectedEndpoint = info.offset.y + (info.velocity.y / 1000) * (0.998 / (1 - 0.998));
+                
+                // Decide reverse vs commit based on velocity sign and projection (SKILL.md §6, §10)
+                if (projectedEndpoint > 200 || info.velocity.y > 500) {
+                  onClose();
+                }
               }}
               initial={{ opacity: 0, y: 100, scale: 0.95 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 100, scale: 0.95 }}
-              transition={{ type: "spring", bounce: 0, duration: 0.4 }}
+              transition={{ type: "spring", bounce: 0, duration: 0.4 }} // Critically damped default (SKILL.md §4)
               className="apple-material-thick liquid-glass relative w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-3xl shadow-2xl flex flex-col md:flex-row"
               onClick={(e) => e.stopPropagation()}
             >
