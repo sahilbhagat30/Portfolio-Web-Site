@@ -1,29 +1,27 @@
 "use client";
 
 import { Canvas, useFrame } from "@react-three/fiber";
-import { useRef, useMemo } from "react";
+import { useRef, useMemo, useEffect, useState } from "react";
 import * as THREE from "three";
 
-// Custom shader material for the fluid liquid gradient
-const fragmentShader = `
+// --- FLUID SHADER ---
+const fluidFragmentShader = `
   uniform float uTime;
   uniform vec2 uResolution;
   
   varying vec2 vUv;
 
-  // Classic Perlin 3D Noise by Stefan Gustavson
-  // https://github.com/stegu/webgl-noise
   vec4 permute(vec4 x){return mod(((x*34.0)+1.0)*x, 289.0);}
   vec4 taylorInvSqrt(vec4 r){return 1.79284291400159 - 0.85373472095314 * r;}
   vec3 fade(vec3 t) {return t*t*t*(t*(t*6.0-15.0)+10.0);}
 
   float cnoise(vec3 P){
-    vec3 Pi0 = floor(P); // Integer part for indexing
-    vec3 Pi1 = Pi0 + vec3(1.0); // Integer part + 1
+    vec3 Pi0 = floor(P);
+    vec3 Pi1 = Pi0 + vec3(1.0);
     Pi0 = mod(Pi0, 289.0);
     Pi1 = mod(Pi1, 289.0);
-    vec3 Pf0 = fract(P); // Fractional part for interpolation
-    vec3 Pf1 = Pf0 - vec3(1.0); // Fractional part - 1.0
+    vec3 Pf0 = fract(P);
+    vec3 Pf1 = Pf0 - vec3(1.0);
     vec4 ix = vec4(Pi0.x, Pi1.x, Pi0.x, Pi1.x);
     vec4 iy = vec4(Pi0.yy, Pi1.yy);
     vec4 iz0 = Pi0.zzzz;
@@ -86,33 +84,53 @@ const fragmentShader = `
   }
 
   void main() {
+    // Normalize and adjust for aspect ratio
     vec2 uv = vUv;
-    // Base colors (Dark Maroon to almost Black)
-    vec3 color1 = vec3(0.047, 0.004, 0.004); // #0C0101
-    vec3 color2 = vec3(0.015, 0.0, 0.0); // Deeper black
+    vec2 p = uv * 2.0 - 1.0;
     
-    // Silver / White highlight color
-    vec3 highlight = vec3(0.42, 0.447, 0.502); // #6B7280
+    // Prevent divide by zero if resolution isn't set yet
+    if (uResolution.y > 0.0) {
+      p.x *= uResolution.x / uResolution.y;
+    }
 
-    // Add noise based on UV and Time to create fluid waves
-    float noise1 = cnoise(vec3(uv * 1.5, uTime * 0.15));
-    float noise2 = cnoise(vec3(uv * 2.5 - vec2(uTime * 0.1), uTime * 0.1));
+    // Slow, elegant time progression
+    float t = uTime * 0.12;
 
-    // Combine noises to get swirling effect
-    float finalNoise = smoothstep(-0.5, 0.5, noise1 + noise2 * 0.5);
+    // Swirl the coordinates gently
+    float swirl = cnoise(vec3(p * 0.8, t * 0.8));
+    p += swirl * 0.4;
 
-    // Mix base colors
-    vec3 finalColor = mix(color1, color2, finalNoise);
+    // Multiple layers of noise for rich depth
+    float noise1 = cnoise(vec3(p * 0.7 + vec2(t * 0.4, -t * 0.2), t));
+    float noise2 = cnoise(vec3(p * 1.3 - vec2(-t * 0.15, t * 0.3), t * 1.2));
+    float noise3 = cnoise(vec3(p * 2.2 + vec2(sin(t * 0.5), cos(t * 0.5)), t * 0.9));
 
-    // Add subtle silver highlight streaks where noise peaks
-    float highlightIntensity = smoothstep(0.65, 1.0, finalNoise);
-    finalColor = mix(finalColor, highlight * 0.2, highlightIntensity);
+    // Combine into a smooth flowing volumetric field
+    float field = (noise1 + noise2 * 0.5 + noise3 * 0.25) * 0.5 + 0.5;
+    field = smoothstep(0.1, 0.9, field);
 
-    gl_FragColor = vec4(finalColor, 1.0);
+    // Cinematic Portrait Palette (Deep Navy & Burning Amber)
+    // Matches the stunning "Fire & Ice" lighting of the provided photo
+    vec3 baseColor = vec3(0.01, 0.02, 0.06);         // Deepest shadow blue
+    vec3 midColor = vec3(0.04, 0.10, 0.25);          // Rich cinematic navy
+    vec3 highlightColor = vec3(0.60, 0.18, 0.05);    // Luminous burning amber/orange
+
+    // Blend the colors smoothly
+    vec3 color = mix(baseColor, midColor, field);
+    
+    // Add specular-like glowing highlights at the peaks
+    float highlight = smoothstep(0.5, 1.0, field);
+    color = mix(color, highlightColor, highlight * 0.7);
+
+    // Subtle edge vignette for a focused, premium look
+    float vignette = length(uv - 0.5);
+    color = mix(color, vec3(0.0), smoothstep(0.4, 1.5, vignette));
+
+    gl_FragColor = vec4(color, 1.0);
   }
 `;
 
-const vertexShader = `
+const basicVertexShader = `
   varying vec2 vUv;
   void main() {
     vUv = uv;
@@ -143,12 +161,11 @@ function FluidShader() {
 
   return (
     <mesh>
-      {/* Plane covering the whole screen using normalized device coordinates (-1 to 1) in the vertex shader */}
       <planeGeometry args={[2, 2]} />
       <shaderMaterial
         ref={materialRef}
-        vertexShader={vertexShader}
-        fragmentShader={fragmentShader}
+        vertexShader={basicVertexShader}
+        fragmentShader={fluidFragmentShader}
         uniforms={uniforms}
         depthWrite={false}
         depthTest={false}
@@ -158,17 +175,21 @@ function FluidShader() {
 }
 
 export default function ShaderBackground() {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+
+  if (!mounted) return null;
+
   return (
     <div className="fixed inset-0 z-0 pointer-events-none w-full h-full">
       <Canvas
         camera={{ position: [0, 0, 1] }}
         gl={{ powerPreference: "high-performance", alpha: false, antialias: false }}
-        dpr={[1, 1.5]} // cap pixel ratio for performance
+        dpr={[1, 1.5]}
       >
         <FluidShader />
       </Canvas>
-      {/* Fallback dark overlay for contrast */}
-      <div className="absolute inset-0 bg-black/30 pointer-events-none" />
     </div>
   );
 }
+

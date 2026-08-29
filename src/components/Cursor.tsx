@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, useSpring, useMotionValue } from "framer-motion";
+import LiquidGlass from "./LiquidGlass";
 
 export default function Cursor() {
   const cursorX = useMotionValue(-100);
@@ -87,15 +88,15 @@ export default function Cursor() {
     hover:   { width: 12, height: 12, backgroundColor: "#ffffff", opacity: 1 },
     text:    { width: 4,  height: 24, backgroundColor: "#e5e7eb", borderRadius: "2px", opacity: 0.8 },
     click:   { width: 6,  height: 6,  backgroundColor: "#a3a3a3", opacity: 1 },
-    custom:  { width: 0,  height: 0,  backgroundColor: "transparent", opacity: 0 },
+    custom:  { width: 0,  height: 0,  backgroundColor: "rgba(255,255,255,0)", opacity: 0 },
   };
 
   const ringVariants: Record<string, any> = {
-    default: { width: 36, height: 36, borderColor: "rgba(229,231,235,0.4)", backgroundColor: "transparent", opacity: isVisible ? 1 : 0, scale: 1 },
-    hover:   { width: 56, height: 56, borderColor: "rgba(255,255,255,0.5)", backgroundColor: "transparent", opacity: isVisible ? 1 : 0, scale: 1 },
-    text:    { width: 40, height: 40, borderColor: "rgba(234,230,225,0.4)", backgroundColor: "transparent", opacity: isVisible ? 0.6 : 0, scale: 1 },
-    click:   { width: 28, height: 28, borderColor: "rgba(163,163,163,0.8)", backgroundColor: "transparent", opacity: isVisible ? 1 : 0, scale: 0.9 },
-    custom:  { width: 72, height: 72, borderColor: "transparent", backgroundColor: "rgba(255,255,255,0.15)", backdropFilter: "blur(4px)", opacity: isVisible ? 1 : 0, scale: 1 },
+    default: { width: 36, height: 36, borderColor: "rgba(229,231,235,0.4)", backgroundColor: "rgba(255,255,255,0.02)", backdropFilter: "blur(2px)", opacity: isVisible ? 1 : 0, scale: 1 },
+    hover:   { width: 56, height: 56, borderColor: "rgba(255,255,255,0.5)", backgroundColor: "rgba(255,255,255,0.05)", backdropFilter: "blur(4px)", opacity: isVisible ? 1 : 0, scale: 1 },
+    text:    { width: 40, height: 40, borderColor: "rgba(234,230,225,0.4)", backgroundColor: "rgba(255,255,255,0.02)", backdropFilter: "blur(2px)", opacity: isVisible ? 0.6 : 0, scale: 1 },
+    click:   { width: 28, height: 28, borderColor: "rgba(163,163,163,0.8)", backgroundColor: "rgba(255,255,255,0.05)", backdropFilter: "blur(2px)", opacity: isVisible ? 1 : 0, scale: 0.9 },
+    custom:  { width: 72, height: 72, borderColor: "rgba(255,255,255,0)", backgroundColor: "rgba(255,255,255,0.15)", backdropFilter: "blur(4px)", opacity: isVisible ? 1 : 0, scale: 1 },
   };
 
   if (typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches) {
@@ -107,63 +108,57 @@ export default function Cursor() {
       {/* Dot */}
       <motion.div
         style={{
-          x: dotX,
-          y: dotY,
+          left: dotX,
+          top: dotY,
           position: "fixed",
-          top: 0,
-          left: 0,
           pointerEvents: "none",
           zIndex: 9999,
           mixBlendMode: "normal",
+          marginLeft: "-4px",
+          marginTop: "-4px",
         }}
-      >
-        <motion.div
-          animate={dotVariants[variant]}
-          transition={{ duration: 0.15, ease: "easeOut" }}
-          style={{
-            borderRadius: variant === "text" ? "2px" : "50%",
-            x: "-50%",
-            y: "-50%",
-          }}
-        />
-      </motion.div>
+        animate={dotVariants[variant]}
+        transition={{ duration: 0.15, ease: "easeOut" }}
+        className="rounded-full shadow-sm"
+      />
 
       {/* Ring / Custom Label */}
       <motion.div
         style={{
-          x: ringX,
-          y: ringY,
+          left: ringX,
+          top: ringY,
           position: "fixed",
-          top: 0,
-          left: 0,
           pointerEvents: "none",
           zIndex: 9998,
+          marginLeft: variant === "custom" ? "-36px" : "-18px",
+          marginTop: variant === "custom" ? "-36px" : "-18px",
         }}
+        animate={ringVariants[variant]}
+        transition={{ duration: 0.25, ease: "easeOut" }}
+        className="flex items-center justify-center rounded-full"
       >
-        <motion.div
-          animate={ringVariants[variant]}
-          transition={{ duration: 0.25, ease: "easeOut" }}
-          style={{
-            borderRadius: "50%",
-            border: variant === "custom" ? "none" : "1.5px solid rgba(234,230,225,0.5)",
-            x: "-50%",
-            y: "-50%",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-          }}
+        <LiquidGlass 
+          className="absolute inset-0"
+          style={{ overflow: 'visible' }} 
+          borderRadius={999}
+          intensity="medium" 
+          distortion={100} 
+          blur={2} 
+          fixedTextureSize={256}
         >
-          {variant === "custom" && (
-            <motion.span
-              initial={{ opacity: 0, scale: 0.5 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.2 }}
-              className="text-[10px] font-bold text-white uppercase tracking-wider"
-            >
-              {customText}
-            </motion.span>
-          )}
-        </motion.div>
+          <div />
+        </LiquidGlass>
+
+        {variant === "custom" && (
+          <motion.span
+            initial={{ opacity: 0, scale: 0.5 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.5 }}
+            className="text-[10px] font-semibold tracking-widest text-white uppercase relative z-10"
+          >
+            VIEW
+          </motion.span>
+        )}
       </motion.div>
     </>
   );

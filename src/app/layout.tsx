@@ -5,6 +5,11 @@ import LenisProvider from "@/components/LenisProvider";
 import Cursor from "@/components/Cursor";
 import Preloader from "@/components/Preloader";
 import ShaderBackground from "@/components/ShaderBackground";
+import "@hwyuanzi/liquid-glass-ui/css";
+
+if (typeof window !== "undefined") {
+  import("@hwyuanzi/liquid-glass-ui");
+}
 
 const lexend = Lexend({ subsets: ["latin"], variable: "--font-lexend", weight: ["300","400","500","600","700","800","900"] });
 const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair", weight: ["400", "500", "600", "700", "800", "900"], style: ["normal", "italic"] });

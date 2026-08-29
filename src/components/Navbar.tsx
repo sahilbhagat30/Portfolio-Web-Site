@@ -81,8 +81,8 @@ export default function Navbar() {
         <button
           aria-label="Toggle menu"
           onClick={() => setMenuOpen(!menuOpen)}
-          className={`pointer-events-auto flex flex-col items-center justify-center gap-1.5 w-14 h-14 z-[110] relative group transition-all duration-300 ease-out rounded-full ${
-            scrolled && !menuOpen ? "apple-material-thick liquid-glass shadow-lg hover:bg-[rgba(40,20,20,0.5)]" : "hover:bg-white/10"
+          className={`pointer-events-auto flex flex-col items-center justify-center gap-1.5 w-14 h-14 z-[110] relative group transition-all duration-500 ease-out rounded-full ${
+            scrolled && !menuOpen ? "apple-material-thick shadow-lg border border-white/10" : "hover:bg-white/10"
           }`}
           data-cursor="hover"
         >
@@ -101,39 +101,63 @@ export default function Navbar() {
             animate="open"
             exit="closed"
             variants={menuVariants}
-            className="absolute inset-0 z-[90] pointer-events-auto flex flex-col justify-center border-none rounded-none"
+            className="absolute inset-0 z-[90] pointer-events-auto flex flex-col justify-between border-none rounded-none"
+            style={{ 
+              background: "rgba(3, 5, 15, 0.75)",
+              backdropFilter: "blur(32px) saturate(150%)",
+              WebkitBackdropFilter: "blur(32px) saturate(150%)"
+            }}
           >
-            {/* Background layer isolated to prevent Webkit backdrop-filter bugs with Framer Motion */}
-            <div className="absolute inset-0 apple-material-thick liquid-glass border-none -z-10 pointer-events-none" />
-            <div className="absolute inset-0 noise-overlay opacity-50 pointer-events-none -z-10" />
+            <div className="absolute inset-0 noise-overlay opacity-40 pointer-events-none -z-10" />
             
-            <div className="max-w-7xl mx-auto px-6 md:px-20 w-full relative z-10">
+            <div className="flex-1 flex flex-col justify-center max-w-7xl mx-auto px-6 md:px-20 w-full relative z-10 pt-20">
               <motion.ul 
                 variants={linkContainerVariants}
-                className="flex flex-col gap-2 md:gap-4"
+                className="flex flex-col gap-2 md:gap-4 group"
               >
-                {NAV_LINKS.map((link) => (
+                {NAV_LINKS.map((link, index) => (
                   <li key={link.href} className="overflow-hidden py-2">
                     <motion.a
                       variants={linkVariants}
                       href={link.href}
                       onClick={(e) => handleNav(e, link.href)}
-                      className={`block text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter uppercase leading-[0.9] transition-colors duration-300 hover:text-white ${
-                        activeLink === link.href ? "text-white" : "text-neutral-400"
-                      }`}
-                      style={{
-                        backgroundImage: activeLink === link.href ? "var(--gradient-hero)" : "none",
-                        WebkitBackgroundClip: activeLink === link.href ? "text" : "border-box",
-                        WebkitTextFillColor: activeLink === link.href ? "transparent" : "inherit",
-                      }}
-                      data-cursor="View"
+                      className="flex items-baseline gap-6 md:gap-10 transition-all duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] opacity-100 group-hover:opacity-30 hover:!opacity-100 hover:translate-x-4 md:hover:translate-x-8 group-hover:blur-[2px] hover:!blur-none"
+                      data-cursor="hover"
                     >
-                      {link.label}
+                      <span className="text-sm md:text-base font-medium tracking-widest text-neutral-500 font-mono">
+                        {(index + 1).toString().padStart(2, '0')}
+                      </span>
+                      <span 
+                        className="block text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter uppercase leading-[0.9] transition-colors duration-500 hover:text-transparent"
+                        style={{
+                          backgroundImage: "var(--gradient-hero)",
+                          WebkitBackgroundClip: "text",
+                          WebkitTextFillColor: "inherit", // Override until hover
+                        }}
+                      >
+                        {link.label}
+                      </span>
                     </motion.a>
                   </li>
                 ))}
               </motion.ul>
             </div>
+
+            {/* Menu Footer */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.8, ease: "easeOut" }}
+              className="max-w-7xl mx-auto px-6 md:px-20 w-full pb-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 text-xs font-mono tracking-widest text-neutral-500 uppercase"
+            >
+              <div className="flex gap-6">
+                <a href="https://linkedin.com/in/sahil-bhagat" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors" data-cursor="hover">LinkedIn</a>
+                <a href="https://github.com/sahilbhagat30" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors" data-cursor="hover">GitHub</a>
+                <a href="mailto:sahil.bhagat@nyu.edu" className="hover:text-white transition-colors" data-cursor="hover">Email</a>
+              </div>
+              <p>&copy; {new Date().getFullYear()} Sahil Bhagat. All rights reserved.</p>
+            </motion.div>
+
           </motion.div>
         )}
       </AnimatePresence>

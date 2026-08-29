@@ -234,10 +234,10 @@ export default function DigitalMagicHero() {
           <span>Design & Creative <span className="italic font-serif normal-case text-base">Direction</span></span>
         </div>
 
-        <h1 className="text-5xl md:text-7xl lg:text-[5.5rem] font-bold tracking-tight leading-[1.1] mb-12">
+        <h1 className="display font-bold tracking-tight mb-12">
           Crafting digital<br />
           experiences,<br />
-          <span className="font-serif italic font-normal text-6xl md:text-8xl lg:text-[6.5rem] block mt-2 text-white/90">
+          <span className="font-serif italic font-normal text-6xl md:text-8xl lg:text-[6.5rem] block mt-2 text-white/90" style={{ letterSpacing: 'normal' }}>
             one fold at a time.
           </span>
         </h1>

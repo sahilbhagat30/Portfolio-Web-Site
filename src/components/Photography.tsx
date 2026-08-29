@@ -219,7 +219,7 @@ export default function Photography({
                   border: "2px solid rgba(234,230,225,0.15)",
                   transformStyle: "preserve-3d" 
                 }}
-                data-cursor="View"
+                data-cursor="hover"
               >
                 <Image
                   src={photo.src}

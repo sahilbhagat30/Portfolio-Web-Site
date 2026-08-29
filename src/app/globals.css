@@ -2,7 +2,7 @@
 
 /* ─── Design Tokens ─────────────────────────────────────────────── */
 :root {
-  --background: #0C0101; /* Tiny bit more maroon */
+  --background: #03050F; /* Deepest shadow blue */
   --foreground: #A3A3A3; /* Matte Silver */
 
   /* Accent palette */
@@ -252,3 +252,152 @@ body::after {
   }
 }
 
+/* ─── Apple Design: Typography ─────────────────────────────────────── */
+.display {
+  font-size: clamp(2rem, 5vw, 4rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  font-optical-sizing: auto;
+}
+
+/* ─── Apple Design: Reduced Transparency Fallbacks ──────── */
+@media (prefers-reduced-transparency: reduce) {
+  .lg, .glass-card, liquid-glass, liquid-glass-button, .apple-material-thick, .apple-material-thin {
+    background: var(--background) !important;
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+}
+
+/* ─── Apple Liquid Glass Panel ──────────────────────────────────── */
+
+/* Prismatic border rotation */
+@keyframes liquid-prismatic-rotate {
+  0%   { --liquid-angle: 0deg; }
+  100% { --liquid-angle: 360deg; }
+}
+
+/* Edge shimmer sweep */
+@keyframes liquid-shimmer-sweep {
+  0%   { transform: translateX(-100%) skewX(-15deg); }
+  100% { transform: translateX(200%) skewX(-15deg); }
+}
+
+@property --liquid-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.liquid-glass-panel {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  border-radius: var(--glass-border-radius, 20px);
+
+  /* Frosted glass backdrop */
+  background: rgba(255, 255, 255, var(--glass-bg-opacity, 0.04));
+  backdrop-filter: blur(var(--glass-blur, 40px)) saturate(var(--glass-saturation, 180%));
+  -webkit-backdrop-filter: blur(var(--glass-blur, 40px)) saturate(var(--glass-saturation, 180%));
+
+  /* Ambient shadow */
+  box-shadow:
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    0 0 0 0.5px rgba(255, 255, 255, 0.06) inset;
+
+  transition: box-shadow 0.4s ease, background 0.4s ease;
+}
+
+.liquid-glass-panel:hover {
+  box-shadow:
+    0 12px 48px rgba(0, 0, 0, 0.5),
+    0 0 0 0.5px rgba(255, 255, 255, 0.1) inset,
+    0 0 40px rgba(255, 255, 255, 0.03);
+}
+
+/* ── Layer 1: Animated prismatic border ── */
+.liquid-glass-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px; /* border thickness */
+  background: conic-gradient(
+    from var(--liquid-angle, 0deg) at 50% 50%,
+    rgba(255, 255, 255, 0.01) 0deg,
+    rgba(200, 220, 255, var(--glass-border-opacity, 0.2)) 40deg,
+    rgba(180, 200, 255, var(--glass-border-opacity, 0.2)) 80deg,
+    rgba(255, 200, 220, var(--glass-border-opacity, 0.2)) 120deg,
+    rgba(220, 255, 220, var(--glass-border-opacity, 0.2)) 160deg,
+    rgba(200, 200, 255, var(--glass-border-opacity, 0.2)) 200deg,
+    rgba(255, 220, 200, var(--glass-border-opacity, 0.2)) 240deg,
+    rgba(200, 255, 255, var(--glass-border-opacity, 0.2)) 280deg,
+    rgba(220, 200, 255, var(--glass-border-opacity, 0.2)) 320deg,
+    rgba(255, 255, 255, 0.01) 360deg
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: liquid-prismatic-rotate 8s linear infinite;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* ── Layer 2: Removed cursor-tracking specular highlight ── */
+
+/* ── Layer 3: Ambient internal gradient (visible on dark backgrounds) ── */
+.liquid-glass-panel > .liquid-glass-ambient {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background:
+    radial-gradient(
+      ellipse 80% 60% at 30% 20%,
+      rgba(180, 200, 255, var(--glass-ambient-opacity, 0.05)) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      ellipse 60% 80% at 70% 80%,
+      rgba(255, 180, 220, var(--glass-ambient-opacity, 0.05)) 0%,
+      transparent 50%
+    ),
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.03) 0%,
+      transparent 40%,
+      transparent 60%,
+      rgba(255, 255, 255, 0.02) 100%
+    );
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── Layer 4: Top edge refraction (always visible) ── */
+.liquid-glass-panel > .liquid-glass-refraction {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(180, 200, 255, var(--glass-refraction-opacity, 0.1)) 15%,
+    rgba(255, 220, 240, var(--glass-refraction-opacity, 0.1)) 30%,
+    rgba(200, 255, 220, var(--glass-refraction-opacity, 0.1)) 50%,
+    rgba(220, 200, 255, var(--glass-refraction-opacity, 0.1)) 70%,
+    rgba(255, 240, 200, var(--glass-refraction-opacity, 0.1)) 85%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 6;
+}
+
+/* ── Reduced motion: disable the prismatic rotation ── */
+@media (prefers-reduced-motion: reduce) {
+  .liquid-glass-panel::before {
+    animation: none;
+  }
+}

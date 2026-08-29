@@ -4,6 +4,7 @@ import { motion, useSpring, useMotionValue } from "framer-motion";
 import { useState, useRef } from "react";
 import { ArrowUpRight } from "lucide-react";
 import ProjectModal from "./ProjectModal";
+import LiquidGlass from "./LiquidGlass";
 
 const BASE = process.env.NODE_ENV === "production" ? "/Portfolio-Web-Site" : "";
 
@@ -96,9 +97,9 @@ const PROJECT_DATA = [
 ];
 
 const TAG_COLORS: Record<string, { border: string; bg: string; text: string }> = {
-  violet: { border: "rgba(234,230,225,0.35)", bg: "rgba(234,230,225,0.1)",  text: "#EAE6E1" },
-  cyan:   { border: "rgba(163,163,163,0.35)",  bg: "rgba(163,163,163,0.1)", text: "#A3A3A3" },
-  amber:  { border: "rgba(214,211,209,0.35)",  bg: "rgba(214,211,209,0.1)", text: "#D6D3D1" },
+  violet: { border: "rgba(234,230,225,0.4)", bg: "rgba(234,230,225,0.08)", text: "#EAE6E1" },
+  cyan:   { border: "rgba(234,230,225,0.4)", bg: "rgba(234,230,225,0.08)", text: "#EAE6E1" },
+  amber:  { border: "rgba(234,230,225,0.4)", bg: "rgba(234,230,225,0.08)", text: "#EAE6E1" },
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -161,11 +162,12 @@ function TiltProjectCard({
       onMouseLeave={handleLeave}
       onClick={onClick}
       whileTap={{ scale: 0.97 }}
-      className="apple-active liquid-glass group relative glass-card overflow-hidden cursor-pointer"
+      className="group relative cursor-pointer"
       style={{ rotateX: rotX, rotateY: rotY, transformStyle: "preserve-3d" }}
       id={`project-${project.number}`}
-      data-cursor="View"
+      data-cursor="hover"
     >
+      <LiquidGlass borderRadius={20} className="apple-active w-full h-full overflow-hidden block">
       {/* Cursor glow */}
       <motion.div
         className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-[20px]"
@@ -175,7 +177,7 @@ function TiltProjectCard({
       />
 
       {/* Image */}
-      <div className="relative aspect-[16/9] overflow-hidden bg-white/5 flex items-center justify-center p-8">
+      <div className="relative aspect-[16/9] overflow-hidden flex items-center justify-center p-8 border-b border-white/5">
         <div className="absolute inset-0 bg-gradient-to-t from-[var(--background)] via-transparent to-transparent z-10 opacity-70 group-hover:opacity-40 transition-opacity duration-500" />
         <img
           src={project.image}
@@ -220,6 +222,7 @@ function TiltProjectCard({
           ))}
         </div>
       </div>
+      </LiquidGlass>
     </motion.article>
   );
 }
@@ -294,10 +297,11 @@ export default function Projects() {
           onClick={() => setSelectedProject(featured)}
           whileTap={{ scale: 0.97 }}
           style={{ rotateX: fRotX, rotateY: fRotY, transformStyle: "preserve-3d" }}
-          className="apple-active liquid-glass group relative glass-card overflow-hidden mb-8 cursor-pointer"
+          className="group relative mb-8 cursor-pointer"
           id={`project-${featured.number}`}
-          data-cursor="View"
+          data-cursor="hover"
         >
+          <LiquidGlass borderRadius={20} className="apple-active w-full h-full overflow-hidden block">
           {/* Cursor glow inside featured card */}
           <motion.div
             className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"
@@ -306,7 +310,7 @@ export default function Projects() {
             }}
           />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 bg-white/5">
+          <div className="grid grid-cols-1 md:grid-cols-2">
             <div className="relative aspect-[4/3] md:aspect-auto overflow-hidden flex items-center justify-center p-12">
               <div className="absolute inset-0 bg-gradient-to-r from-transparent to-[var(--background)] z-10 opacity-0 md:opacity-60 group-hover:opacity-30 transition-opacity duration-500" />
               <div className="absolute inset-0 bg-gradient-to-t from-[var(--background)] to-transparent z-10 opacity-60 group-hover:opacity-30 transition-opacity duration-500 md:hidden" />
@@ -340,7 +344,8 @@ export default function Projects() {
                 ))}
               </div>
             </div>
-          </div>
+            </div>
+          </LiquidGlass>
         </motion.article>
 
         {/* Grid */}

@@ -1,6 +1,7 @@
 "use client";
 
 import { Mail } from "lucide-react";
+import LiquidGlass from "./LiquidGlass";
 
 // Real brand SVGs - lucide-react does not include social brand icons
 function LinkedinIcon({ size = 16 }: { size?: number }) {
@@ -103,8 +104,9 @@ export function SocialCardGrid({ className = "" }: { className?: string }) {
           target={href.startsWith("mailto") ? undefined : "_blank"}
           rel={href.startsWith("mailto") ? undefined : "noopener noreferrer"}
           aria-label={label}
-          className="group flex items-center gap-4 px-6 py-4 rounded-2xl glass-card hover:border-white/20 transition-all duration-300"
+          className="group relative overflow-hidden"
         >
+          <LiquidGlass borderRadius={16} className="apple-active flex items-center gap-4 px-6 py-4 w-full h-full hover:border-white/20 transition-all duration-300">
           <div
             className="w-10 h-10 rounded-full flex items-center justify-center flex-shrink-0"
             style={{ background: "rgba(255,255,255,0.06)" }}
@@ -130,6 +132,7 @@ export function SocialCardGrid({ className = "" }: { className?: string }) {
           >
             <path d="M7 17L17 7M17 7H7M17 7v10" />
           </svg>
+          </LiquidGlass>
         </a>
       ))}
     </div>

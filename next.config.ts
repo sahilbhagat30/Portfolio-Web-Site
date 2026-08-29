@@ -10,6 +10,7 @@ const nextConfig: NextConfig = {
   assetPrefix: isProd ? `/${repoName}/` : "",
   images: {
     unoptimized: true,
+    qualities: [75, 85],
   },
 };
 

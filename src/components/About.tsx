@@ -2,6 +2,7 @@
 
 import { motion, useSpring, useMotionValue } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+import LiquidGlass from "./LiquidGlass";
 
 const SKILLS = {
   "Data & Cloud":        ["Snowflake", "BigQuery", "AWS", "dbt", "Airflow", "Databricks"],
@@ -11,8 +12,8 @@ const SKILLS = {
 
 const SKILL_COLORS: Record<string, { border: string; bg: string; text: string }> = {
   "Data & Cloud":        { border: "rgba(234,230,225,0.4)", bg: "rgba(234,230,225,0.08)", text: "#EAE6E1" },
-  "BI & Analytics":      { border: "rgba(163,163,163,0.4)", bg: "rgba(163,163,163,0.08)", text: "#A3A3A3" },
-  "Programming & Tools": { border: "rgba(214,211,209,0.4)", bg: "rgba(214,211,209,0.08)", text: "#D6D3D1" },
+  "BI & Analytics":      { border: "rgba(234,230,225,0.4)", bg: "rgba(234,230,225,0.08)", text: "#EAE6E1" },
+  "Programming & Tools": { border: "rgba(234,230,225,0.4)", bg: "rgba(234,230,225,0.08)", text: "#EAE6E1" },
 };
 
 
@@ -92,9 +93,9 @@ function CurrentlyBlock() {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: 0.3 }}
-      className="mt-10 p-5 rounded-2xl flex flex-col gap-3"
-      style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.07)" }}
+      className="mt-10 relative overflow-hidden"
     >
+      <LiquidGlass borderRadius={16} className="apple-active p-5 flex flex-col gap-3 w-full h-full block">
       <p className="text-[0.65rem] font-semibold uppercase tracking-widest text-white/30">Currently</p>
       <div className="grid grid-cols-1 gap-4">
         <div className="flex items-center gap-2">
@@ -105,6 +106,7 @@ function CurrentlyBlock() {
           </div>
         </div>
       </div>
+      </LiquidGlass>
     </motion.div>
   );
 }
@@ -244,12 +246,9 @@ export default function About() {
                   viewport={{ once: true, amount: 0.3 }}
                   custom={ci + 2}
                   variants={fadeUp}
-                  className="p-6 rounded-2xl"
-                  style={{
-                    background: "rgba(255,255,255,0.02)",
-                    border: `1px solid ${SKILL_COLORS[category].border}`,
-                  }}
+                  className="relative overflow-hidden"
                 >
+                  <LiquidGlass borderRadius={16} className="apple-active p-6 w-full h-full block">
                   <p
                     className="text-xs font-semibold tracking-[0.18em] uppercase mb-4"
                     style={{ color: SKILL_COLORS[category].text }}
@@ -277,6 +276,7 @@ export default function About() {
                       </motion.span>
                     ))}
                   </div>
+                  </LiquidGlass>
                 </motion.div>
               </TiltCard>
             ))}

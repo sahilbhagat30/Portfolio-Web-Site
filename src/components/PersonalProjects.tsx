@@ -3,6 +3,7 @@
 import { motion, useSpring, useMotionValue } from "framer-motion";
 import { useRef } from "react";
 import { ArrowUpRight, Brain, Database, LineChart, Bot } from "lucide-react";
+import LiquidGlass from "./LiquidGlass";
 
 const GithubIcon = ({ size = 24, className = "" }: { size?: number; className?: string }) => (
   <svg
@@ -54,10 +55,10 @@ const PERSONAL_PROJECTS = [
 ];
 
 const TAG_COLORS: Record<string, { border: string; bg: string; text: string }> = {
-  violet:  { border: "rgba(234,230,225,0.35)", bg: "rgba(234,230,225,0.1)",  text: "#EAE6E1" },
-  cyan:    { border: "rgba(163,163,163,0.35)",  bg: "rgba(163,163,163,0.1)", text: "#A3A3A3" },
-  amber:   { border: "rgba(214,211,209,0.35)",  bg: "rgba(214,211,209,0.1)", text: "#D6D3D1" },
-  emerald: { border: "rgba(156,163,175,0.35)",  bg: "rgba(156,163,175,0.1)", text: "#9CA3AF" },
+  violet:  { border: "rgba(234,230,225,0.4)", bg: "rgba(234,230,225,0.08)", text: "#EAE6E1" },
+  cyan:    { border: "rgba(234,230,225,0.4)", bg: "rgba(234,230,225,0.08)", text: "#EAE6E1" },
+  amber:   { border: "rgba(234,230,225,0.4)", bg: "rgba(234,230,225,0.08)", text: "#EAE6E1" },
+  emerald: { border: "rgba(234,230,225,0.4)", bg: "rgba(234,230,225,0.08)", text: "#EAE6E1" },
 };
 
 const PROJECT_ICONS: Record<string, React.ReactNode> = {
@@ -72,7 +73,7 @@ const fadeUp: any = {
   visible: (i: number) => ({
     opacity: 1,
     y: 0,
-    transition: { delay: i * 0.12, duration: 0.65, ease: [0.22, 1, 0.36, 1] },
+    transition: { type: "spring", bounce: 0, duration: 0.65, delay: i * 0.12 },
   }),
 };
 
@@ -112,9 +113,11 @@ function TiltProjectCard({ project, index }: { project: typeof PERSONAL_PROJECTS
       onMouseMove={handleMove}
       onMouseLeave={handleLeave}
       style={{ rotateX: rotX, rotateY: rotY, transformStyle: "preserve-3d", textDecoration: "none" }}
-      className="group relative glass-card overflow-hidden cursor-pointer flex flex-col"
+      whileTap={{ scale: 0.98, transition: { type: "spring", bounce: 0, duration: 0.3 } }}
+      className="group relative cursor-pointer"
       id={`personal-project-${project.id}`}
     >
+      <LiquidGlass borderRadius={20} className="apple-active w-full h-full overflow-hidden flex flex-col">
       {/* Top accent bar */}
       <div
         className="h-[3px] w-full transition-all duration-500 group-hover:opacity-100 opacity-60"
@@ -180,14 +183,9 @@ function TiltProjectCard({ project, index }: { project: typeof PERSONAL_PROJECTS
               {tag}
             </motion.span>
           ))}
+          </div>
         </div>
-      </div>
-
-      {/* Bottom hover glow line */}
-      <div
-        className="absolute bottom-0 left-0 w-full h-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-        style={{ background: `linear-gradient(90deg, transparent, ${project.accentColor}, transparent)` }}
-      />
+      </LiquidGlass>
     </motion.a>
   );
 }
@@ -256,9 +254,9 @@ export default function PersonalProjects() {
             viewport={{ once: true, amount: 0.15 }}
             custom={PERSONAL_PROJECTS.length}
             variants={fadeUp}
-            className="glass-card p-7 flex flex-col items-center justify-center gap-3 min-h-[260px]"
-            style={{ border: "1px dashed rgba(255,255,255,0.08)", background: "rgba(255,255,255,0.02)" }}
+            className="relative min-h-[260px]"
           >
+            <LiquidGlass borderRadius={20} className="apple-active w-full h-full overflow-hidden flex flex-col items-center justify-center gap-3 p-7">
             <motion.div
               animate={{ rotate: [0, 360] }}
               transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
@@ -270,6 +268,7 @@ export default function PersonalProjects() {
             <p className="text-white/20 text-sm text-center leading-relaxed">
               More projects<br />coming soon
             </p>
+            </LiquidGlass>
           </motion.div>
         </div>
       </div>

@@ -27,9 +27,9 @@ interface ProjectModalProps {
 }
 
 const TAG_COLORS: Record<string, { border: string; bg: string; text: string }> = {
-  violet: { border: "rgba(234,230,225,0.35)", bg: "rgba(234,230,225,0.1)",  text: "#EAE6E1" },
-  cyan:   { border: "rgba(163,163,163,0.35)",  bg: "rgba(163,163,163,0.1)", text: "#A3A3A3" },
-  amber:  { border: "rgba(214,211,209,0.35)",  bg: "rgba(214,211,209,0.1)", text: "#D6D3D1" },
+  violet: { border: "rgba(234,230,225,0.4)", bg: "rgba(234,230,225,0.08)", text: "#EAE6E1" },
+  cyan:   { border: "rgba(234,230,225,0.4)", bg: "rgba(234,230,225,0.08)", text: "#EAE6E1" },
+  amber:  { border: "rgba(234,230,225,0.4)", bg: "rgba(234,230,225,0.08)", text: "#EAE6E1" },
 };
 
 export default function ProjectModal({ project, isOpen, onClose }: ProjectModalProps) {
