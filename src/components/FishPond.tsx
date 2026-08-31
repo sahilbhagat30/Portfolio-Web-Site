@@ -309,7 +309,7 @@ export default function FishPond() {
     var SVG_NS = "http://www.w3.org/2000/svg";
     var TWO_PI = Math.PI * 2;
 
-    var FISH_CONFIGS = [
+    let FISH_CONFIGS: any[] = [
       { cls: "koi-1", scale: 1.5, cx: 420, cy: 150, rx: 190, ry: 75, rot: 6, dur: 52000 },
       { cls: "koi-2", scale: 1.15, cx: 1080, cy: 140, rx: 170, ry: 70, rot: -5, dur: 38000 },
       { cls: "koi-3", scale: 0.9, cx: 740, cy: 290, rx: 130, ry: 55, rot: -8, dur: 30000 },

@@ -13,7 +13,7 @@ const PROJECT_DATA = [
     number: "01",
     title: "Anywhere Real Estate",
     description:
-      "Architected scalable data pipelines and automated operational reporting for vendor productivity. Designed data models that surfaced ~$400K in actionable cost-saving opportunities through optimized resource allocation.",
+      "Built data pipelines that actually showed what vendors were doing. By connecting the dots between siloed systems, I helped leadership spot $400K in wasted spend that was hiding in plain sight.",
     image: `${BASE}/logos/anywhere.png`,
     logoFilter: "brightness(0) invert(1)",
     tags: ["Data Architecture", "Cost Optimization", "Pipeline Design"],
@@ -21,16 +21,16 @@ const PROJECT_DATA = [
     featured: true,
     link: "https://anywhere.re/",
     caseStudy: {
-      problem: "Vendor performance metrics were fragmented across multiple disconnected systems, making it nearly impossible for leadership to identify inefficiencies or allocate resources effectively.",
-      solution: "I built a unified vendor performance model by connecting existing, previously siloed data points. I engineered automated pipelines to feed this model, establishing a single source of truth.",
-      outcome: "The new reporting framework provided immediate visibility into operational bottlenecks, surfacing $400K in actionable cost avoidance and saving hours of manual reporting each week."
+      problem: "Leadership couldn't see what was happening. Vendor data was scattered across completely different systems, so nobody knew where the money or time was going.",
+      solution: "I stopped the manual spreadsheets. I wrote automated pipelines to pull everything into a single, clean model that actually made sense.",
+      outcome: "Suddenly, the bottlenecks were obvious. We found $400K in immediate cost savings and gave the team back hours of their week."
     }
   },
   {
     number: "02",
     title: "iConsult Collaborative",
     description:
-      "Engineered end-to-end data pipelines and performance measurement frameworks for healthcare workforce planning. Standardized disparate operational data into semantic layers to provide executive leadership with clear visibility into provider efficiency.",
+      "Cleaned up messy healthcare data so planners could figure out where staff were actually needed. I took completely mismatched formats and turned them into clear, reliable dashboards.",
     image: `${BASE}/logos/micron.png`,
     logoFilter: "brightness(0) invert(1)",
     tags: ["Data Pipelines", "Semantic Layer", "KPI Strategy"],
@@ -38,16 +38,16 @@ const PROJECT_DATA = [
     featured: false,
     link: "https://ischool.syr.edu/iconsult/",
     caseStudy: {
-      problem: "Healthcare workforce planners lacked clear visibility into provider efficiency due to disparate operational data spread across multiple incompatible formats.",
-      solution: "I engineered end-to-end data pipelines to ingest and standardize this data, building a robust semantic layer to serve as the foundation for a new performance measurement framework.",
-      outcome: "Executive leadership gained crystal-clear visibility into KPI metrics, allowing for data-driven decisions in workforce allocation."
+      problem: "Planners were flying blind. They couldn't figure out provider efficiency because the data was trapped in completely incompatible formats.",
+      solution: "I built a pipeline to ingest it all, standardize it, and create a single 'semantic layer'—basically, making sure everyone was finally speaking the same language.",
+      outcome: "Leadership finally had the clear numbers they needed to make real decisions about where to put their staff."
     }
   },
   {
     number: "03",
     title: "United Nations",
     description:
-      "Unified clinical, financial, and operational data architectures across 183 global healthcare facilities. Built robust analytics engineering frameworks enabling leadership to reliably track international compliance.",
+      "Brought 183 global healthcare facilities onto the same page. I took completely inconsistent local data and built a unified system so the UN could actually track what was happening worldwide.",
     image: `${BASE}/logos/UN_emblem.svg`,
     logoFilter: "brightness(0) invert(1)",
     tags: ["Global Data Infrastructure", "Analytics Engineering", "Strategy"],
@@ -55,16 +55,16 @@ const PROJECT_DATA = [
     featured: false,
     link: "https://www.un.org/",
     caseStudy: {
-      problem: "Data across 150+ global healthcare facilities was wildly inconsistent, with no standardized reporting structures, making international compliance tracking a massive manual burden.",
-      solution: "I unified clinical, financial, and operational data architectures across these facilities, implementing a standardized analytics engineering framework that forced consistency.",
-      outcome: "Leadership can now reliably track international compliance and resource allocation across all global facilities in real-time."
+      problem: "Every single facility was reporting data differently. Trying to track international compliance was a manual nightmare.",
+      solution: "I drew a line in the sand and built a standardized framework that forced consistency across clinical, financial, and operational data.",
+      outcome: "Now, leadership can actually trust the numbers and track compliance across the globe without the guesswork."
     }
   },
   {
     number: "04",
     title: "Capgemini",
     description:
-      "Automated enterprise analytics by integrating complex data pipelines across financial, sales, and HR domains. Replaced manual workflows with scalable data infrastructure, saving ~40 hours per month.",
+      "Killed the manual Excel grind. I integrated messy data across 8 different enterprise systems so the analytics team didn't have to spend 40 hours a month copying and pasting.",
     image: `${BASE}/logos/capgemini.png`,
     logoFilter: "brightness(0) invert(1)",
     tags: ["Workflow Automation", "Data Integration", "Enterprise Analytics"],
@@ -72,16 +72,16 @@ const PROJECT_DATA = [
     featured: false,
     link: "https://www.capgemini.com/",
     caseStudy: {
-      problem: "Enterprise analytics were severely bottlenecked by manual workflows and fragmented data across 8 different financial, sales, and HR systems.",
-      solution: "I integrated the messy data across all 8 enterprise systems, replacing manual Excel workflows with a scalable, automated data infrastructure.",
-      outcome: "The automated pipelines save the analytics team approximately 40 hours per month and eliminate human error from the reporting cycle."
+      problem: "The team was spending all their time just trying to get the data into one place. 8 different systems meant endless manual work.",
+      solution: "I ripped out the manual workflows and built automated pipelines to pull sales, HR, and financial data together automatically.",
+      outcome: "We got 40 hours a month back. No more manual copying, no more human error."
     }
   },
   {
     number: "05",
     title: "Tata Consultancy Services",
     description:
-      "Partnered with enterprise stakeholders to design modern data architectures and drive strategic insights. Standardized analytics methodologies and data models to optimize cross-functional operations.",
+      "Got different departments to agree on what their numbers actually meant. I sat down with stakeholders to standardize their data models so everyone was looking at the same truth.",
     image: `${BASE}/logos/Tata_Consultancy_Services_old_logo.svg`,
     logoFilter: "brightness(0) invert(1)",
     tags: ["Data Modeling", "Decision Support", "Business Analysis"],
@@ -89,9 +89,9 @@ const PROJECT_DATA = [
     featured: false,
     link: "https://www.tcs.com/",
     caseStudy: {
-      problem: "Cross-functional teams were operating on different definitions of key metrics due to unstandardized analytics methodologies.",
-      solution: "I partnered directly with enterprise stakeholders to redesign the data architecture and enforce strict data modeling standards across departments.",
-      outcome: "The standardized models aligned cross-functional operations, ensuring all teams base strategic decisions on the exact same numbers."
+      problem: "Marketing and Finance had completely different numbers for the exact same metrics because nobody was calculating things the same way.",
+      solution: "I sat down with the stakeholders, redesigned the architecture from the ground up, and enforced strict modeling standards.",
+      outcome: "The arguments stopped. Everyone finally based their strategic decisions on the exact same numbers."
     }
   },
 ];
