@@ -10,11 +10,20 @@ const lexend = Lexend({ subsets: ["latin"], variable: "--font-lexend", weight: [
 const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair", weight: ["400", "500", "600", "700", "800", "900"], style: ["normal", "italic"] });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://sahilbhagat30.github.io/Portfolio-Web-Site"),
-  title: "Sahil Bhagat | Data Engineer, Analytics",
-  description: "Data Engineer, Analytics",
+  title: "Sahil Bhagat",
+  description: "Crafting beautiful digital experiences.",
+  metadataBase: new URL("https://sahilbhagat30.github.io"),
+  openGraph: {
+    title: "Sahil Bhagat",
+    description: "Crafting beautiful digital experiences.",
+    url: "https://sahilbhagat30.github.io",
+    siteName: "Sahil Bhagat",
+    locale: "en_US",
+    type: "website",
+  },
   icons: {
-    icon: "/Portfolio-Web-Site/icon.png",
+    icon: "/icon.png",
+    apple: "/apple-icon.png",
   },
 };
 

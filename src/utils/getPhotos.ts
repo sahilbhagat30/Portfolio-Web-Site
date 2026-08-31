@@ -34,7 +34,7 @@ export function getPhotos(): PhotoData[] {
     // Read the description from metadata.json, fallback to a generic description
     const altText = metadata[file] || "A captured moment";
     
-    const base = process.env.NODE_ENV === "production" ? "/Portfolio-Web-Site" : "";
+    const base = "";
     photos.push({
       src: `${base}/photos/${file}`,
       alt: altText,

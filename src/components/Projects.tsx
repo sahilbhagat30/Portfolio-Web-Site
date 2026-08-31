@@ -6,7 +6,7 @@ import { ArrowUpRight } from "lucide-react";
 import ProjectModal from "./ProjectModal";
 import LiquidGlass from "./LiquidGlass";
 
-const BASE = process.env.NODE_ENV === "production" ? "/Portfolio-Web-Site" : "";
+const BASE = "";
 
 const PROJECT_DATA = [
   {

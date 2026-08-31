@@ -6,17 +6,7 @@ import { SOCIAL_LINKS } from "./SocialLinks";
 import LiquidGlass from "./LiquidGlass";
 
 function useBasePath() {
-  const [bp, setBp] = useState(
-    process.env.NODE_ENV === "production" ? "/Portfolio-Web-Site" : ""
-  );
-  useEffect(() => {
-    if (
-      window.location.hostname === "localhost" ||
-      window.location.hostname === "127.0.0.1"
-    ) {
-      setBp("");
-    }
-  }, []);
+  const [bp, setBp] = useState("");
   return bp;
 }
 

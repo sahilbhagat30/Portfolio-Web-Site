@@ -11,7 +11,7 @@ interface Track {
 }
 
 // Initial basePath matches SSR based on NODE_ENV
-const getInitialBasePath = () => process.env.NODE_ENV === "production" ? "/Portfolio-Web-Site" : "";
+const getInitialBasePath = () => "";
 
 const getInitialTracks = (bp: string): Track[] => [
   { title: "Track 1", artist: "Artist", file: `${bp}/music/track1.mp3`, art: `${bp}/music/art1.png` },

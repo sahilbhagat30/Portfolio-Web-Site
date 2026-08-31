@@ -3,7 +3,7 @@
 import { useEffect, useRef } from "react";
 
 const FRAME_COUNT = 120; // 000 to 119
-const base = process.env.NODE_ENV === "production" ? "/Portfolio-Web-Site" : "";
+const base = "";
 
 export default function ScrollyCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
