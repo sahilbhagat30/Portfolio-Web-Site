@@ -7,6 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { PhotoData } from "@/utils/getPhotos";
 import gsap from "gsap";
+import LiquidGlass from "./LiquidGlass";
 
 export default function Photography({
   initialPhotos = [],
@@ -150,7 +151,7 @@ export default function Photography({
   }, [initialPhotos]);
 
   return (
-    <section id="photography" className="relative py-32 overflow-hidden bg-[var(--background)]">
+    <section id="photography" className="glass-section relative py-32 overflow-hidden bg-[var(--background)]">
       <div
         aria-hidden
         className="pointer-events-none absolute top-1/2 left-0 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-[0.2] blur-[120px]"
@@ -164,13 +165,14 @@ export default function Photography({
 
       <div className="max-w-7xl mx-auto relative z-10 px-6 md:px-16 flex flex-col md:flex-row items-center gap-12 pointer-events-none">
         
-        {/* Left Side: Header Text */}
-        <div className="w-full md:w-1/3">
+        {/* Left Side: Header Text — wrapped in glass card */}
+        <div className="w-full md:w-1/3 pointer-events-auto">
+          <LiquidGlass borderRadius={20} intensity="medium" contentClassName="pointer-events-auto" className="p-7 md:p-8 w-full h-full block">
           <motion.p
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+            transition={{ type: "spring", bounce: 0, duration: 0.5 }}
             className="section-label mb-4"
           >
             Beyond the screen
@@ -179,7 +181,7 @@ export default function Photography({
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.1 }}
+            transition={{ type: "spring", bounce: 0, duration: 0.5, delay: 0.1 }}
           >
             <h2 className="text-5xl md:text-7xl font-black tracking-tighter uppercase text-transparent bg-clip-text mb-6"
                 style={{ backgroundImage: "var(--gradient-hero)" }}>
@@ -190,14 +192,15 @@ export default function Photography({
             </p>
             <Link 
               href="/photography" 
-              className="pointer-events-auto inline-flex items-center gap-3 text-sm font-medium text-[var(--foreground)] hover:text-white transition-colors group"
+              className="glass-btn inline-flex items-center gap-3 text-sm font-medium text-white/80 hover:text-white transition-colors group px-4 py-2.5 rounded-full"
             >
               View Full Gallery
-              <span className="w-8 h-8 rounded-full border border-[var(--border-accent)] flex items-center justify-center group-hover:bg-white group-hover:border-white group-hover:text-black transition-all">
-                <ArrowRight size={14} />
+              <span className="w-6 h-6 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-white group-hover:border-white group-hover:text-black transition-all">
+                <ArrowRight size={12} />
               </span>
             </Link>
           </motion.div>
+          </LiquidGlass>
         </div>
 
         {/* Right Side: 3D Sphere */}
@@ -215,8 +218,11 @@ export default function Photography({
                 ref={(el) => { itemsRef.current[i] = el; }}
                 className="w-[140px] h-[200px] md:w-[200px] md:h-[280px] rounded-sm group block shadow-2xl"
                 style={{ 
-                  background: "rgba(255,255,255,0.04)", 
-                  border: "2px solid rgba(234,230,225,0.15)",
+                  background: "rgba(255,255,255,0.05)", 
+                  border: "1.5px solid rgba(255,255,255,0.14)",
+                  backdropFilter: "blur(8px)",
+                  WebkitBackdropFilter: "blur(8px)",
+                  boxShadow: "0 4px 20px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08)",
                   transformStyle: "preserve-3d" 
                 }}
                 data-cursor="hover"

@@ -92,7 +92,7 @@ function CurrentlyBlock() {
       initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.5, delay: 0.3 }}
+      transition={{ type: "spring", bounce: 0, duration: 0.5, delay: 0.3 }}
       className="mt-10 relative overflow-hidden"
     >
       <LiquidGlass borderRadius={16} className="apple-active p-5 flex flex-col gap-3 w-full h-full block">
@@ -144,7 +144,7 @@ function TiltCard({ children, className = "" }: { children: React.ReactNode; cla
 
 export default function About() {
   return (
-    <section id="about" className="relative py-20 md:py-32 px-6 md:px-16 overflow-hidden">
+    <section id="about" className="glass-section relative py-20 md:py-32 px-6 md:px-16 overflow-hidden">
       {/* Background organic shape */}
       <div
         aria-hidden
@@ -169,8 +169,9 @@ export default function About() {
         </motion.p>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-start">
-          {/* Left: Bio */}
+          {/* Left: Bio — wrapped in glass card */}
           <div>
+            <LiquidGlass borderRadius={24} intensity="medium" className="p-8 md:p-10 w-full h-full block">
             <motion.h2
               initial="hidden"
               whileInView="visible"
@@ -191,7 +192,7 @@ export default function About() {
               variants={fadeUp}
               className="text-white/70 leading-relaxed mb-4 md:mb-5 font-medium text-base md:text-lg"
             >
-              That&apos;s the gap I close. I've sat in enough stakeholder meetings to know that the best analysis means nothing if it doesn't land with the people who need to act on it.
+              That&apos;s the gap I close. I&apos;ve sat in enough stakeholder meetings to know that the best analysis means nothing if it doesn&apos;t land with the people who need to act on it.
             </motion.p>
 
             <motion.p
@@ -229,6 +230,7 @@ export default function About() {
               <CountStat num="4+"  label="Global Orgs" />
               <CountStat num="$400K+" label="Savings Identified" />
             </motion.div>
+            </LiquidGlass>
 
             {/* Currently block */}
             <CurrentlyBlock />
@@ -248,7 +250,7 @@ export default function About() {
                   variants={fadeUp}
                   className="relative overflow-hidden"
                 >
-                  <LiquidGlass borderRadius={16} className="apple-active p-6 w-full h-full block">
+                  <LiquidGlass borderRadius={16} intensity="high" className="apple-active p-6 w-full h-full block">
                   <p
                     className="text-xs font-semibold tracking-[0.18em] uppercase mb-4"
                     style={{ color: SKILL_COLORS[category].text }}
@@ -262,9 +264,9 @@ export default function About() {
                         initial={{ opacity: 0, scale: 0.85 }}
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
-                        transition={{ delay: si * 0.05 + ci * 0.1, duration: 0.4 }}
+                        transition={{ type: "spring", bounce: 0, duration: 0.5, delay: si * 0.05 + ci * 0.1 }}
                         whileHover={{ scale: 1.1, y: -3 }}
-                        whileTap={{ scale: 0.97 }}
+                        whileTap={{ scale: 0.97, transition: { type: "spring", bounce: 0, duration: 0.3 } }}
                         className="apple-active px-3.5 py-1.5 rounded-full text-sm font-medium cursor-default transition-colors"
                         style={{
                           background: SKILL_COLORS[category].bg,

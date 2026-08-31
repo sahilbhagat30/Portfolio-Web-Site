@@ -117,7 +117,7 @@ function TiltProjectCard({ project, index }: { project: typeof PERSONAL_PROJECTS
       className="group relative cursor-pointer"
       id={`personal-project-${project.id}`}
     >
-      <LiquidGlass borderRadius={20} className="apple-active w-full h-full overflow-hidden flex flex-col">
+      <LiquidGlass borderRadius={20} intensity="high" className="apple-active w-full h-full overflow-hidden flex flex-col">
       {/* Top accent bar */}
       <div
         className="h-[3px] w-full transition-all duration-500 group-hover:opacity-100 opacity-60"
@@ -192,7 +192,7 @@ function TiltProjectCard({ project, index }: { project: typeof PERSONAL_PROJECTS
 
 export default function PersonalProjects() {
   return (
-    <section id="projects" className="relative py-20 md:py-32 px-6 md:px-16 overflow-hidden">
+    <section id="projects" className="glass-section relative py-20 md:py-32 px-6 md:px-16 overflow-hidden">
       <div
         aria-hidden
         className="pointer-events-none absolute top-1/2 left-0 -translate-y-1/2 w-[600px] h-[600px] rounded-full blur-[120px]"
@@ -210,7 +210,7 @@ export default function PersonalProjects() {
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+          transition={{ type: "spring", bounce: 0, duration: 0.5 }}
           className="section-label mb-4"
         >
           Building in public
@@ -219,7 +219,7 @@ export default function PersonalProjects() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.1 }}
+          transition={{ type: "spring", bounce: 0, duration: 0.5, delay: 0.1 }}
           className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 md:gap-6 mb-10 md:mb-16"
         >
           <h2
@@ -256,7 +256,7 @@ export default function PersonalProjects() {
             variants={fadeUp}
             className="relative min-h-[260px]"
           >
-            <LiquidGlass borderRadius={20} className="apple-active w-full h-full overflow-hidden flex flex-col items-center justify-center gap-3 p-7">
+            <LiquidGlass borderRadius={20} intensity="high" className="apple-active w-full h-full overflow-hidden flex flex-col items-center justify-center gap-3 p-7">
             <motion.div
               animate={{ rotate: [0, 360] }}
               transition={{ duration: 20, repeat: Infinity, ease: "linear" }}

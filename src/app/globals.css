@@ -12,10 +12,29 @@
   --accent-amber: #6B7280;         /* Dark Silver */
   --accent-cyan: #9CA3AF;          /* Cool Gray */
 
-  /* Surfaces */
-  --surface-1: rgba(234, 230, 225, 0.03);
-  --surface-2: rgba(234, 230, 225, 0.06);
-  --surface-3: rgba(234, 230, 225, 0.09);
+  /* Surfaces — strengthened for full glass effect */
+  --surface-1: rgba(234, 230, 225, 0.04);
+  --surface-2: rgba(234, 230, 225, 0.07);
+  --surface-3: rgba(234, 230, 225, 0.11);
+
+  /* Glass-specific tokens */
+  --glass-bg:          rgba(255, 255, 255, 0.05);
+  --glass-bg-hover:    rgba(255, 255, 255, 0.08);
+  --glass-border:      rgba(255, 255, 255, 0.12);
+  --glass-border-hover:rgba(255, 255, 255, 0.22);
+  --glass-blur:        40px;
+  --glass-saturation:  180%;
+  --glass-shadow:      0 8px 32px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.08);
+  --glass-shadow-lg:   0 24px 64px rgba(0,0,0,0.6),  inset 0 1px 0 rgba(255,255,255,0.1);
+
+  /* Iridescent tint gradient (neutral pearl — no color cast) */
+  --glass-tint: linear-gradient(
+    135deg,
+    rgba(255,255,255,0.06) 0%,
+    rgba(220,228,255,0.04) 30%,
+    rgba(255,220,240,0.03) 60%,
+    rgba(220,255,240,0.04) 100%
+  );
 
   /* Borders */
   --border-subtle: rgba(234, 230, 225, 0.1);
@@ -53,6 +72,7 @@ html {
   font-size: clamp(14px, 12.8px + 0.375vw, 20px);
   scroll-behavior: auto; /* Lenis handles smooth scroll */
   overflow-x: clip; /* clip doesn't block touch scroll on iOS */
+  font-optical-sizing: auto; /* Apple optical sizing */
 }
 
 body {
@@ -99,8 +119,30 @@ body::after {
 
 /* ─── Selection ──────────────────────────────────────────────────── */
 ::selection {
-  background: rgba(234, 230, 225, 0.25);
-  color: #fff;
+  background: rgba(255, 255, 255, 0.2);
+  color: inherit;
+}
+
+/* ─── Apple Typography ───────────────────────────────────────────── */
+/* Apply negative tracking to large display headings */
+.text-5xl, .text-6xl, .text-7xl, .text-8xl, .text-9xl {
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+
+/* ─── Apple Reduced Motion ───────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, ::before, ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  
+  /* Fallback to simple cross-fades for essential components where instant cut is too harsh */
+  .fade-in-fallback {
+    transition: opacity 200ms ease !important;
+  }
 }
 
 /* ─── Keyframe Animations ────────────────────────────────────────── */
@@ -214,16 +256,65 @@ body::after {
 
 /* ─── Utility: Glass Card ────────────────────────────────────────── */
 .glass-card {
-  background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(60px) saturate(200%);
-  -webkit-backdrop-filter: blur(60px) saturate(200%);
-  box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-  border-radius: 20px;
-  transition: background 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+  background: var(--glass-bg);
+  background-image: var(--glass-tint);
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  /* No border-radius here — let callers control it via Tailwind or inline style */
+  transition: background 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
 .glass-card:hover {
-  background: rgba(255, 255, 255, 0.04);
-  box-shadow: 0 12px 48px rgba(0,0,0,0.6), var(--shadow-glow);
+  background: var(--glass-bg-hover);
+  border-color: var(--glass-border-hover);
+  box-shadow: var(--glass-shadow-lg);
+}
+
+/* ─── Utility: Glass Input ───────────────────────────────────────── */
+.glass-input {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.1);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  color: rgba(255,255,255,0.85);
+  transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
+}
+.glass-input::placeholder { color: rgba(255,255,255,0.25); }
+.glass-input:focus {
+  outline: none;
+  border-color: rgba(255,255,255,0.25);
+  background: rgba(255,255,255,0.07);
+  box-shadow: 0 0 0 3px rgba(255,255,255,0.05), inset 0 1px 0 rgba(255,255,255,0.08);
+}
+
+/* ─── Utility: Glass Button ──────────────────────────────────────── */
+.glass-btn {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.15);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  color: rgba(255,255,255,0.85);
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+}
+.glass-btn:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.28);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.1);
+}
+
+/* ─── Utility: Section glass background tint ─────────────────────── */
+.glass-section {
+  position: relative;
+}
+.glass-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--glass-tint);
+  pointer-events: none;
+  z-index: -1; /* Behind all content, never covers anything */
 }
 
 /* ─── Apple Design: Translucent Materials ────────────────────────── */

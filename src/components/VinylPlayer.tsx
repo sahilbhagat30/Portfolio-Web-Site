@@ -144,12 +144,10 @@ export default function VinylPlayer() {
       initial={{ opacity: 0, scale: 0.8 }}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.8 }}
-      transition={{ type: "spring", stiffness: 400, damping: 28 }}
-      className="fixed bottom-6 left-6 z-50 flex items-center gap-3 px-3 py-2 rounded-full cursor-pointer select-none"
+      transition={{ type: "spring", bounce: 0, duration: 0.4 }}
+      className="fixed bottom-6 left-6 z-50 flex items-center gap-3 px-3 py-2 rounded-full cursor-pointer select-none glass-card"
       style={{
-        background: "var(--background)",
-        border: "1px solid rgba(234,230,225,0.15)", // Silver border
-        boxShadow: "0 8px 24px rgba(0,0,0,0.6)",
+        boxShadow: "0 8px 24px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.08)",
       }}
       onClick={() => setIsMinimized(false)}
       title="Expand player"
@@ -184,15 +182,13 @@ export default function VinylPlayer() {
       initial={{ opacity: 0, y: 20, scale: 0.9 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       exit={{ opacity: 0, y: 20, scale: 0.9 }}
-      transition={{ type: "spring", stiffness: 380, damping: 28 }}
-      className="fixed bottom-6 left-6 z-50 overflow-hidden cursor-pointer select-none"
+      transition={{ type: "spring", bounce: 0, duration: 0.4 }}
+      className="fixed bottom-6 left-6 z-50 overflow-hidden cursor-pointer select-none glass-card"
       style={{
         width: "220px",
         height: "220px",
         borderRadius: "28px",
-        background: "var(--background)",
-        border: "1px solid rgba(234,230,225,0.15)", // Silver border
-        boxShadow: "0 24px 48px rgba(0,0,0,0.7), inset 0 1px 0 rgba(234,230,225,0.08)",
+        boxShadow: "0 24px 48px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.1)",
       }}
       onClick={() => setIsMinimized(true)}
       title="Click anywhere to minimise"
@@ -239,7 +235,7 @@ export default function VinylPlayer() {
         onClick={(e) => { e.stopPropagation(); togglePlay(); }}
         title={isPlaying ? "Lift needle to pause" : "Drop needle to play"}
         animate={{ rotate: isPlaying ? -22 : 0 }}
-        transition={{ type: "spring", stiffness: 220, damping: 22 }}
+        transition={{ type: "spring", bounce: 0, duration: 0.4 }}
         whileHover={{ scale: 1.04 }}
       >
         <svg width="60" height="40" viewBox="0 0 60 40" className="drop-shadow-lg cursor-pointer">

@@ -3,6 +3,7 @@
 import { useRef, useState, useEffect, useCallback } from "react";
 import { motion, useScroll, useTransform, useSpring, useMotionValueEvent, AnimatePresence, useMotionValue } from "framer-motion";
 import { SOCIAL_LINKS } from "./SocialLinks";
+import LiquidGlass from "./LiquidGlass";
 
 function useBasePath() {
   const [bp, setBp] = useState(
@@ -38,7 +39,7 @@ function SparkBurst() {
       style={{ top: "50%", left: "50%", x: "-50%", y: "-50%" }}
       initial={{ opacity: 1 }}
       animate={{ opacity: 0 }}
-      transition={{ duration: 1.2, ease: "easeOut" }}
+      transition={{ type: "spring", bounce: 0, duration: 0.8 }}
     >
       {sparks.map((s) => (
         <motion.div
@@ -59,7 +60,7 @@ function SparkBurst() {
             scale: 0,
             opacity: 0,
           }}
-          transition={{ duration: s.duration, ease: "easeOut" }}
+          transition={{ type: "spring", bounce: 0, duration: 0.8 }}
         />
       ))}
       {/* Central flash */}
@@ -77,7 +78,7 @@ function SparkBurst() {
         }}
         initial={{ scale: 1, opacity: 1 }}
         animate={{ scale: 4, opacity: 0 }}
-        transition={{ duration: 0.8, ease: "easeOut" }}
+        transition={{ type: "spring", bounce: 0, duration: 0.6 }}
       />
     </motion.div>
   );
@@ -154,7 +155,7 @@ export default function TheEnd() {
     <section
       ref={sectionRef}
       id="contact"
-      className="relative w-full bg-[var(--background)] pt-16 pb-20"
+      className="glass-section relative w-full bg-[var(--background)] pt-16 pb-20"
     >
       {/* Top divider */}
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 mb-14">
@@ -164,14 +165,15 @@ export default function TheEnd() {
       {/* Three-column layout */}
       <div className="max-w-[1400px] mx-auto px-6 md:px-12 flex flex-col lg:flex-row items-center gap-8 lg:gap-10">
 
-        {/* LEFT: THE END */}
+        {/* LEFT: THE END — glass card */}
         <motion.div
-          className="shrink-0 lg:w-[200px] text-left"
+          className="shrink-0 lg:w-[260px] text-left"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
+          transition={{ type: "spring", bounce: 0, duration: 0.6 }}
         >
+          <LiquidGlass borderRadius={20} intensity="medium" className="p-7 block w-full h-full">
           <h2
             className="font-extrabold leading-[0.9] text-white"
             style={{ fontSize: "clamp(3rem, 4.5vw, 5rem)", letterSpacing: "-0.03em" }}
@@ -181,6 +183,7 @@ export default function TheEnd() {
           <p className="mt-4 font-light text-sm leading-relaxed" style={{ color: "rgba(234,230,225,0.6)" }}>
             Or the beginning of us<br />working together?
           </p>
+          </LiquidGlass>
         </motion.div>
 
         {/* CENTER: Hands canvas */}
@@ -190,18 +193,18 @@ export default function TheEnd() {
           initial={{ opacity: 0, scale: 0.98 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
+          transition={{ type: "spring", bounce: 0, duration: 0.6 }}
           style={{
             aspectRatio: "16 / 9",
             maxHeight: "420px",
             borderRadius: "20px",
             overflow: "hidden",
             isolation: "isolate",
-            border: `1px solid ${hasConnected ? "rgba(234,230,225,0.2)" : "rgba(255,255,255,0.06)"}`,
+            border: `1px solid ${hasConnected ? "rgba(234,230,225,0.3)" : "rgba(255,255,255,0.1)"}`,
             background: "#050505",
             boxShadow: hasConnected
-              ? "0 32px 80px rgba(0,0,0,0.65), 0 0 40px rgba(234,230,225,0.08)"
-              : "0 32px 80px rgba(0,0,0,0.65), inset 0 1px 0 rgba(255,255,255,0.03)",
+              ? "0 32px 80px rgba(0,0,0,0.65), 0 0 40px rgba(234,230,225,0.12), inset 0 1px 0 rgba(255,255,255,0.1)"
+              : "0 32px 80px rgba(0,0,0,0.65), inset 0 1px 0 rgba(255,255,255,0.06)",
             transition: "border-color 0.6s, box-shadow 0.6s",
           }}
         >
@@ -283,14 +286,15 @@ export default function TheEnd() {
           </p>
         </motion.div>
 
-        {/* RIGHT: SAY HEY + Contact Form */}
+        {/* RIGHT: SAY HEY + Contact Form — glass card */}
         <motion.div
           className="shrink-0 lg:w-[280px] text-left flex flex-col"
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.1 }}
+          transition={{ type: "spring", bounce: 0, duration: 0.6, delay: 0.1 }}
         >
+          <LiquidGlass borderRadius={20} intensity="medium" contentClassName="flex flex-col h-full" className="p-7 block w-full h-full">
           <h2
             className="font-extrabold leading-[0.9] text-white"
             style={{ fontSize: "clamp(2.5rem, 3.5vw, 4rem)", letterSpacing: "-0.03em" }}
@@ -298,7 +302,7 @@ export default function TheEnd() {
             SAY HEY
           </h2>
           <p className="mt-3 mb-6 font-light text-sm leading-relaxed" style={{ color: "rgba(234,230,225,0.55)" }}>
-            Let's build something together.
+            Let&apos;s build something together.
           </p>
 
           <form 
@@ -322,24 +326,24 @@ export default function TheEnd() {
               type="text" 
               placeholder="Name" 
               required
-              className="bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-white/30 focus:bg-white/10 transition-colors"
+              className="glass-input rounded-xl px-4 py-2.5 text-sm w-full"
             />
             <input 
               type="email" 
               placeholder="Email" 
               required
-              className="bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-white/30 focus:bg-white/10 transition-colors"
+              className="glass-input rounded-xl px-4 py-2.5 text-sm w-full"
             />
             <textarea 
               placeholder="Message" 
               required
               rows={3}
-              className="bg-white/5 border border-white/10 rounded-lg px-4 py-2.5 text-sm text-white placeholder:text-white/30 focus:outline-none focus:border-white/30 focus:bg-white/10 transition-colors resize-none"
+              className="glass-input rounded-xl px-4 py-2.5 text-sm w-full resize-none"
             />
             <motion.button 
               type="submit"
-              whileTap={{ scale: 0.97 }}
-              className="apple-active bg-white text-black font-semibold text-sm rounded-lg py-2.5 mt-1 hover:bg-[#EAE6E1] transition-colors"
+              whileTap={{ scale: 0.97, transition: { type: "spring", bounce: 0, duration: 0.3 } }}
+              className="glass-btn w-full font-semibold text-sm rounded-xl py-2.5 mt-1 text-white"
             >
               Send Message
             </motion.button>
@@ -354,26 +358,17 @@ export default function TheEnd() {
                 target="_blank"
                 rel="noopener noreferrer"
                 whileHover={{ scale: 1.1, y: -2 }}
-                whileTap={{ scale: 0.97 }}
-                className="apple-active w-10 h-10 rounded-full flex items-center justify-center transition-colors group"
-                style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)" }}
-                onMouseEnter={(e) => {
-                  const el = e.currentTarget as HTMLElement;
-                  el.style.background = "rgba(234,230,225,0.08)";
-                  el.style.borderColor = "rgba(234,230,225,0.3)";
-                }}
-                onMouseLeave={(e) => {
-                  const el = e.currentTarget as HTMLElement;
-                  el.style.background = "rgba(255,255,255,0.03)";
-                  el.style.borderColor = "rgba(255,255,255,0.06)";
-                }}
+                whileTap={{ scale: 0.97, transition: { type: "spring", bounce: 0, duration: 0.3 } }}
+                className="glass-btn w-10 h-10 rounded-full flex items-center justify-center transition-all group"
+                style={{ backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)" }}
               >
-                <span className="text-white/40 group-hover:text-white transition-colors">
+                <span className="text-white/50 group-hover:text-white transition-colors">
                   <Icon size={16} />
                 </span>
               </motion.a>
             ))}
           </div>
+          </LiquidGlass>
         </motion.div>
       </div>
 

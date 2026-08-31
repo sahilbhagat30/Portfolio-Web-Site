@@ -8,8 +8,10 @@ export default function Cursor() {
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
 
-  const springConfig = { damping: 28, stiffness: 350, mass: 0.5 };
-  const ringConfig   = { damping: 20, stiffness: 150, mass: 0.8 };
+  // Apple 1:1 direct tracking for the dot (almost instant)
+  const springConfig = { bounce: 0, duration: 0.05 };
+  // The ring lags slightly for a fluid feel, but remains critically damped
+  const ringConfig   = { bounce: 0, duration: 0.3 };
 
   const dotX  = useSpring(cursorX, springConfig);
   const dotY  = useSpring(cursorY, springConfig);
@@ -118,7 +120,7 @@ export default function Cursor() {
           marginTop: "-4px",
         }}
         animate={dotVariants[variant]}
-        transition={{ duration: 0.15, ease: "easeOut" }}
+        transition={{ type: "spring", bounce: 0, duration: 0.2 }}
         className="rounded-full shadow-sm"
       />
 
@@ -134,7 +136,7 @@ export default function Cursor() {
           marginTop: variant === "custom" ? "-36px" : "-18px",
         }}
         animate={ringVariants[variant]}
-        transition={{ duration: 0.25, ease: "easeOut" }}
+        transition={{ type: "spring", bounce: 0, duration: 0.3 }}
         className="flex items-center justify-center rounded-full"
       >
         <LiquidGlass 

@@ -73,8 +73,8 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-            className="absolute inset-0 bg-black/60 backdrop-blur-sm cursor-pointer"
+            transition={{ type: "spring", bounce: 0, duration: 0.6 }}
+            className="absolute inset-0 bg-black/70 backdrop-blur-md cursor-pointer"
             onClick={onClose}
           />
 
@@ -99,7 +99,15 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 100, scale: 0.95 }}
               transition={{ type: "spring", bounce: 0, duration: 0.4 }} // Critically damped default (SKILL.md §4)
-              className="apple-material-thick liquid-glass relative w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-3xl shadow-2xl flex flex-col md:flex-row"
+              className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-3xl shadow-2xl flex flex-col md:flex-row"
+              style={{
+                background: "rgba(8, 10, 24, 0.88)",
+                backdropFilter: "blur(60px) saturate(200%)",
+                WebkitBackdropFilter: "blur(60px) saturate(200%)",
+                backgroundImage: "var(--glass-tint)",
+                border: "1px solid rgba(255,255,255,0.12)",
+                boxShadow: "0 40px 100px rgba(0,0,0,0.7), inset 0 1px 0 rgba(255,255,255,0.1)",
+              }}
               onClick={(e) => e.stopPropagation()}
             >
               {/* Mobile Drag Handle */}
@@ -115,7 +123,8 @@ export default function ProjectModal({ project, isOpen, onClose }: ProjectModalP
               <motion.button
                 onClick={onClose}
                 whileTap={{ scale: 0.97 }}
-                className="apple-active absolute top-6 right-6 z-20 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center transition-colors border border-white/5"
+                className="glass-btn absolute top-6 right-6 z-20 w-8 h-8 rounded-full flex items-center justify-center border"
+                style={{ borderColor: "rgba(255,255,255,0.15)" }}
               >
                 <X size={16} className="text-white/70" />
               </motion.button>

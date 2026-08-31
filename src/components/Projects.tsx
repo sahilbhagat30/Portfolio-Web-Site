@@ -161,13 +161,13 @@ function TiltProjectCard({
       onMouseMove={handleMove}
       onMouseLeave={handleLeave}
       onClick={onClick}
-      whileTap={{ scale: 0.97 }}
+      whileTap={{ scale: 0.97, transition: { type: "spring", bounce: 0, duration: 0.3 } }}
       className="group relative cursor-pointer"
       style={{ rotateX: rotX, rotateY: rotY, transformStyle: "preserve-3d" }}
       id={`project-${project.number}`}
       data-cursor="hover"
     >
-      <LiquidGlass borderRadius={20} className="apple-active w-full h-full overflow-hidden block">
+      <LiquidGlass borderRadius={20} intensity="high" className="apple-active w-full h-full overflow-hidden block">
       {/* Cursor glow */}
       <motion.div
         className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none rounded-[20px]"
@@ -255,7 +255,7 @@ export default function Projects() {
   const featLeave = () => { fRotX.set(0); fRotY.set(0); };
 
   return (
-    <section id="work" className="relative py-20 md:py-32 px-6 md:px-16 overflow-hidden">
+    <section id="work" className="glass-section relative py-20 md:py-32 px-6 md:px-16 overflow-hidden">
       <div
         aria-hidden
         className="pointer-events-none absolute top-1/2 right-0 -translate-y-1/2 w-[500px] h-[500px] rounded-full blur-[120px]"
@@ -268,7 +268,7 @@ export default function Projects() {
           initial={{ opacity: 0, y: 16 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+          transition={{ type: "spring", bounce: 0, duration: 0.5 }}
           className="section-label mb-4"
         >
           Experience
@@ -277,7 +277,7 @@ export default function Projects() {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.1 }}
+          transition={{ type: "spring", bounce: 0, duration: 0.5, delay: 0.1 }}
           className="text-4xl md:text-5xl font-bold mb-10 md:mb-16 tracking-tight"
           style={{ letterSpacing: "-0.02em" }}
         >
@@ -291,17 +291,17 @@ export default function Projects() {
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, amount: 0.1 }}
-          transition={{ duration: 0.75, ease: [0.22, 1, 0.36, 1] }}
+          transition={{ type: "spring", bounce: 0, duration: 0.6 }}
           onMouseMove={featMove}
           onMouseLeave={featLeave}
           onClick={() => setSelectedProject(featured)}
-          whileTap={{ scale: 0.97 }}
+          whileTap={{ scale: 0.97, transition: { type: "spring", bounce: 0, duration: 0.3 } }}
           style={{ rotateX: fRotX, rotateY: fRotY, transformStyle: "preserve-3d" }}
           className="group relative mb-8 cursor-pointer"
           id={`project-${featured.number}`}
           data-cursor="hover"
         >
-          <LiquidGlass borderRadius={20} className="apple-active w-full h-full overflow-hidden block">
+          <LiquidGlass borderRadius={20} intensity="high" className="apple-active w-full h-full overflow-hidden block">
           {/* Cursor glow inside featured card */}
           <motion.div
             className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none"

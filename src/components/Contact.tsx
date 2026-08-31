@@ -131,7 +131,7 @@ function ScrollToTop() {
       onClick={handleClick}
       initial={{ opacity: 0, scale: 0 }}
       animate={{ opacity: visible ? 1 : 0, scale: visible ? 1 : 0 }}
-      transition={{ duration: 0.3 }}
+      transition={{ type: "spring", bounce: 0, duration: 0.4 }}
       className="fixed bottom-8 right-8 z-50 w-12 h-12 rounded-full flex items-center justify-center text-xl cursor-pointer"
       style={{
         background: "rgba(234,230,225,0.15)",
@@ -212,7 +212,7 @@ export default function Contact() {
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
+            transition={{ type: "spring", bounce: 0, duration: 0.5 }}
             className="section-label mb-6"
           >
             Connect
@@ -223,7 +223,7 @@ export default function Contact() {
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ type: "spring", bounce: 0, duration: 0.7, delay: 0.1 }}
             className="font-black leading-none mb-6"
             style={{ fontSize: "clamp(3rem, 7vw, 7rem)", letterSpacing: "-0.04em" }}
           >
@@ -235,7 +235,7 @@ export default function Contact() {
             initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
+            transition={{ type: "spring", bounce: 0, duration: 0.6, delay: 0.2 }}
             className="text-white/40 max-w-md mx-auto mb-10 text-base leading-relaxed"
           >
             Whether it&apos;s a data challenge, a collaboration, or just a conversation. My inbox is always open.
@@ -246,7 +246,7 @@ export default function Contact() {
             initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.3 }}
+            transition={{ type: "spring", bounce: 0, duration: 0.6, delay: 0.3 }}
             className="mb-8"
           >
             <AnimatedEmail />
@@ -257,7 +257,7 @@ export default function Contact() {
             initial={{ opacity: 0, y: 12 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.4 }}
+            transition={{ type: "spring", bounce: 0, duration: 0.5, delay: 0.4 }}
             className="mb-16 flex justify-center"
           >
             <RippleButton href="mailto:sahilbhagat1497@gmail.com">

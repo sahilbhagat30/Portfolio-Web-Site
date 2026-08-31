@@ -1,7 +1,7 @@
 "use client";
 
 import { Canvas, useFrame } from "@react-three/fiber";
-import { useRef, useMemo, useEffect, useState } from "react";
+import React, { useRef, useMemo, useEffect, useState, Component, ReactNode } from "react";
 import * as THREE from "three";
 
 // --- FLUID SHADER ---
@@ -174,21 +174,71 @@ function FluidShader() {
   );
 }
 
+class ShaderErrorBoundary extends Component<{ children: ReactNode }, { hasError: boolean }> {
+  constructor(props: { children: ReactNode }) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError() {
+    return { hasError: true };
+  }
+
+  componentDidCatch(error: any) {
+    console.warn("ShaderBackground WebGL error caught:", error);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      return null;
+    }
+    return this.props.children;
+  }
+}
+
+function isWebGLAvailable() {
+  try {
+    const canvas = document.createElement("canvas");
+    return !!(window.WebGLRenderingContext && (canvas.getContext("webgl") || canvas.getContext("experimental-webgl")));
+  } catch (e) {
+    return false;
+  }
+}
+
 export default function ShaderBackground() {
   const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
+  const [webglEnabled, setWebglEnabled] = useState(true);
 
-  if (!mounted) return null;
+  useEffect(() => {
+    setMounted(true);
+    setWebglEnabled(isWebGLAvailable());
+
+    // Catch async WebGL errors from react-three-fiber that escape the ErrorBoundary
+    const handleUnhandledRejection = (event: PromiseRejectionEvent) => {
+      if (event.reason && typeof event.reason.message === "string" && event.reason.message.includes("WebGLRenderer")) {
+        console.warn("Caught async WebGLRenderer error, falling back to CSS background.");
+        event.preventDefault();
+        setWebglEnabled(false);
+      }
+    };
+    
+    window.addEventListener("unhandledrejection", handleUnhandledRejection);
+    return () => window.removeEventListener("unhandledrejection", handleUnhandledRejection);
+  }, []);
+
+  if (!mounted || !webglEnabled) return null;
 
   return (
     <div className="fixed inset-0 z-0 pointer-events-none w-full h-full">
-      <Canvas
-        camera={{ position: [0, 0, 1] }}
-        gl={{ powerPreference: "high-performance", alpha: false, antialias: false }}
-        dpr={[1, 1.5]}
-      >
-        <FluidShader />
-      </Canvas>
+      <ShaderErrorBoundary>
+        <Canvas
+          camera={{ position: [0, 0, 1] }}
+          gl={{ powerPreference: "high-performance", alpha: false, antialias: false }}
+          dpr={0.5}
+        >
+          <FluidShader />
+        </Canvas>
+      </ShaderErrorBoundary>
     </div>
   );
 }

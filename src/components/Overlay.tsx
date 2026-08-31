@@ -91,7 +91,7 @@ function ScrollCue() {
       className="mt-12 flex flex-col items-start gap-2"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ delay: 1.4, duration: 0.6 }}
+      transition={{ type: "spring", bounce: 0, duration: 0.6, delay: 1.4 }}
     >
       <div className="flex items-center gap-3">
         <div className="w-8 h-[1px] bg-white/20" />
@@ -197,7 +197,7 @@ export default function Overlay() {
               <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
-                transition={{ delay: 1.0, duration: 0.5 }}
+                transition={{ type: "spring", bounce: 0, duration: 0.5, delay: 1.0 }}
                 className="mt-4 h-6 flex items-center"
               >
                 <span className="text-white/50 text-sm font-mono tracking-widest">
@@ -217,7 +217,7 @@ export default function Overlay() {
               <motion.div
                 initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.9, duration: 0.6 }}
+                transition={{ type: "spring", bounce: 0, duration: 0.6, delay: 0.9 }}
                 className="mt-6 md:mt-10 flex gap-5 md:gap-8"
               >
                 <StatItem value="5+" label="Years Experience" />

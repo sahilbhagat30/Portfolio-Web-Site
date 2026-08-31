@@ -44,7 +44,7 @@ export default function Preloader() {
           className="fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[var(--background)] origin-top"
           initial={{ y: 0 }}
           exit={{ y: "-100%" }}
-          transition={{ duration: 1.2, ease: [0.76, 0, 0.24, 1] }}
+          transition={{ type: "spring", bounce: 0, duration: 0.8 }}
         >
           {/* Subtle noise overlay */}
           <div className="absolute inset-0 noise-overlay opacity-30" />
@@ -59,7 +59,7 @@ export default function Preloader() {
                 }}
                 initial={{ y: "100%" }}
                 animate={{ y: 0 }}
-                transition={{ duration: 0.8, ease: [0.76, 0, 0.24, 1] }}
+                transition={{ type: "spring", bounce: 0, duration: 0.8 }}
               >
                 {progress}
               </motion.div>

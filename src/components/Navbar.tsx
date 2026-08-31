@@ -15,11 +15,11 @@ const NAV_LINKS = [
 const menuVariants: Variants = {
   closed: {
     opacity: 0,
-    transition: { duration: 0.4, ease: "easeOut" }
+    transition: { type: "spring", bounce: 0, duration: 0.4 }
   },
   open: {
     opacity: 1,
-    transition: { duration: 0.5, ease: "easeOut" }
+    transition: { type: "spring", bounce: 0, duration: 0.5 }
   }
 };
 
@@ -33,8 +33,8 @@ const linkContainerVariants: Variants = {
 };
 
 const linkVariants: Variants = {
-  closed: { y: "100%", opacity: 0, rotate: 5, transition: { duration: 0.5, ease: [0.76, 0, 0.24, 1] } },
-  open: { y: "0%", opacity: 1, rotate: 0, transition: { duration: 0.7, ease: [0.76, 0, 0.24, 1] } }
+  closed: { y: "100%", opacity: 0, rotate: 5, transition: { type: "spring", bounce: 0, duration: 0.5 } },
+  open: { y: "0%", opacity: 1, rotate: 0, transition: { type: "spring", bounce: 0, duration: 0.7 } }
 };
 
 export default function Navbar() {
@@ -78,18 +78,28 @@ export default function Navbar() {
     <nav className="fixed inset-0 z-[100] pointer-events-none">
       {/* Hamburger Button Container */}
       <div className="absolute top-0 right-0 p-6 md:p-8 lg:p-10">
-        <button
+        <motion.button
           aria-label="Toggle menu"
           onClick={() => setMenuOpen(!menuOpen)}
-          className={`pointer-events-auto flex flex-col items-center justify-center gap-1.5 w-14 h-14 z-[110] relative group transition-all duration-500 ease-out rounded-full ${
-            scrolled && !menuOpen ? "apple-material-thick shadow-lg border border-white/10" : "hover:bg-white/10"
+          whileTap={{ scale: 0.9 }}
+          transition={{ type: "spring", bounce: 0, duration: 0.3 }}
+          className={`pointer-events-auto flex flex-col items-center justify-center gap-1.5 w-14 h-14 z-[110] relative group transition-colors duration-300 rounded-full ${
+            scrolled && !menuOpen
+              ? "glass-card shadow-lg"
+              : menuOpen
+              ? "glass-btn"
+              : "hover:bg-white/8"
           }`}
+          style={{
+            backdropFilter: scrolled || menuOpen ? "blur(24px) saturate(180%)" : undefined,
+            WebkitBackdropFilter: scrolled || menuOpen ? "blur(24px) saturate(180%)" : undefined,
+          }}
           data-cursor="hover"
         >
           <span className={`block w-6 h-0.5 bg-white transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] ${menuOpen ? "rotate-45 translate-y-2 absolute" : ""}`} />
           <span className={`block w-6 h-0.5 bg-white transition-opacity duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] ${menuOpen ? "opacity-0" : ""}`} />
           <span className={`block w-6 h-0.5 bg-white transition-transform duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] ${menuOpen ? "-rotate-45 absolute" : ""}`} />
-        </button>
+        </motion.button>
       </div>
 
       {/* Popover Menu Container */}
@@ -101,19 +111,27 @@ export default function Navbar() {
             animate="open"
             exit="closed"
             variants={menuVariants}
-            className="absolute inset-0 z-[90] pointer-events-auto flex flex-col justify-between border-none rounded-none"
-            style={{ 
-              background: "rgba(3, 5, 15, 0.75)",
-              backdropFilter: "blur(32px) saturate(150%)",
-              WebkitBackdropFilter: "blur(32px) saturate(150%)"
+            className="absolute inset-0 z-[90] pointer-events-auto flex flex-col justify-between border-none rounded-none overflow-hidden"
+            style={{
+              background: "rgba(3, 5, 15, 0.82)",
+              backdropFilter: "blur(48px) saturate(200%)",
+              WebkitBackdropFilter: "blur(48px) saturate(200%)",
+              backgroundImage: "var(--glass-tint)",
+              borderBottom: "1px solid rgba(255,255,255,0.07)",
             }}
           >
             <div className="absolute inset-0 noise-overlay opacity-40 pointer-events-none -z-10" />
+            {/* Top edge refraction line */}
+            <div
+              className="absolute top-0 left-0 right-0 h-px pointer-events-none"
+              style={{ background: "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.12) 30%, rgba(220,228,255,0.12) 60%, transparent 100%)" }}
+            />
             
-            <div className="flex-1 flex flex-col justify-center max-w-7xl mx-auto px-6 md:px-20 w-full relative z-10 pt-20">
-              <motion.ul 
+            <div className="h-full flex flex-col justify-between">
+              <div className="flex-1 flex flex-col justify-center max-w-7xl mx-auto px-6 md:px-20 w-full relative z-10 pt-16 pb-8">
+                <motion.ul 
                 variants={linkContainerVariants}
-                className="flex flex-col gap-2 md:gap-4 group"
+                className="flex flex-col gap-1 sm:gap-2 md:gap-4 group"
               >
                 {NAV_LINKS.map((link, index) => (
                   <li key={link.href} className="overflow-hidden py-2">
@@ -121,18 +139,18 @@ export default function Navbar() {
                       variants={linkVariants}
                       href={link.href}
                       onClick={(e) => handleNav(e, link.href)}
-                      className="flex items-baseline gap-6 md:gap-10 transition-all duration-500 ease-[cubic-bezier(0.76,0,0.24,1)] opacity-100 group-hover:opacity-30 hover:!opacity-100 hover:translate-x-4 md:hover:translate-x-8 group-hover:blur-[2px] hover:!blur-none"
+                      className="flex items-baseline gap-6 md:gap-10 transition-all duration-300 ease-out opacity-100 group-hover:opacity-30 hover:!opacity-100 hover:translate-x-4 md:hover:translate-x-8 group-hover:blur-[2px] hover:!blur-none"
                       data-cursor="hover"
                     >
                       <span className="text-sm md:text-base font-medium tracking-widest text-neutral-500 font-mono">
                         {(index + 1).toString().padStart(2, '0')}
                       </span>
                       <span 
-                        className="block text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter uppercase leading-[0.9] transition-colors duration-500 hover:text-transparent"
+                        className="block font-black tracking-tighter uppercase leading-[0.85] transition-colors duration-500 hover:text-transparent text-[clamp(1.5rem,min(10vw,7.5vh),6rem)]"
                         style={{
                           backgroundImage: "var(--gradient-hero)",
                           WebkitBackgroundClip: "text",
-                          WebkitTextFillColor: "inherit", // Override until hover
+                          WebkitTextFillColor: "inherit",
                         }}
                       >
                         {link.label}
@@ -143,20 +161,21 @@ export default function Navbar() {
               </motion.ul>
             </div>
 
-            {/* Menu Footer */}
             <motion.div 
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.8, ease: "easeOut" }}
+              transition={{ type: "spring", bounce: 0, duration: 0.8, delay: 0.4 }}
               className="max-w-7xl mx-auto px-6 md:px-20 w-full pb-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 text-xs font-mono tracking-widest text-neutral-500 uppercase"
+              style={{ borderTop: "1px solid rgba(255,255,255,0.05)" }}
             >
-              <div className="flex gap-6">
+              <div className="flex gap-6 pt-4">
                 <a href="https://linkedin.com/in/sahil-bhagat" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors" data-cursor="hover">LinkedIn</a>
                 <a href="https://github.com/sahilbhagat30" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors" data-cursor="hover">GitHub</a>
                 <a href="mailto:sahil.bhagat@nyu.edu" className="hover:text-white transition-colors" data-cursor="hover">Email</a>
               </div>
               <p>&copy; {new Date().getFullYear()} Sahil Bhagat. All rights reserved.</p>
             </motion.div>
+          </div>
 
           </motion.div>
         )}

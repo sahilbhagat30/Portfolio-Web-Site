@@ -6,6 +6,8 @@ interface LiquidGlassProps {
   children: ReactNode;
   borderRadius?: number;
   className?: string;
+  /** Classes applied to the inner content wrapper (use for flex/grid layouts) */
+  contentClassName?: string;
   /** Controls the intensity of the glass effect */
   intensity?: "low" | "medium" | "high";
   /** Distortion scale (0 = none, higher = more warping). Default: 50 */
@@ -18,9 +20,6 @@ interface LiquidGlassProps {
   fixedTextureSize?: number;
 }
 
-// Embedded normal map for the distortion displacement (from react-glass-ui)
-const DISTORTION_MAP =
-  "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAQAAAAEACAIAAADTED8xAAAAK3RFWHRDcmVhdGlvbiBUaW1lAE1vbiAxIEp1biAyMDA5IDAwOjUwOjA4ICswMTAwlMZeaQAAAAd0SU1FB9kGAQsgET14njMAAAAJcEhZcwAACxEAAAsRAX9kX5EAAAAEZ0FNQQAAsY8L/GEFAAACvUlEQVR42u3TgQkAMAzDsBb2/81ld1gi5APvzKxZde8fVAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkCIE0ApAmANAGQJgDSBECaAEgTAGkHGmUF/FFYhBoAAAAASUVORK5CYII=";
 
 /**
  * Apple-style Liquid Glass component.
@@ -37,6 +36,7 @@ export default function LiquidGlass({
   children,
   borderRadius = 20,
   className = "",
+  contentClassName = "",
   intensity = "medium",
   distortion = 50,
   blur: blurOverride,
@@ -121,84 +121,21 @@ export default function LiquidGlass({
         ...style,
       } as React.CSSProperties}
     >
-      {/* SVG distortion filter definition */}
-      {distortion > 0 && (
-        <svg
-          style={{
-            position: "absolute",
-            width: "100%",
-            height: "100%",
-            top: 0,
-            left: 0,
-            pointerEvents: "none",
-          }}
-          aria-hidden
-        >
-          <clipPath id={clipId}>
-            <rect
-              x="0"
-              y="0"
-              width="100%"
-              height="100%"
-              rx={borderRadius}
-              ry={borderRadius}
-            />
-          </clipPath>
-          <defs>
-            <filter
-              id={filterId}
-              x="-20%"
-              y="-20%"
-              width="140%"
-              height="140%"
-              colorInterpolationFilters="sRGB"
-            >
-              <feImage
-                x="0"
-                y="0"
-                width={fixedTextureSize ? `${fixedTextureSize}` : "100%"}
-                height={fixedTextureSize ? `${fixedTextureSize}` : "100%"}
-                href={DISTORTION_MAP}
-                result="normalMap"
-                preserveAspectRatio={fixedTextureSize ? "xMinYMin slice" : "xMidYMid slice"}
-              />
-              <feDisplacementMap
-                in="SourceGraphic"
-                in2="normalMap"
-                scale={distortion}
-                xChannelSelector="R"
-                yChannelSelector="G"
-                result="distorted"
-              />
-              <feComposite
-                in="distorted"
-                in2="SourceGraphic"
-                operator="in"
-              />
-            </filter>
-          </defs>
-        </svg>
-      )}
-
-      {/* Distortion layer — blurs & warps the backdrop */}
-      {distortion > 0 && (
-        <div
-          className="liquid-glass-distortion"
-          aria-hidden
-          style={{
-            position: "absolute",
-            inset: 0,
-            borderRadius: `${borderRadius}px`,
-            clipPath: `url(#${clipId})`,
-            WebkitClipPath: `url(#${clipId})`,
-            filter: `url(#${filterId})`,
-            backdropFilter: `blur(${effectiveBlur}px) saturate(${config.saturation}%)`,
-            WebkitBackdropFilter: `blur(${effectiveBlur}px) saturate(${config.saturation}%)`,
-            pointerEvents: "none",
-            zIndex: 0,
-          }}
-        />
-      )}
+      {/* Native CSS Hardware-Accelerated Glass Backdrop */}
+      <div
+        className="liquid-glass-backdrop"
+        aria-hidden
+        style={{
+          position: "absolute",
+          inset: 0,
+          borderRadius: `${borderRadius}px`,
+          backdropFilter: `blur(${effectiveBlur}px) saturate(${config.saturation}%)`,
+          WebkitBackdropFilter: `blur(${effectiveBlur}px) saturate(${config.saturation}%)`,
+          pointerEvents: "none",
+          zIndex: 0,
+          transform: "translateZ(0)",
+        }}
+      />
 
       {/* Ambient gradient — makes the glass visible even on dark backgrounds */}
       <div className="liquid-glass-ambient" aria-hidden />
@@ -207,7 +144,7 @@ export default function LiquidGlass({
       <div className="liquid-glass-refraction" aria-hidden />
 
       {/* Content sits above all layers */}
-      <div style={{ position: "relative", zIndex: 5 }}>
+      <div style={{ position: "relative", zIndex: 5 }} className={contentClassName || "h-full"}>
         {children}
       </div>
     </div>

@@ -301,6 +301,7 @@ const KOI_POND_CSS = `
 export default function FishPond() {
   const mountRef = useRef<HTMLDivElement>(null);
   const rafId = useRef<number | null>(null);
+  const isVisibleRef = useRef<boolean>(false);
 
   useEffect(() => {
     if (!mountRef.current) return;
@@ -625,10 +626,39 @@ export default function FishPond() {
           );
         }
       });
-      rafId.current = requestAnimationFrame(tick);
+      if (isVisibleRef.current) {
+        rafId.current = requestAnimationFrame(tick);
+      }
     }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          isVisibleRef.current = entry.isIntersecting;
+          if (entry.isIntersecting) {
+            if (!rafId.current) {
+              FISH_CONFIGS.forEach((cfg) => {
+                if (cfg.state === "patrol") {
+                  // Adjust start time so they don't skip ahead abruptly
+                  cfg.startTime = performance.now() - ((cfg.theta0 % TWO_PI) / TWO_PI) * cfg.dur;
+                }
+              });
+              rafId.current = requestAnimationFrame(tick);
+            }
+          } else {
+            if (rafId.current) {
+              cancelAnimationFrame(rafId.current);
+              rafId.current = null;
+            }
+          }
+        });
+      },
+      { threshold: 0 }
+    );
     
-    rafId.current = requestAnimationFrame(tick);
+    if (footer) {
+      observer.observe(footer);
+    }
 
     function dropFood(fx: number, fy: number) {
       var now = performance.now();
@@ -696,7 +726,10 @@ export default function FishPond() {
 
     return () => {
       if (rafId.current) cancelAnimationFrame(rafId.current);
-      if (footer) footer.removeEventListener("click", handleClick);
+      if (footer) {
+        footer.removeEventListener("click", handleClick);
+        observer.unobserve(footer);
+      }
     };
   }, []);
 

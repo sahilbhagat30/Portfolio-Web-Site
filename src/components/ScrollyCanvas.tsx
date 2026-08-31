@@ -10,6 +10,7 @@ export default function ScrollyCanvas() {
   const imagesRef = useRef<HTMLImageElement[]>([]);
   const rafRef = useRef<number | null>(null);
   const lastFrameRef = useRef<number>(-1);
+  const containerSizeRef = useRef({ width: 0, height: 0, heroHeight: 0 });
 
   // Pre-load all frames
   // Draw a specific frame index to the canvas
@@ -19,12 +20,10 @@ export default function ScrollyCanvas() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    // Keep canvas sized to its parent
-    const parent = canvas.parentElement;
-    if (parent) {
-      if (canvas.width !== parent.clientWidth) canvas.width = parent.clientWidth;
-      if (canvas.height !== parent.clientHeight) canvas.height = parent.clientHeight;
-    }
+    // Use cached dimensions to avoid layout thrashing
+    const { width, height } = containerSizeRef.current;
+    if (width > 0 && canvas.width !== width) canvas.width = width;
+    if (height > 0 && canvas.height !== height) canvas.height = height;
 
     const images = imagesRef.current;
     const idx = Math.max(0, Math.min(FRAME_COUNT - 1, Math.round(frameIndex)));
@@ -68,11 +67,34 @@ export default function ScrollyCanvas() {
     imagesRef.current = loadedImages;
   }, []);
 
+  // Handle resizing and caching dimensions
+  useEffect(() => {
+    const parent = canvasRef.current?.parentElement;
+    const heroEl = document.getElementById("hero");
+
+    const updateSizes = () => {
+      containerSizeRef.current = {
+        width: parent ? parent.clientWidth : 0,
+        height: parent ? parent.clientHeight : 0,
+        heroHeight: heroEl ? heroEl.offsetHeight : window.innerHeight * 5,
+      };
+      // Force redraw when size changes
+      lastFrameRef.current = -1;
+    };
+
+    updateSizes();
+    window.addEventListener("resize", updateSizes);
+    return () => window.removeEventListener("resize", updateSizes);
+  }, []);
+
   // rAF loop — polls scrollY every frame so iOS momentum scroll works perfectly
   useEffect(() => {
     const tick = () => {
-      const heroEl = document.getElementById("hero");
-      const heroHeight = heroEl ? heroEl.offsetHeight : window.innerHeight * 5;
+      const { heroHeight } = containerSizeRef.current;
+      if (heroHeight === 0) {
+        rafRef.current = requestAnimationFrame(tick);
+        return;
+      }
       
       // Use scrollY with fallbacks for all browsers
       const scrollY =
