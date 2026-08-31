@@ -48,8 +48,8 @@ export default function LiquidGlass({
 
   const intensityConfig = {
     low: {
-      blur: 16,
-      saturation: 140,
+      blur: 4,
+      saturation: 110,
       bgOpacity: 0.03,
       specularOpacity: 0.08,
       borderOpacity: 0.15,
@@ -57,8 +57,8 @@ export default function LiquidGlass({
       ambientOpacity: 0.03,
     },
     medium: {
-      blur: 30,
-      saturation: 180,
+      blur: 8,
+      saturation: 120,
       bgOpacity: 0.05,
       specularOpacity: 0.14,
       borderOpacity: 0.25,
@@ -66,8 +66,8 @@ export default function LiquidGlass({
       ambientOpacity: 0.05,
     },
     high: {
-      blur: 50,
-      saturation: 200,
+      blur: 12,
+      saturation: 140,
       bgOpacity: 0.07,
       specularOpacity: 0.2,
       borderOpacity: 0.35,
@@ -121,7 +121,6 @@ export default function LiquidGlass({
         ...style,
       } as React.CSSProperties}
     >
-      {/* Native CSS Hardware-Accelerated Glass Backdrop */}
       <div
         className="liquid-glass-backdrop"
         aria-hidden
@@ -129,8 +128,7 @@ export default function LiquidGlass({
           position: "absolute",
           inset: 0,
           borderRadius: `${borderRadius}px`,
-          backdropFilter: `blur(${effectiveBlur}px) saturate(${config.saturation}%)`,
-          WebkitBackdropFilter: `blur(${effectiveBlur}px) saturate(${config.saturation}%)`,
+          backgroundColor: "rgba(10, 10, 15, 0.7)", /* Solid fallback for minimalism & performance */
           pointerEvents: "none",
           zIndex: 0,
           transform: "translateZ(0)",

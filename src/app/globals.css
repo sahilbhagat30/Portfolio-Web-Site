@@ -258,8 +258,6 @@ body::after {
 .glass-card {
   background: var(--glass-bg);
   background-image: var(--glass-tint);
-  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
-  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
   border: 1px solid var(--glass-border);
   box-shadow: var(--glass-shadow);
   /* No border-radius here — let callers control it via Tailwind or inline style */
@@ -275,8 +273,6 @@ body::after {
 .glass-input {
   background: rgba(255,255,255,0.04);
   border: 1px solid rgba(255,255,255,0.1);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
   color: rgba(255,255,255,0.85);
   transition: border-color 0.2s, background 0.2s, box-shadow 0.2s;
 }
@@ -292,8 +288,6 @@ body::after {
 .glass-btn {
   background: rgba(255,255,255,0.06);
   border: 1px solid rgba(255,255,255,0.15);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
   color: rgba(255,255,255,0.85);
   cursor: pointer;
   transition: background 0.2s, border-color 0.2s, box-shadow 0.2s, transform 0.15s;
@@ -320,15 +314,11 @@ body::after {
 /* ─── Apple Design: Translucent Materials ────────────────────────── */
 .apple-material-thick {
   background: rgba(20, 10, 10, 0.4); /* Uniform subtle tint as per NSGlassEffectView */
-  backdrop-filter: blur(60px) saturate(180%);
-  -webkit-backdrop-filter: blur(60px) saturate(180%);
   box-shadow: 0 16px 48px rgba(0,0,0,0.4); /* Standard ambient shadow */
   transition: background-color 0.2s ease-in-out; /* Enable smooth tint color changes */
 }
 .apple-material-thin {
   background: rgba(30, 20, 20, 0.2); /* Uniform subtle tint */
-  backdrop-filter: blur(30px) saturate(150%);
-  -webkit-backdrop-filter: blur(30px) saturate(150%);
   box-shadow: 0 8px 32px rgba(0,0,0,0.2);
   transition: background-color 0.2s ease-in-out;
 }
@@ -362,34 +352,14 @@ body::after {
 
 /* ─── Apple Liquid Glass Panel ──────────────────────────────────── */
 
-/* Prismatic border rotation */
-@keyframes liquid-prismatic-rotate {
-  0%   { --liquid-angle: 0deg; }
-  100% { --liquid-angle: 360deg; }
-}
-
-/* Edge shimmer sweep */
-@keyframes liquid-shimmer-sweep {
-  0%   { transform: translateX(-100%) skewX(-15deg); }
-  100% { transform: translateX(200%) skewX(-15deg); }
-}
-
-@property --liquid-angle {
-  syntax: "<angle>";
-  initial-value: 0deg;
-  inherits: false;
-}
-
 .liquid-glass-panel {
   position: relative;
   isolation: isolate;
   overflow: hidden;
   border-radius: var(--glass-border-radius, 20px);
 
-  /* Frosted glass backdrop */
+  /* Frosted glass backdrop removed for minimalist performance */
   background: rgba(255, 255, 255, var(--glass-bg-opacity, 0.04));
-  backdrop-filter: blur(var(--glass-blur, 40px)) saturate(var(--glass-saturation, 180%));
-  -webkit-backdrop-filter: blur(var(--glass-blur, 40px)) saturate(var(--glass-saturation, 180%));
 
   /* Ambient shadow */
   box-shadow:
@@ -406,32 +376,19 @@ body::after {
     0 0 40px rgba(255, 255, 255, 0.03);
 }
 
-/* ── Layer 1: Animated prismatic border ── */
+/* ── Layer 1: Static border ── */
 .liquid-glass-panel::before {
   content: "";
   position: absolute;
   inset: 0;
   border-radius: inherit;
   padding: 1px; /* border thickness */
-  background: conic-gradient(
-    from var(--liquid-angle, 0deg) at 50% 50%,
-    rgba(255, 255, 255, 0.01) 0deg,
-    rgba(200, 220, 255, var(--glass-border-opacity, 0.2)) 40deg,
-    rgba(180, 200, 255, var(--glass-border-opacity, 0.2)) 80deg,
-    rgba(255, 200, 220, var(--glass-border-opacity, 0.2)) 120deg,
-    rgba(220, 255, 220, var(--glass-border-opacity, 0.2)) 160deg,
-    rgba(200, 200, 255, var(--glass-border-opacity, 0.2)) 200deg,
-    rgba(255, 220, 200, var(--glass-border-opacity, 0.2)) 240deg,
-    rgba(200, 255, 255, var(--glass-border-opacity, 0.2)) 280deg,
-    rgba(220, 200, 255, var(--glass-border-opacity, 0.2)) 320deg,
-    rgba(255, 255, 255, 0.01) 360deg
-  );
+  background: rgba(255, 255, 255, 0.1);
   -webkit-mask:
     linear-gradient(#fff 0 0) content-box,
     linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
-  animation: liquid-prismatic-rotate 8s linear infinite;
   pointer-events: none;
   z-index: 2;
 }
@@ -486,9 +443,4 @@ body::after {
   z-index: 6;
 }
 
-/* ── Reduced motion: disable the prismatic rotation ── */
-@media (prefers-reduced-motion: reduce) {
-  .liquid-glass-panel::before {
-    animation: none;
-  }
-}
+

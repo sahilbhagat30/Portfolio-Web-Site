@@ -103,6 +103,12 @@ export default function ScrollyCanvas() {
         document.documentElement.scrollTop ??
         0;
 
+      // Stop processing if we scrolled far past the hero section
+      if (scrollY > heroHeight + window.innerHeight) {
+        rafRef.current = requestAnimationFrame(tick);
+        return;
+      }
+
       const progress = Math.min(Math.max(scrollY / heroHeight, 0), 1);
       const targetFrame = progress * (FRAME_COUNT - 1);
       const roundedFrame = Math.round(targetFrame);

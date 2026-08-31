@@ -201,7 +201,7 @@ export default function TheEnd() {
             overflow: "hidden",
             isolation: "isolate",
             border: `1px solid ${hasConnected ? "rgba(234,230,225,0.3)" : "rgba(255,255,255,0.1)"}`,
-            background: "#050505",
+            background: "#000000",
             boxShadow: hasConnected
               ? "0 32px 80px rgba(0,0,0,0.65), 0 0 40px rgba(234,230,225,0.12), inset 0 1px 0 rgba(255,255,255,0.1)"
               : "0 32px 80px rgba(0,0,0,0.65), inset 0 1px 0 rgba(255,255,255,0.06)",
@@ -213,7 +213,7 @@ export default function TheEnd() {
           {/* LEFT HALF — slides in from left */}
           <motion.div
             className="absolute top-0 left-0 w-1/2 h-full overflow-hidden"
-            style={{ x: leftX, mixBlendMode: "screen" }}
+            style={{ x: leftX }}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
@@ -226,7 +226,7 @@ export default function TheEnd() {
                 maxWidth: "none",
                 objectFit: "cover",
                 objectPosition: "left center",
-                filter: "grayscale(1) brightness(1.1) contrast(1.6)",
+                filter: "grayscale(1)",
               }}
             />
           </motion.div>
@@ -234,7 +234,7 @@ export default function TheEnd() {
           {/* RIGHT HALF — slides in from right */}
           <motion.div
             className="absolute top-0 right-0 w-1/2 h-full overflow-hidden"
-            style={{ x: rightX, mixBlendMode: "screen" }}
+            style={{ x: rightX }}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
@@ -247,7 +247,7 @@ export default function TheEnd() {
                 maxWidth: "none",
                 objectFit: "cover",
                 objectPosition: "right center",
-                filter: "grayscale(1) brightness(1.1) contrast(1.6)",
+                filter: "grayscale(1)",
               }}
             />
           </motion.div>
@@ -262,8 +262,7 @@ export default function TheEnd() {
               scale: glowScale,
               width: "160px", height: "160px",
               borderRadius: "50%",
-              background: "radial-gradient(circle, rgba(234,230,225,0.45) 0%, rgba(163,163,163,0.15) 50%, transparent 75%)",
-              mixBlendMode: "screen",
+              background: "radial-gradient(circle, rgba(234,230,225,0.45) 0%, transparent 75%)",
             }}
           />
 
@@ -360,7 +359,7 @@ export default function TheEnd() {
                 whileHover={{ scale: 1.1, y: -2 }}
                 whileTap={{ scale: 0.97, transition: { type: "spring", bounce: 0, duration: 0.3 } }}
                 className="glass-btn w-10 h-10 rounded-full flex items-center justify-center transition-all group"
-                style={{ backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)" }}
+                style={{ backgroundColor: "rgba(255,255,255,0.05)" }}
               >
                 <span className="text-white/50 group-hover:text-white transition-colors">
                   <Icon size={16} />

@@ -48,8 +48,6 @@ export default function Home() {
       {/* Contact & Footer (New Michelangelo Hands layout) */}
       <TheEnd />
 
-      {/* Vinyl Music Player */}
-      <VinylPlayer />
     </main>
   );
 }

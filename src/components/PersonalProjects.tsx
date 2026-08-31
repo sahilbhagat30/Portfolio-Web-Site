@@ -77,11 +77,9 @@ const fadeUp: any = {
   }),
 };
 
-function TiltProjectCard({ project, index }: { project: typeof PERSONAL_PROJECTS[0]; index: number }) {
+function ProjectCard({ project, index }: { project: typeof PERSONAL_PROJECTS[0]; index: number }) {
   const colors  = TAG_COLORS[project.tagColor] ?? TAG_COLORS.violet;
   const ref     = useRef<HTMLAnchorElement>(null);
-  const rotX    = useSpring(0, { stiffness: 200, damping: 22 });
-  const rotY    = useSpring(0, { stiffness: 200, damping: 22 });
   const glowX   = useMotionValue(50);
   const glowY   = useMotionValue(50);
 
@@ -91,13 +89,9 @@ function TiltProjectCard({ project, index }: { project: typeof PERSONAL_PROJECTS
     const rect = el.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width;
     const y = (e.clientY - rect.top)  / rect.height;
-    rotX.set((0.5 - y) * 8);
-    rotY.set((x - 0.5) * 8);
     glowX.set(x * 100);
     glowY.set(y * 100);
   };
-
-  const handleLeave = () => { rotX.set(0); rotY.set(0); };
 
   return (
     <motion.a
@@ -111,8 +105,8 @@ function TiltProjectCard({ project, index }: { project: typeof PERSONAL_PROJECTS
       custom={index}
       variants={fadeUp}
       onMouseMove={handleMove}
-      onMouseLeave={handleLeave}
-      style={{ rotateX: rotX, rotateY: rotY, transformStyle: "preserve-3d", textDecoration: "none" }}
+      onMouseLeave={() => {}}
+      style={{ textDecoration: "none" }}
       whileTap={{ scale: 0.98, transition: { type: "spring", bounce: 0, duration: 0.3 } }}
       className="group relative cursor-pointer"
       id={`personal-project-${project.id}`}
@@ -244,7 +238,7 @@ export default function PersonalProjects() {
         {/* Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {PERSONAL_PROJECTS.map((project, i) => (
-            <TiltProjectCard key={project.id} project={project} index={i} />
+            <ProjectCard key={project.id} project={project} index={i} />
           ))}
 
           {/* Coming soon */}

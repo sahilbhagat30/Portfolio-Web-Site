@@ -117,8 +117,7 @@ const fadeUp: any = {
   }),
 };
 
-/* ── 3-D tilt card ── */
-function TiltProjectCard({ 
+function ProjectCard({ 
   project, 
   index, 
   onClick 
@@ -129,8 +128,6 @@ function TiltProjectCard({
 }) {
   const colors = TAG_COLORS[project.tagColor] ?? TAG_COLORS.violet;
   const ref    = useRef<HTMLElement>(null);
-  const rotX   = useSpring(0, { stiffness: 200, damping: 22 });
-  const rotY   = useSpring(0, { stiffness: 200, damping: 22 });
   const glowX  = useMotionValue(50);
   const glowY  = useMotionValue(50);
 
@@ -140,15 +137,11 @@ function TiltProjectCard({
     const rect = el.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width;
     const y = (e.clientY - rect.top)  / rect.height;
-    rotX.set((0.5 - y) * 8);
-    rotY.set((x - 0.5) * 8);
     glowX.set(x * 100);
     glowY.set(y * 100);
     el.style.setProperty("--mouse-x", `${x * 100}%`);
     el.style.setProperty("--mouse-y", `${y * 100}%`);
   };
-
-  const handleLeave = () => { rotX.set(0); rotY.set(0); };
 
   return (
     <motion.article
@@ -159,11 +152,10 @@ function TiltProjectCard({
       custom={index}
       variants={fadeUp}
       onMouseMove={handleMove}
-      onMouseLeave={handleLeave}
+      onMouseLeave={() => {}}
       onClick={onClick}
       whileTap={{ scale: 0.97, transition: { type: "spring", bounce: 0, duration: 0.3 } }}
       className="group relative cursor-pointer"
-      style={{ rotateX: rotX, rotateY: rotY, transformStyle: "preserve-3d" }}
       id={`project-${project.number}`}
       data-cursor="hover"
     >
@@ -232,10 +224,8 @@ export default function Projects() {
   const featuredColors = TAG_COLORS.violet;
   const [selectedProject, setSelectedProject] = useState<typeof PROJECT_DATA[0] | null>(null);
 
-  /* Featured card tilt */
+  /* Featured card glow */
   const featRef  = useRef<HTMLElement>(null);
-  const fRotX    = useSpring(0, { stiffness: 150, damping: 22 });
-  const fRotY    = useSpring(0, { stiffness: 150, damping: 22 });
   const fGlowX   = useMotionValue(50);
   const fGlowY   = useMotionValue(50);
 
@@ -245,14 +235,11 @@ export default function Projects() {
     const rect = el.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width;
     const y = (e.clientY - rect.top)  / rect.height;
-    fRotX.set((0.5 - y) * 5);
-    fRotY.set((x - 0.5) * 5);
     fGlowX.set(x * 100);
     fGlowY.set(y * 100);
     el.style.setProperty("--mouse-x", `${x * 100}%`);
     el.style.setProperty("--mouse-y", `${y * 100}%`);
   };
-  const featLeave = () => { fRotX.set(0); fRotY.set(0); };
 
   return (
     <section id="work" className="glass-section relative py-20 md:py-32 px-6 md:px-16 overflow-hidden">
@@ -285,7 +272,7 @@ export default function Projects() {
           <span className="gradient-text">worked</span>
         </motion.h2>
 
-        {/* Featured — tilt */}
+        {/* Featured */}
         <motion.article
           ref={featRef}
           initial={{ opacity: 0, y: 40 }}
@@ -293,10 +280,9 @@ export default function Projects() {
           viewport={{ once: true, amount: 0.1 }}
           transition={{ type: "spring", bounce: 0, duration: 0.6 }}
           onMouseMove={featMove}
-          onMouseLeave={featLeave}
+          onMouseLeave={() => {}}
           onClick={() => setSelectedProject(featured)}
           whileTap={{ scale: 0.97, transition: { type: "spring", bounce: 0, duration: 0.3 } }}
-          style={{ rotateX: fRotX, rotateY: fRotY, transformStyle: "preserve-3d" }}
           className="group relative mb-8 cursor-pointer"
           id={`project-${featured.number}`}
           data-cursor="hover"
@@ -351,7 +337,7 @@ export default function Projects() {
         {/* Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {rest.map((project, i) => (
-            <TiltProjectCard 
+            <ProjectCard 
               key={project.number} 
               project={project} 
               index={i} 
