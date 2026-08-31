@@ -65,10 +65,41 @@ function CountStat({ num, label }: { num: string; label: string }) {
 
   return (
     <div ref={ref}>
-      <p className="gradient-text font-black text-4xl leading-none mb-1" style={{ fontVariantNumeric: "tabular-nums" }}>
+      <p className="gradient-text font-black text-4xl leading-none mb-1 tabular-nums tracking-tighter">
         {displayed}
       </p>
-      <p className="text-white/40 text-xs tracking-widest uppercase">{label}</p>
+      <p className="text-white/40 text-xs tracking-widest uppercase mt-2">{label}</p>
+    </div>
+  );
+}
+
+/* ── Live Years Stat ── */
+function LiveYearsStat() {
+  const [years, setYears] = useState("0.000000000");
+
+  useEffect(() => {
+    // Assuming start date around June 1, 2019
+    const START_DATE = new Date("2019-06-01T00:00:00Z").getTime();
+    const MS_PER_YEAR = 1000 * 60 * 60 * 24 * 365.25;
+
+    let id: number;
+    const tick = () => {
+      const diff = (Date.now() - START_DATE) / MS_PER_YEAR;
+      setYears(diff.toFixed(9));
+      id = requestAnimationFrame(tick);
+    };
+    id = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(id);
+  }, []);
+
+  const [intPart, decimalPart] = years.split(".");
+
+  return (
+    <div className="min-w-[160px]">
+      <p className="gradient-text font-black text-4xl leading-none mb-1 tabular-nums tracking-tighter flex items-baseline">
+        {intPart}<span className="text-xl opacity-70">.{decimalPart}</span>
+      </p>
+      <p className="text-white/40 text-xs tracking-widest uppercase mt-2 whitespace-nowrap">Years Experience</p>
     </div>
   );
 }
@@ -224,11 +255,11 @@ export default function About() {
               viewport={{ once: true, amount: 0.4 }}
               custom={4}
               variants={fadeUp}
-              className="flex gap-6 md:gap-10 mb-2"
+              className="flex flex-wrap gap-6 md:gap-10 mb-2 mt-8"
             >
-              <CountStat num="5+" label="Years Experience" />
-              <CountStat num="4+"  label="Global Orgs" />
-              <CountStat num="$400K+" label="Savings Identified" />
+              <LiveYearsStat />
+              <CountStat num="5"  label="Global Orgs" />
+              <CountStat num="15+" label="Core Technologies" />
             </motion.div>
             </LiquidGlass>
 

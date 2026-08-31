@@ -60,6 +60,36 @@ function useCountUp(target: string, duration = 1800) {
   return { value, trigger: () => setStarted(true) };
 }
 
+/* ── Live Years Stat for Hero ── */
+function LiveYearsStatHero() {
+  const [years, setYears] = useState("0.000000000");
+
+  useEffect(() => {
+    const START_DATE = new Date("2019-06-01T00:00:00Z").getTime();
+    const MS_PER_YEAR = 1000 * 60 * 60 * 24 * 365.25;
+
+    let id: number;
+    const tick = () => {
+      const diff = (Date.now() - START_DATE) / MS_PER_YEAR;
+      setYears(diff.toFixed(9));
+      id = requestAnimationFrame(tick);
+    };
+    id = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(id);
+  }, []);
+
+  const [intPart, decimalPart] = years.split(".");
+
+  return (
+    <div className="min-w-[140px]">
+      <p className="text-2xl font-black text-white leading-none tracking-tighter tabular-nums flex items-baseline">
+        {intPart}<span className="text-sm text-white/50">.{decimalPart}</span>
+      </p>
+      <p className="text-[0.6rem] text-white/35 uppercase tracking-widest mt-1 whitespace-nowrap">Years Experience</p>
+    </div>
+  );
+}
+
 /* ── Individual stat with count-up ── */
 function StatItem({ value, label }: { value: string; label: string }) {
   const { value: displayed, trigger } = useCountUp(value);
@@ -218,11 +248,11 @@ export default function Overlay() {
                 initial={{ opacity: 0, y: 14 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ type: "spring", bounce: 0, duration: 0.6, delay: 0.9 }}
-                className="mt-6 md:mt-10 flex gap-5 md:gap-8"
+                className="mt-6 md:mt-10 flex flex-wrap gap-5 md:gap-8"
               >
-                <StatItem value="5+" label="Years Experience" />
-                <StatItem value="4+" label="Global Orgs" />
-                <StatItem value="$400K+" label="Savings Identified" />
+                <LiveYearsStatHero />
+                <StatItem value="5" label="Global Orgs" />
+                <StatItem value="15+" label="Core Technologies" />
               </motion.div>
 
               <ScrollCue />
@@ -244,12 +274,11 @@ export default function Overlay() {
               className="apple-heading-large text-white font-bold m-0"
               style={{ fontSize: "clamp(2rem, 5vw, 4.2rem)" }}
             >
-              The problem is rarely the <span className="text-[#EAE6E1]">data.</span>
-              <br />
-              It&apos;s that nobody can see it clearly.
+              The data is there.<br />
+              It&apos;s just <span className="text-[#EAE6E1]">invisible.</span>
             </h2>
-            <p className="mt-8 text-white/50 max-w-sm leading-relaxed" style={{ fontSize: "clamp(0.9rem, 1.2vw, 1.1rem)" }}>
-              I close that gap. Over the past 5+ years, I&apos;ve built the pipelines that make data reliable, and shaped the frameworks that make it digestible.
+            <p className="mt-8 text-white/50 max-w-sm leading-relaxed font-medium" style={{ fontSize: "clamp(0.9rem, 1.2vw, 1.1rem)" }}>
+              I build the pipelines that make it reliable, and the frameworks that make it actionable.
             </p>
           </div>
         </motion.div>
@@ -265,15 +294,15 @@ export default function Overlay() {
               className="apple-heading-large text-white font-bold m-0"
               style={{ fontSize: "clamp(1.8rem, 5.5vw, 4rem)" }}
             >
-              The best analysis means<br />nothing if it doesn&apos;t<br />
-              <span className="text-[#A3A3A3]">land.</span>
+              Analysis means nothing<br />
+              if it doesn&apos;t <span className="text-[#A3A3A3]">land.</span>
             </h2>
             
             <div className="mt-10 space-y-6 max-w-sm">
               {[
-                { label: "Reliable Pipelines", sub: "Clean data isn't a nice-to-have, it's everything." },
-                { label: "Clear Frameworks", sub: "Connecting the dots so leadership can act." },
-                { label: "Tools are just tools", sub: "SQL, Python, Snowflake, dbt... the real goal is clarity." },
+                { label: "Reliable Pipelines", sub: "Clean data isn't optional." },
+                { label: "Clear Frameworks", sub: "Answers, not just dashboards." },
+                { label: "Tool Agnostic", sub: "The goal is clarity, not complexity." },
               ].map((item, i) => (
                 <div key={i} className="flex gap-4 items-start">
                   <div className="mt-1.5 w-1.5 h-1.5 bg-[#EAE6E1] rounded-full opacity-60" />

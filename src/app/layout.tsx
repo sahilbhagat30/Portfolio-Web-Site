@@ -11,11 +11,11 @@ const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfa
 
 export const metadata: Metadata = {
   title: "Sahil Bhagat",
-  description: "Crafting beautiful digital experiences.",
+  description: "Data Engineer & Analytics Professional specializing in cloud infrastructure, BI, and data pipelines.",
   metadataBase: new URL("https://sahilbhagat30.github.io"),
   openGraph: {
     title: "Sahil Bhagat",
-    description: "Crafting beautiful digital experiences.",
+    description: "Data Engineer & Analytics Professional specializing in cloud infrastructure, BI, and data pipelines.",
     url: "https://sahilbhagat30.github.io",
     siteName: "Sahil Bhagat",
     locale: "en_US",
