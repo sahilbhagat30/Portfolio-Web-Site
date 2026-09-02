@@ -245,7 +245,7 @@ export default function Projects() {
     <section id="work" className="glass-section relative py-20 md:py-32 px-6 md:px-16 overflow-hidden">
       <div
         aria-hidden
-        className="pointer-events-none absolute top-1/2 right-0 -translate-y-1/2 w-[500px] h-[500px] rounded-full blur-[120px]"
+        className="pointer-events-none absolute top-1/2 right-0 -translate-y-1/2 w-[500px] h-[500px] rounded-full"
         style={{ background: "radial-gradient(circle, #1a1a1a, transparent 70%)", opacity: 0.3 }}
       />
 

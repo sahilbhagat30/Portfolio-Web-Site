@@ -1,18 +1,20 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
-import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
+import { motion, useInView, useScroll, useTransform, AnimatePresence } from "framer-motion";
 
 /* ── Typewriter cycling roles ── */
 const ROLES = ["Analytics Engineer", "Data Engineer", "Pipeline Builder", "Data Architect", "Problem Solver"];
 
-function useTypewriter(words: string[], speed = 80, pause = 1800) {
+function useTypewriter(words: string[], active: boolean, speed = 80, pause = 1800) {
   const [displayed, setDisplayed] = useState("");
   const [wordIndex, setWordIndex] = useState(0);
   const [charIndex, setCharIndex] = useState(0);
   const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
+    if (!active) return;
+
     const current = words[wordIndex];
     let timeout: ReturnType<typeof setTimeout>;
 
@@ -29,7 +31,7 @@ function useTypewriter(words: string[], speed = 80, pause = 1800) {
 
     setDisplayed(current.slice(0, charIndex));
     return () => clearTimeout(timeout);
-  }, [charIndex, deleting, wordIndex, words, speed, pause]);
+  }, [active, charIndex, deleting, wordIndex, words, speed, pause]);
 
   return displayed;
 }
@@ -63,25 +65,50 @@ function useCountUp(target: string, duration = 1800) {
 /* ── Live Years Stat for Hero ── */
 function LiveYearsStatHero() {
   const [years, setYears] = useState("0.000000000");
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const START_DATE = new Date("2019-06-01T00:00:00Z").getTime();
     const MS_PER_YEAR = 1000 * 60 * 60 * 24 * 365.25;
 
-    let id: number;
-    const tick = () => {
+    let intervalId: number | null = null;
+    let isVisible = false;
+
+    const update = () => {
       const diff = (Date.now() - START_DATE) / MS_PER_YEAR;
       setYears(diff.toFixed(9));
-      id = requestAnimationFrame(tick);
     };
-    id = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(id);
+
+    const sync = () => {
+      const shouldRun = isVisible && document.visibilityState === "visible";
+      if (shouldRun && intervalId === null) {
+        update();
+        intervalId = window.setInterval(update, 250);
+      } else if (!shouldRun && intervalId !== null) {
+        window.clearInterval(intervalId);
+        intervalId = null;
+      }
+    };
+
+    const observer = new IntersectionObserver(([entry]) => {
+      isVisible = entry.isIntersecting;
+      sync();
+    });
+
+    if (ref.current) observer.observe(ref.current);
+    document.addEventListener("visibilitychange", sync);
+
+    return () => {
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", sync);
+      if (intervalId !== null) window.clearInterval(intervalId);
+    };
   }, []);
 
   const [intPart, decimalPart] = years.split(".");
 
   return (
-    <div className="min-w-[140px]">
+    <div ref={ref} className="min-w-[140px]">
       <p className="text-2xl font-black text-white leading-none tracking-tighter tabular-nums flex items-baseline">
         {intPart}<span className="text-sm text-white/50">.{decimalPart}</span>
       </p>
@@ -115,7 +142,7 @@ function StatItem({ value, label }: { value: string; label: string }) {
 }
 
 /* ── Bouncing scroll arrow ── */
-function ScrollCue() {
+function ScrollCue({ active }: { active: boolean }) {
   return (
     <motion.div
       className="mt-12 flex flex-col items-start gap-2"
@@ -129,8 +156,10 @@ function ScrollCue() {
       </div>
       <motion.div
         className="ml-0 mt-1"
-        animate={{ y: [0, 6, 0] }}
-        transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
+        animate={active ? { y: [0, 6, 0] } : { y: 0 }}
+        transition={active
+          ? { duration: 1.4, repeat: Infinity, ease: "easeInOut" }
+          : { duration: 0.2 }}
       >
         <svg width="16" height="20" viewBox="0 0 16 20" fill="none">
           <motion.path
@@ -139,8 +168,10 @@ function ScrollCue() {
             strokeWidth="1.5"
             strokeLinecap="round"
             strokeLinejoin="round"
-            animate={{ opacity: [0.4, 1, 0.4] }}
-            transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
+            animate={active ? { opacity: [0.4, 1, 0.4] } : { opacity: 0.4 }}
+            transition={active
+              ? { duration: 1.4, repeat: Infinity, ease: "easeInOut" }
+              : { duration: 0.2 }}
           />
         </svg>
       </motion.div>
@@ -150,7 +181,8 @@ function ScrollCue() {
 
 export default function Overlay() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const role = useTypewriter(ROLES);
+  const heroIsVisible = useInView(containerRef, { amount: 0.01 });
+  const role = useTypewriter(ROLES, heroIsVisible);
 
   const [scrollRange, setScrollRange] = useState(4000);
 
@@ -233,8 +265,10 @@ export default function Overlay() {
                 <span className="text-white/50 text-sm font-mono tracking-widest">
                   {role}
                   <motion.span
-                    animate={{ opacity: [1, 0] }}
-                    transition={{ duration: 0.6, repeat: Infinity, repeatType: "reverse" }}
+                    animate={heroIsVisible ? { opacity: [1, 0] } : { opacity: 1 }}
+                    transition={heroIsVisible
+                      ? { duration: 0.6, repeat: Infinity, repeatType: "reverse" }
+                      : { duration: 0.2 }}
                     className="inline-block w-0.5 h-4 bg-white/60 ml-0.5 align-middle"
                   />
                 </span>
@@ -255,7 +289,7 @@ export default function Overlay() {
                 <StatItem value="15+" label="Core Technologies" />
               </motion.div>
 
-              <ScrollCue />
+              <ScrollCue active={heroIsVisible} />
             </div>
 
           </div>

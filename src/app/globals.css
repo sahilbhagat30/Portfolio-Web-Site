@@ -323,6 +323,14 @@ body::after {
   transition: background-color 0.2s ease-in-out;
 }
 
+/* Photography navigation: a light material anchored to the menu trigger. */
+.photography-material {
+  background: rgba(245, 243, 240, 0.9);
+  -webkit-backdrop-filter: blur(28px) saturate(150%);
+  backdrop-filter: blur(28px) saturate(150%);
+  box-shadow: 0 24px 80px rgba(12, 12, 12, 0.08);
+}
+
 /* ─── Apple Design: Reduced Motion Fallbacks ─────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
@@ -343,10 +351,21 @@ body::after {
 
 /* ─── Apple Design: Reduced Transparency Fallbacks ──────── */
 @media (prefers-reduced-transparency: reduce) {
-  .lg, .glass-card, liquid-glass, liquid-glass-button, .apple-material-thick, .apple-material-thin {
+  .lg, .glass-card, liquid-glass, liquid-glass-button, .apple-material-thick, .apple-material-thin, .photography-material {
     background: var(--background) !important;
     -webkit-backdrop-filter: none !important;
     backdrop-filter: none !important;
+  }
+
+  .photography-material {
+    background: #f5f3f0 !important;
+  }
+}
+
+@media (prefers-contrast: more) {
+  .photography-material {
+    background: rgba(245, 243, 240, 0.98);
+    box-shadow: inset 0 0 0 1px #0c0c0c;
   }
 }
 
@@ -442,5 +461,3 @@ body::after {
   pointer-events: none;
   z-index: 6;
 }
-
-

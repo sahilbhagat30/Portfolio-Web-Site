@@ -2,19 +2,14 @@
 
 import { useEffect, useRef, useState } from "react";
 import { motion, useSpring, useMotionValue } from "framer-motion";
-import LiquidGlass from "./LiquidGlass";
 
 export default function Cursor() {
   const cursorX = useMotionValue(-100);
   const cursorY = useMotionValue(-100);
 
-  // Apple 1:1 direct tracking for the dot (almost instant)
-  const springConfig = { bounce: 0, duration: 0.05 };
   // The ring lags slightly for a fluid feel, but remains critically damped
   const ringConfig   = { bounce: 0, duration: 0.3 };
 
-  const dotX  = useSpring(cursorX, springConfig);
-  const dotY  = useSpring(cursorY, springConfig);
   const ringX = useSpring(cursorX, ringConfig);
   const ringY = useSpring(cursorY, ringConfig);
 
@@ -23,6 +18,7 @@ export default function Cursor() {
   const [isVisible, setIsVisible] = useState(false);
 
   const rafRef = useRef<number | null>(null);
+  const lastHoverTargetRef = useRef<EventTarget | null>(null);
 
   useEffect(() => {
     // Hide on touch devices
@@ -30,45 +26,50 @@ export default function Cursor() {
 
     const move = (e: MouseEvent) => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      const target = e.target as HTMLElement;
+      const clientX = e.clientX;
+      const clientY = e.clientY;
+
       rafRef.current = requestAnimationFrame(() => {
-        cursorX.set(e.clientX);
-        cursorY.set(e.clientY);
+        cursorX.set(clientX);
+        cursorY.set(clientY);
         setIsVisible(true);
+
+        // Recompute the cursor style only when the hovered element changes.
+        if (lastHoverTargetRef.current !== target) {
+          lastHoverTargetRef.current = target;
+          const customCursorEl = target.closest("[data-cursor]");
+          if (customCursorEl) {
+            const text = customCursorEl.getAttribute("data-cursor");
+            if (text && text !== "hover") {
+              setCustomText(text);
+              setVariant("custom");
+              return;
+            }
+          }
+
+          const isLink = target.closest("a, button, [role='button'], [data-cursor='hover']");
+          const isText = target.closest("p, h1, h2, h3, h4, span");
+          const isCanvas = target.closest("canvas");
+
+          if (isCanvas) setVariant("default");
+          else if (isLink) setVariant("hover");
+          else if (isText) setVariant("text");
+          else setVariant("default");
+        }
       });
     };
 
     const enter = () => setIsVisible(true);
     const leave = () => setIsVisible(false);
 
-    const handleHover = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      
-      // Check for custom text attribute first
-      const customCursorEl = target.closest("[data-cursor]");
-      if (customCursorEl) {
-        const text = customCursorEl.getAttribute("data-cursor");
-        if (text && text !== "hover") {
-          setCustomText(text);
-          setVariant("custom");
-          return;
-        }
-      }
-
-      const isLink   = target.closest("a, button, [role='button'], [data-cursor='hover']");
-      const isText   = target.closest("p, h1, h2, h3, h4, span");
-      const isCanvas = target.closest("canvas");
-
-      if (isCanvas) { setVariant("default"); return; }
-      if (isLink)   { setVariant("hover");   return; }
-      if (isText)   { setVariant("text");    return; }
+    const down = () => setVariant("click");
+    const up = () => {
+      lastHoverTargetRef.current = null;
       setVariant("default");
     };
 
-    const down = () => setVariant("click");
-    const up   = () => setVariant("default");
-
-    window.addEventListener("mousemove", move,       { passive: true });
-    window.addEventListener("mousemove", handleHover, { passive: true });
+    window.addEventListener("mousemove", move, { passive: true });
     window.addEventListener("mouseenter", enter);
     window.addEventListener("mouseleave", leave);
     window.addEventListener("mousedown",  down);
@@ -76,7 +77,6 @@ export default function Cursor() {
 
     return () => {
       window.removeEventListener("mousemove", move);
-      window.removeEventListener("mousemove", handleHover);
       window.removeEventListener("mouseenter", enter);
       window.removeEventListener("mouseleave", leave);
       window.removeEventListener("mousedown", down);
@@ -94,11 +94,11 @@ export default function Cursor() {
   };
 
   const ringVariants: Record<string, any> = {
-    default: { width: 36, height: 36, borderColor: "rgba(229,231,235,0.4)", backgroundColor: "rgba(255,255,255,0.02)", backdropFilter: "blur(2px)", opacity: isVisible ? 1 : 0, scale: 1 },
-    hover:   { width: 56, height: 56, borderColor: "rgba(255,255,255,0.5)", backgroundColor: "rgba(255,255,255,0.05)", backdropFilter: "blur(4px)", opacity: isVisible ? 1 : 0, scale: 1 },
-    text:    { width: 40, height: 40, borderColor: "rgba(234,230,225,0.4)", backgroundColor: "rgba(255,255,255,0.02)", backdropFilter: "blur(2px)", opacity: isVisible ? 0.6 : 0, scale: 1 },
-    click:   { width: 28, height: 28, borderColor: "rgba(163,163,163,0.8)", backgroundColor: "rgba(255,255,255,0.05)", backdropFilter: "blur(2px)", opacity: isVisible ? 1 : 0, scale: 0.9 },
-    custom:  { width: 72, height: 72, borderColor: "rgba(255,255,255,0)", backgroundColor: "rgba(255,255,255,0.15)", backdropFilter: "blur(4px)", opacity: isVisible ? 1 : 0, scale: 1 },
+    default: { width: 36, height: 36, borderColor: "rgba(229,231,235,0.4)", backgroundColor: "rgba(3,5,15,0.35)", opacity: isVisible ? 1 : 0, scale: 1 },
+    hover:   { width: 56, height: 56, borderColor: "rgba(255,255,255,0.5)", backgroundColor: "rgba(3,5,15,0.45)", opacity: isVisible ? 1 : 0, scale: 1 },
+    text:    { width: 40, height: 40, borderColor: "rgba(234,230,225,0.4)", backgroundColor: "rgba(3,5,15,0.3)", opacity: isVisible ? 0.6 : 0, scale: 1 },
+    click:   { width: 28, height: 28, borderColor: "rgba(163,163,163,0.8)", backgroundColor: "rgba(3,5,15,0.5)", opacity: isVisible ? 1 : 0, scale: 0.9 },
+    custom:  { width: 72, height: 72, borderColor: "rgba(255,255,255,0.28)", backgroundColor: "rgba(3,5,15,0.78)", opacity: isVisible ? 1 : 0, scale: 1 },
   };
 
   if (typeof window !== "undefined" && window.matchMedia("(pointer: coarse)").matches) {
@@ -110,8 +110,8 @@ export default function Cursor() {
       {/* Dot */}
       <motion.div
         style={{
-          left: dotX,
-          top: dotY,
+          left: cursorX,
+          top: cursorY,
           position: "fixed",
           pointerEvents: "none",
           zIndex: 9999,
@@ -137,20 +137,8 @@ export default function Cursor() {
         }}
         animate={ringVariants[variant]}
         transition={{ type: "spring", bounce: 0, duration: 0.3 }}
-        className="flex items-center justify-center rounded-full"
+        className="flex items-center justify-center rounded-full border"
       >
-        <LiquidGlass 
-          className="absolute inset-0"
-          style={{ overflow: 'visible' }} 
-          borderRadius={999}
-          intensity="medium" 
-          distortion={100} 
-          blur={2} 
-          fixedTextureSize={256}
-        >
-          <div />
-        </LiquidGlass>
-
         {variant === "custom" && (
           <motion.span
             initial={{ opacity: 0, scale: 0.5 }}
@@ -158,7 +146,7 @@ export default function Cursor() {
             exit={{ opacity: 0, scale: 0.5 }}
             className="text-[10px] font-semibold tracking-widest text-white uppercase relative z-10"
           >
-            VIEW
+            {customText}
           </motion.span>
         )}
       </motion.div>

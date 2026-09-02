@@ -189,12 +189,12 @@ export default function PersonalProjects() {
     <section id="projects" className="glass-section relative py-20 md:py-32 px-6 md:px-16 overflow-hidden">
       <div
         aria-hidden
-        className="pointer-events-none absolute top-1/2 left-0 -translate-y-1/2 w-[600px] h-[600px] rounded-full blur-[120px]"
+        className="pointer-events-none absolute top-1/2 left-0 -translate-y-1/2 w-[600px] h-[600px] rounded-full"
         style={{ background: "radial-gradient(circle, #1a1a1a, transparent 70%)", opacity: 0.3 }}
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full blur-[120px]"
+        className="pointer-events-none absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full"
         style={{ background: "radial-gradient(circle, #2a2a2a, transparent 70%)", opacity: 0.2 }}
       />
 
@@ -251,14 +251,12 @@ export default function PersonalProjects() {
             className="relative min-h-[260px]"
           >
             <LiquidGlass borderRadius={20} intensity="high" className="apple-active w-full h-full overflow-hidden flex flex-col items-center justify-center gap-3 p-7">
-            <motion.div
-              animate={{ rotate: [0, 360] }}
-              transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+            <div
               className="w-10 h-10 rounded-xl flex items-center justify-center"
               style={{ background: "rgba(255,255,255,0.04)" }}
             >
               <GithubIcon size={20} className="text-white/20" />
-            </motion.div>
+            </div>
             <p className="text-white/20 text-sm text-center leading-relaxed">
               More projects<br />coming soon
             </p>

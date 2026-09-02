@@ -10,10 +10,9 @@ const Projects = dynamic(() => import("@/components/Projects"));
 const PersonalProjects = dynamic(() => import("@/components/PersonalProjects"));
 const Photography = dynamic(() => import("@/components/Photography"));
 const TheEnd = dynamic(() => import("@/components/TheEnd"));
-const VinylPlayer = dynamic(() => import("@/components/VinylPlayer"));
 
-export default function Home() {
-  const photos = getPhotos();
+export default async function Home() {
+  const photos = await getPhotos();
 
   return (
     <main className="relative bg-[var(--background)]">

@@ -1,14 +1,15 @@
 import fs from "fs";
 import path from "path";
+import sharp from "sharp";
 
 export interface PhotoData {
   src: string;
   alt: string;
-  category: string;
-  span: string;
+  width: number;
+  height: number;
 }
 
-export function getPhotos(): PhotoData[] {
+export async function getPhotos(): Promise<PhotoData[]> {
   const baseDir = path.join(process.cwd(), "public", "photos");
   const metaPath = path.join(baseDir, "meta.json");
   
@@ -21,32 +22,31 @@ export function getPhotos(): PhotoData[] {
     }
   }
 
-  const photos: PhotoData[] = [];
-  
   if (!fs.existsSync(baseDir)) return [];
 
-  const files = fs.readdirSync(baseDir).filter(f => /\.(jpg|jpeg|png|gif|webp)$/i.test(f));
-  
-  const spans = ["normal", "wide", "normal", "tall", "wide", "tall", "normal"];
-  let spanIdx = 0;
+  const files = fs
+    .readdirSync(baseDir)
+    .filter((file) => /\.(jpg|jpeg|png|gif|webp)$/i.test(file))
+    .sort((a, b) => a.localeCompare(b));
 
-  for (const file of files) {
-    // Read the description from metadata.json, fallback to a generic description
-    const altText = metadata[file] || "A captured moment";
-    
-    const base = "";
-    photos.push({
-      src: `${base}/photos/${file}`,
-      alt: altText,
-      category: "Life", // Generic category for backwards compatibility with the interface
-      span: spans[spanIdx % spans.length]
-    });
-    spanIdx++;
-  }
+  return Promise.all(files.map(async (file) => {
+    const filePath = path.join(baseDir, file);
+    let width = 1;
+    let height = 1;
 
-  return photos;
-}
+    try {
+      const dimensions = await sharp(filePath).metadata();
+      width = dimensions.width ?? 1;
+      height = dimensions.height ?? 1;
+    } catch (error) {
+      console.error(`Error reading dimensions for ${file}`, error);
+    }
 
-export function getCategories(photos: PhotoData[]): string[] {
-  return ["All"];
+    return {
+      src: `/photos/${file}`,
+      alt: metadata[file] || "A captured moment",
+      width,
+      height,
+    };
+  }));
 }

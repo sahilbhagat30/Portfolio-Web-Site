@@ -1,24 +1,25 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
-const FRAME_COUNT = 120; // 000 to 119
-const base = "";
+const FRAME_COUNT = 60;
+const FRAME_BATCH_SIZE = 4;
 
 export default function ScrollyCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imagesRef = useRef<HTMLImageElement[]>([]);
   const rafRef = useRef<number | null>(null);
+  const preloadTimerRef = useRef<number | null>(null);
   const lastFrameRef = useRef<number>(-1);
+  const targetFrameRef = useRef(0);
   const containerSizeRef = useRef({ width: 0, height: 0, heroHeight: 0 });
 
-  // Pre-load all frames
   // Draw a specific frame index to the canvas
-  const drawFrame = (frameIndex: number) => {
+  const drawFrame = useCallback((frameIndex: number) => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas) return false;
     const ctx = canvas.getContext("2d");
-    if (!ctx) return;
+    if (!ctx) return false;
 
     // Use cached dimensions to avoid layout thrashing
     const { width, height } = containerSizeRef.current;
@@ -28,7 +29,7 @@ export default function ScrollyCanvas() {
     const images = imagesRef.current;
     const idx = Math.max(0, Math.min(FRAME_COUNT - 1, Math.round(frameIndex)));
     const img = images[idx];
-    if (!img || !img.complete || img.naturalWidth === 0) return;
+    if (!img || !img.complete || img.naturalWidth === 0) return false;
 
     const canvasRatio = canvas.width / canvas.height;
     const imgRatio = img.naturalWidth / img.naturalHeight;
@@ -48,26 +49,52 @@ export default function ScrollyCanvas() {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
-  };
-
-  useEffect(() => {
-    const loadedImages: HTMLImageElement[] = new Array(FRAME_COUNT);
-
-    for (let i = 0; i < FRAME_COUNT; i++) {
-      const img = new Image();
-      const frameNum = i.toString().padStart(3, "0");
-      img.src = `${base}/sequence/frame_${frameNum}_delay-0.067s.webp`;
-      img.onload = () => {
-        loadedImages[i] = img;
-        // Draw the first frame as soon as it loads
-        if (i === 0) drawFrame(0);
-      };
-      loadedImages[i] = img;
-    }
-    imagesRef.current = loadedImages;
+    return true;
   }, []);
 
-  // Handle resizing and caching dimensions
+  const loadFrame = useCallback((index: number) => {
+    if (index < 0 || index >= FRAME_COUNT || imagesRef.current[index]) return;
+
+    const img = new Image();
+    img.decoding = "async";
+    img.src = `/sequence-optimized/frame_${index.toString().padStart(3, "0")}.webp`;
+    img.onload = () => {
+      if (targetFrameRef.current === index) drawFrame(index);
+    };
+    imagesRef.current[index] = img;
+  }, [drawFrame]);
+
+  // Load the opening frame immediately, then fill the cache in small idle batches.
+  useEffect(() => {
+    loadFrame(0);
+
+    let nextFrame = 1;
+    const loadBatch = () => {
+      const batchEnd = Math.min(nextFrame + FRAME_BATCH_SIZE, FRAME_COUNT);
+      while (nextFrame < batchEnd) {
+        loadFrame(nextFrame);
+        nextFrame += 1;
+      }
+
+      if (nextFrame < FRAME_COUNT) {
+        preloadTimerRef.current = window.setTimeout(loadBatch, 90);
+      }
+    };
+
+    preloadTimerRef.current = window.setTimeout(loadBatch, 160);
+
+    return () => {
+      if (preloadTimerRef.current !== null) {
+        window.clearTimeout(preloadTimerRef.current);
+      }
+      imagesRef.current.forEach((image) => {
+        if (image) image.onload = null;
+      });
+      imagesRef.current = [];
+    };
+  }, [loadFrame]);
+
+  // Cache dimensions so drawing never forces layout during a scroll frame.
   useEffect(() => {
     const parent = canvasRef.current?.parentElement;
     const heroEl = document.getElementById("hero");
@@ -78,56 +105,58 @@ export default function ScrollyCanvas() {
         height: parent ? parent.clientHeight : 0,
         heroHeight: heroEl ? heroEl.offsetHeight : window.innerHeight * 5,
       };
-      // Force redraw when size changes
       lastFrameRef.current = -1;
+      drawFrame(targetFrameRef.current);
     };
 
     updateSizes();
     window.addEventListener("resize", updateSizes);
     return () => window.removeEventListener("resize", updateSizes);
-  }, []);
+  }, [drawFrame]);
 
-  // rAF loop — polls scrollY every frame so iOS momentum scroll works perfectly
+  // Draw only when scrolling changes the requested frame. This replaces a
+  // permanent rAF loop and leaves the main thread idle between interactions.
   useEffect(() => {
-    const tick = () => {
+    const updateFromScroll = () => {
+      rafRef.current = null;
       const { heroHeight } = containerSizeRef.current;
-      if (heroHeight === 0) {
-        rafRef.current = requestAnimationFrame(tick);
-        return;
-      }
-      
-      // Use scrollY with fallbacks for all browsers
-      const scrollY =
-        window.scrollY ??
-        window.pageYOffset ??
-        document.documentElement.scrollTop ??
-        0;
+      if (heroHeight === 0) return;
 
-      // Stop processing if we scrolled far past the hero section
-      if (scrollY > heroHeight + window.innerHeight) {
-        rafRef.current = requestAnimationFrame(tick);
-        return;
-      }
+      const scrollDistance = Math.max(heroHeight - window.innerHeight, 1);
+      const progress = Math.min(Math.max(window.scrollY / scrollDistance, 0), 1);
+      const roundedFrame = Math.round(progress * (FRAME_COUNT - 1));
+      targetFrameRef.current = roundedFrame;
 
-      const progress = Math.min(Math.max(scrollY / heroHeight, 0), 1);
-      const targetFrame = progress * (FRAME_COUNT - 1);
-      const roundedFrame = Math.round(targetFrame);
-
-      // Only redraw if the frame actually changed
       if (roundedFrame !== lastFrameRef.current) {
         lastFrameRef.current = roundedFrame;
-        drawFrame(targetFrame);
-      }
+        if (!drawFrame(roundedFrame)) {
+          loadFrame(roundedFrame);
 
-      rafRef.current = requestAnimationFrame(tick);
+          // Keep the canvas responsive while a requested frame decodes.
+          for (let distance = 1; distance < FRAME_COUNT; distance += 1) {
+            if (
+              drawFrame(roundedFrame - distance) ||
+              drawFrame(roundedFrame + distance)
+            ) break;
+          }
+        }
+      }
     };
 
-    rafRef.current = requestAnimationFrame(tick);
+    const scheduleUpdate = () => {
+      if (rafRef.current === null) {
+        rafRef.current = requestAnimationFrame(updateFromScroll);
+      }
+    };
+
+    scheduleUpdate();
+    window.addEventListener("scroll", scheduleUpdate, { passive: true });
 
     return () => {
-      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      window.removeEventListener("scroll", scheduleUpdate);
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
     };
-  }, []);
+  }, [drawFrame, loadFrame]);
 
   return (
     <div className="h-full w-full relative">

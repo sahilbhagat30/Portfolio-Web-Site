@@ -76,26 +76,51 @@ function CountStat({ num, label }: { num: string; label: string }) {
 /* ── Live Years Stat ── */
 function LiveYearsStat() {
   const [years, setYears] = useState("0.000000000");
+  const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // Assuming start date around June 1, 2019
     const START_DATE = new Date("2019-06-01T00:00:00Z").getTime();
     const MS_PER_YEAR = 1000 * 60 * 60 * 24 * 365.25;
 
-    let id: number;
-    const tick = () => {
+    let intervalId: number | null = null;
+    let isVisible = false;
+
+    const update = () => {
       const diff = (Date.now() - START_DATE) / MS_PER_YEAR;
       setYears(diff.toFixed(9));
-      id = requestAnimationFrame(tick);
     };
-    id = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(id);
+
+    const sync = () => {
+      const shouldRun = isVisible && document.visibilityState === "visible";
+      if (shouldRun && intervalId === null) {
+        update();
+        intervalId = window.setInterval(update, 250);
+      } else if (!shouldRun && intervalId !== null) {
+        window.clearInterval(intervalId);
+        intervalId = null;
+      }
+    };
+
+    const observer = new IntersectionObserver(([entry]) => {
+      isVisible = entry.isIntersecting;
+      sync();
+    });
+
+    if (ref.current) observer.observe(ref.current);
+    document.addEventListener("visibilitychange", sync);
+
+    return () => {
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", sync);
+      if (intervalId !== null) window.clearInterval(intervalId);
+    };
   }, []);
 
   const [intPart, decimalPart] = years.split(".");
 
   return (
-    <div className="min-w-[160px]">
+    <div ref={ref} className="min-w-[160px]">
       <p className="gradient-text font-black text-4xl leading-none mb-1 tabular-nums tracking-tighter flex items-baseline">
         {intPart}<span className="text-xl opacity-70">.{decimalPart}</span>
       </p>
@@ -179,7 +204,7 @@ export default function About() {
       {/* Background organic shape */}
       <div
         aria-hidden
-        className="pointer-events-none absolute -top-40 right-0 w-[600px] h-[600px] rounded-full blur-[120px]"
+        className="pointer-events-none absolute -top-40 right-0 w-[600px] h-[600px] rounded-full"
         style={{
           background: "radial-gradient(circle, rgba(255,255,255,0.05), transparent 70%)",
           opacity: 0.3,

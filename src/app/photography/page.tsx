@@ -1,40 +1,19 @@
-import { ArrowLeft } from "lucide-react";
-import Link from "next/link";
 import { getPhotos } from "@/utils/getPhotos";
 import PhotographyClient from "./PhotographyClient";
 
-export default function PhotographyPage() {
-  const photos = getPhotos();
+export const metadata = {
+  title: "Sahil Bhagat — Photography",
+  description: "A collection of quiet moments, urban spaces, and geometry captured through my lens.",
+};
+
+export default async function PhotographyPage() {
+  const photos = await getPhotos();
 
   return (
-    <main className="min-h-screen bg-[var(--background)] text-[var(--foreground)] selection:bg-white/20 selection:text-white">
-      {/* Navbar */}
-      <nav className="fixed top-0 left-0 w-full z-50 px-6 py-6 flex items-center justify-between pointer-events-none">
-        <div className="max-w-7xl mx-auto w-full flex items-center justify-between pointer-events-auto">
-          <Link href="/#photography" className="group flex items-center gap-2 text-white/50 hover:text-white transition-colors">
-            <ArrowLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
-            <span className="text-sm font-semibold tracking-wide uppercase">Back</span>
-          </Link>
-          <div className="font-bold tracking-tighter text-xl bg-[var(--gradient-hero)] bg-clip-text text-transparent drop-shadow-sm">
-            Sahil <span className="font-normal opacity-80">Bhagat</span>
-          </div>
-        </div>
-      </nav>
-
-      {/* Header */}
-      <section className="pt-32 pb-16 px-6 max-w-7xl mx-auto">
-        <h1 
-          className="text-4xl md:text-6xl font-bold tracking-tight mb-4"
-          style={{ letterSpacing: "-0.03em" }}
-        >
-          Photography
-        </h1>
-        <p className="text-white/40 max-w-lg text-lg leading-relaxed">
-          A collection of quiet moments, urban spaces, and visual stories captured through my lens.
-        </p>
-      </section>
-
-      {/* Interactive Gallery Component */}
+    <main
+      className="min-h-screen overflow-x-clip selection:bg-black/10 selection:text-black"
+      style={{ background: "#f5f3f0", color: "#0C0C0C" }}
+    >
       <PhotographyClient photos={photos} />
     </main>
   );

@@ -2,12 +2,18 @@
 
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { usePathname } from "next/navigation";
 
 export default function Preloader() {
-  const [isLoading, setIsLoading] = useState(true);
+  const pathname = usePathname();
+  const isPhotography = pathname === "/photography";
+  
+  const [isLoading, setIsLoading] = useState(!isPhotography);
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
+    if (isPhotography) return;
+
     // Lock scrolling while loading
     document.body.style.overflow = "hidden";
     

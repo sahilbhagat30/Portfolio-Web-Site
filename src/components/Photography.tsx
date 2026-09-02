@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { PhotoData } from "@/utils/getPhotos";
+import type { PhotoData } from "@/utils/getPhotos";
 import gsap from "gsap";
 import LiquidGlass from "./LiquidGlass";
 
@@ -106,9 +106,37 @@ export default function Photography({
       });
     };
 
-    gsap.ticker.add(updateSphere);
-
     const container = containerRef.current;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let isIntersecting = false;
+    let isTicking = false;
+
+    const startTicker = () => {
+      if (isTicking || reduceMotion || document.visibilityState !== "visible") return;
+      gsap.ticker.add(updateSphere);
+      isTicking = true;
+    };
+
+    const stopTicker = () => {
+      if (!isTicking) return;
+      gsap.ticker.remove(updateSphere);
+      isTicking = false;
+    };
+
+    const syncTicker = () => {
+      if (isIntersecting && document.visibilityState === "visible") startTicker();
+      else stopTicker();
+    };
+
+    const observer = new IntersectionObserver(([entry]) => {
+      isIntersecting = entry.isIntersecting;
+      syncTicker();
+    }, { rootMargin: "160px 0px" });
+
+    observer.observe(container);
+    document.addEventListener("visibilitychange", syncTicker);
+    updateSphere();
+
     const onDown = (e: MouseEvent | TouchEvent) => {
       const state = dragState.current;
       state.isDragging = true;
@@ -140,7 +168,9 @@ export default function Photography({
     window.addEventListener("touchend", onUp);
 
     return () => {
-      gsap.ticker.remove(updateSphere);
+      stopTicker();
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", syncTicker);
       container.removeEventListener("mousedown", onDown);
       container.removeEventListener("mousemove", onMove);
       window.removeEventListener("mouseup", onUp);
@@ -154,12 +184,12 @@ export default function Photography({
     <section id="photography" className="glass-section relative py-32 overflow-hidden bg-[var(--background)]">
       <div
         aria-hidden
-        className="pointer-events-none absolute top-1/2 left-0 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-[0.2] blur-[120px]"
+        className="pointer-events-none absolute top-1/2 left-0 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-[0.2]"
         style={{ background: "radial-gradient(circle, rgba(255,255,255,0.05), transparent 70%)" }}
       />
       <div
         aria-hidden
-        className="pointer-events-none absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full opacity-[0.1] blur-[100px]"
+        className="pointer-events-none absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full opacity-[0.1]"
         style={{ background: "radial-gradient(circle, rgba(255,255,255,0.08), transparent 70%)" }}
       />
 
@@ -220,10 +250,9 @@ export default function Photography({
                 style={{ 
                   background: "rgba(255,255,255,0.05)", 
                   border: "1.5px solid rgba(255,255,255,0.14)",
-                  backdropFilter: "blur(8px)",
-                  WebkitBackdropFilter: "blur(8px)",
                   boxShadow: "0 4px 20px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.08)",
-                  transformStyle: "preserve-3d" 
+                  transformStyle: "preserve-3d",
+                  willChange: "transform"
                 }}
                 data-cursor="hover"
               >

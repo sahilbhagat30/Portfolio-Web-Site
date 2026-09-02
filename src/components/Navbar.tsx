@@ -68,10 +68,8 @@ export default function Navbar() {
     e.preventDefault();
     setMenuOpen(false);
     setActiveLink(href);
-    setTimeout(() => {
-      const target = document.querySelector(href);
-      if (target) target.scrollIntoView({ behavior: "smooth" });
-    }, 800); // Wait for menu to close before scrolling
+    const target = document.querySelector(href);
+    if (target) target.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
@@ -91,8 +89,8 @@ export default function Navbar() {
               : "hover:bg-white/8"
           }`}
           style={{
-            backdropFilter: scrolled || menuOpen ? "blur(24px) saturate(180%)" : undefined,
-            WebkitBackdropFilter: scrolled || menuOpen ? "blur(24px) saturate(180%)" : undefined,
+            backdropFilter: scrolled || menuOpen ? "blur(14px) saturate(150%)" : undefined,
+            WebkitBackdropFilter: scrolled || menuOpen ? "blur(14px) saturate(150%)" : undefined,
           }}
           data-cursor="hover"
         >
@@ -114,8 +112,8 @@ export default function Navbar() {
             className="absolute inset-0 z-[90] pointer-events-auto flex flex-col justify-between border-none rounded-none overflow-hidden"
             style={{
               background: "rgba(3, 5, 15, 0.82)",
-              backdropFilter: "blur(48px) saturate(200%)",
-              WebkitBackdropFilter: "blur(48px) saturate(200%)",
+              backdropFilter: "blur(24px) saturate(160%)",
+              WebkitBackdropFilter: "blur(24px) saturate(160%)",
               backgroundImage: "var(--glass-tint)",
               borderBottom: "1px solid rgba(255,255,255,0.07)",
             }}
@@ -139,7 +137,7 @@ export default function Navbar() {
                       variants={linkVariants}
                       href={link.href}
                       onClick={(e) => handleNav(e, link.href)}
-                      className="flex items-baseline gap-6 md:gap-10 transition-all duration-300 ease-out opacity-100 group-hover:opacity-30 hover:!opacity-100 hover:translate-x-4 md:hover:translate-x-8 group-hover:blur-[2px] hover:!blur-none"
+                      className="flex items-baseline gap-6 md:gap-10 transition-all duration-300 ease-out opacity-100 group-hover:opacity-30 hover:!opacity-100 hover:translate-x-4 md:hover:translate-x-8"
                       data-cursor="hover"
                     >
                       <span className="text-sm md:text-base font-medium tracking-widest text-neutral-500 font-mono">
