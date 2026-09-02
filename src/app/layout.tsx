@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Lexend, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import Cursor from "@/components/Cursor";
+import LenisProvider from "@/components/LenisProvider";
 
 const lexend = Lexend({ subsets: ["latin"], variable: "--font-lexend", weight: ["300","400","500","600","700","800","900"] });
 const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair", weight: ["400", "500", "600", "700", "800", "900"], style: ["normal", "italic"] });
@@ -34,7 +35,7 @@ export default function RootLayout({
       <body className="min-h-full flex flex-col font-sans text-foreground bg-background">
         {/* Custom cursor — above everything */}
         <Cursor />
-        {children}
+        <LenisProvider>{children}</LenisProvider>
       </body>
     </html>
   );
